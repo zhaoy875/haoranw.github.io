@@ -75,11 +75,11 @@
 				<div class="tips-box hide">
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
-						<li>菜单</li>
-						<li>标签</li>
+						<li>Menu</li>
+						<li>Tags</li>
 						
 						
-						<li>关于我</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -225,7 +225,7 @@
 <p>过程是得到Hello+World的长度，即10。然后创建一个长度为10的字符串，之后输入<code>&quot;Hello&quot;</code>和<code>&quot;World&quot;</code>。最后销毁原字符串<code>&quot;Hello&quot;</code>和字符串<code>&quot;World&quot;</code>。</p>
 <p>Ⅲ.<code>null</code>和<code>undefined</code>没有<code>toString()</code>方法，因为我们在对一个不确定的值使用<code>toString()</code>方法 时，存在报错的风险。<br>但是另一种转换方法<code>String()</code>则没有这个顾虑，因为<code>String()</code>的转换规则是：<br>    1.如果可以使用<code>toString()</code>方法，则调用并返回。<br>    2.如果值是<code>null</code>或<code>undefined</code>，则对应返回<code>&quot;null&quot;</code>或<code>&quot;undefined&quot;</code>。</p>
 <p>Ⅳ.当传入参数为负值时：<br><code>slice()</code>将负值与字符串长度相加；<br><code>sustr()</code>第一个参数为负，则加上字符串的长度。第二个参数为负，转换为0；<br><code>substring()</code>会将所有的副参数转为0。它还有一个行为就是，在面对两个参数时，永远是从小的参数开始，到大的参数对应位置结束。而不是从第一个参数开始。</p>
-<p>Ⅴ.字符串匹配：<br> 1.<code>match()</code>返回的是一个数组。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str=<span class="string">"dog,rat,cat,hat,mat"</span>;</div><div class="line"><span class="keyword">var</span> _match=str.match(<span class="regexp">/.at/</span>);</div><div class="line"><span class="built_in">console</span>.log(_match);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//console:</span></div><div class="line">[<span class="string">"rat"</span>, index: <span class="number">5</span>, input: <span class="string">"dog,rat,cat,hat,mat"</span>]</div><div class="line"><span class="number">0</span>:<span class="string">"rat"</span></div><div class="line">index:<span class="number">5</span></div><div class="line">input:<span class="string">"dog,rat,cat,hat,mat"</span></div><div class="line">length:<span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>Ⅴ.字符串匹配：<br> 1.<code>match()</code>返回的是一个数组。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str=<span class="string">"dog,rat,cat,hat,mat"</span>;</div><div class="line"><span class="keyword">var</span> _match=str.match(<span class="regexp">/.at/</span>);</div><div class="line"><span class="built_in">console</span>.log(_match);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//console:</span></div><div class="line">[<span class="string">"rat"</span>, <span class="attr">index</span>: <span class="number">5</span>, <span class="attr">input</span>: <span class="string">"dog,rat,cat,hat,mat"</span>]</div><div class="line"><span class="number">0</span>:<span class="string">"rat"</span></div><div class="line">index:<span class="number">5</span></div><div class="line">input:<span class="string">"dog,rat,cat,hat,mat"</span></div><div class="line">length:<span class="number">1</span></div></pre></td></tr></table></figure></p>
 <p>依次是匹配到的字符串片段、其开始的下标、输入的字符串。</p>
 <p><code>search()</code>返回的是第一个匹配项的索引。</p>
 <p><code>replace()</code>约定了一个特殊标记符$：<br><span>$i</span> (i:1-99) ：表示从左到右正则子表达式所匹配的文本。<br><span>$&amp;</span>：表示与正则表达式匹配的全文本。<br><span>$`</span>(切换技能键)：表示匹配字符串的左边文本。<br><span>$’</span>(单引号)：表示匹配字符串的右边文本。<br><span>$$</span>：表示$。</p>
@@ -263,7 +263,7 @@
 <div class="share_jia">
 	<!-- JiaThis Button BEGIN -->
 	<div class="jiathis_style">
-		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<span class="jiathis_txt">Share to: &nbsp; </span>
 		<a class="jiathis_button_facebook"></a> 
     <a class="jiathis_button_twitter"></a>
     <a class="jiathis_button_plus"></a> 

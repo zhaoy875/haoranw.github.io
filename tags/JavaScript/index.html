@@ -21,7 +21,12 @@
   
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/9.7.0/styles/atom-one-dark.min.css">
-
+    <script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
+    <script src="/js/highlightjs-line-numbers.min.js".js"></script>
+  <script >
+      hljs.initHighlightingOnLoad();
+      hljs.initLineNumbersOnLoad();
+  </script>
 </head>
 
 <body>
@@ -402,12 +407,7 @@
 		open_in_new: false
 	}
 </script>
-<script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
-<script src="/js/highlightjs-line-numbers.min.js".js"></script>
-<script >
-	hljs.initHighlightingOnLoad();
-	hljs.initLineNumbersOnLoad();
-</script>
+
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
 

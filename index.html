@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>ransama&#39;s Blog</title>
@@ -19,6 +20,8 @@
     <link rel="icon" href="/favicon.png">
   
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/9.7.0/styles/atom-one-dark.min.css">
+
 </head>
 
 <body>
@@ -210,7 +213,13 @@
 <p>而我们再来看NodeList的原型链<br><code>myNodeList</code> –&gt; <code>NodeList.prototype</code> –&gt; <code>Object.prototype</code> –&gt; <code>null</code></p>
 <p><code>NodeList.prototype</code> 只有一个 <code>item</code> 方法，并没有 <code>Array.prototype</code> 上的那些方法。</p>
 <p>当然，如果很想用数组方法来操作NodeList时，我们可以采用以下方法：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> forEach = <span class="built_in">Array</span>.prototype.forEach;</div><div class="line"><span class="keyword">var</span> divs = <span class="built_in">document</span>.getElementsByTagName( <span class="string">'div'</span> );</div><div class="line"><span class="keyword">var</span> firstDiv = divs[ <span class="number">0</span> ];</div><div class="line">forEach.call(firstDiv.childNodes, <span class="function"><span class="keyword">function</span>(<span class="params"> divChild </span>)</span>&#123;</div><div class="line">  divChild.parentNode.style.color = <span class="string">'#0F0'</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<pre><code class="javascript">var forEach = Array.prototype.forEach;
+var divs = document.getElementsByTagName( &#39;div&#39; );
+var firstDiv = divs[ 0 ];
+forEach.call(firstDiv.childNodes, function( divChild ){
+  divChild.parentNode.style.color = &#39;#0F0&#39;;
+});
+</code></pre>
 <h3 id="2-NodeList是动态的？"><a href="#2-NodeList是动态的？" class="headerlink" title="2. NodeList是动态的？"></a>2. NodeList是动态的？</h3><p>可能很多书上会表示NodeList是动态，实际上<strong>这句话不全对</strong>。<br><strong>了解一个概念首先应该参考热门社区的用法文档或者官方标准的描述，然后根据实例来分析。</strong><br>在MDN关于<a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList" target="_blank" rel="external">NodeList</a>的描述中，我们可以看到几个大字：<strong>A sometimes-live collection.</strong><br>大家可能都知道，通过<code>Node.childNodes</code>获取到的childNodes是动态的，那什么情况下是静态的呢：</p>
 <blockquote>
 <p>In other cases, the NodeList is a static collection, meaning any subsequent change in the DOM does not affect the content of the collection. document.querySelectorAll returns a static NodeList.</p>
@@ -227,7 +236,15 @@
 <p><strong>HTMLCollection是动态的，它会在文档改变时自动更新。</strong></p>
 <p>用法：在 JavaScript 中，为了获取给定的 HTMLCollection 的元素，可以使用方括号语法来代替直接调用 item() 或 namedItem() 方法。在方括号中，数值如同 item()，字符串值如同 namedItem()。</p>
 <p>例如，假定在文档中有一个 <form> 元素，且它的 id 是 “myForm”：</form></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> elem1, elem2;</div><div class="line"><span class="comment">// document.forms 是一个 HTMLCollection</span></div><div class="line">elem1 = <span class="built_in">document</span>.forms[<span class="number">0</span>];</div><div class="line">elem2 = <span class="built_in">document</span>.forms.item(<span class="number">0</span>);</div><div class="line">alert(elem1 === elem2); <span class="comment">// 显示 "true"</span></div><div class="line">elem1 = <span class="built_in">document</span>.forms[<span class="string">"myForm"</span>];</div><div class="line">elem2 = <span class="built_in">document</span>.forms.namedItem(<span class="string">"myForm"</span>);</div><div class="line">alert(elem1 === elem2); <span class="comment">// 显示 "true"</span></div></pre></td></tr></table></figure>
+<pre><code class="javascript">var elem1, elem2;
+// document.forms 是一个 HTMLCollection
+elem1 = document.forms[0];
+elem2 = document.forms.item(0);
+alert(elem1 === elem2); // 显示 &quot;true&quot;
+elem1 = document.forms[&quot;myForm&quot;];
+elem2 = document.forms.namedItem(&quot;myForm&quot;);
+alert(elem1 === elem2); // 显示 &quot;true&quot;
+</code></pre>
 <p>浏览器兼容性：当使用字符串作为 <code>namedItem()</code>的参数，且匹配的元素多于一个时，不同的浏览器表现不同。Firefox 8 表现如同 DOM 2 和 DOM 4 说明的，返回第一个匹配的元素。而 Webkit 浏览器和 IE 返回另外一个 HTMLCollection，Opera 返回一个包含所有元素的 NodeList。</p>
 <p>但是， W3C里面对于HTMLCollection的描述还有下面一句：</p>
 <blockquote>
@@ -297,18 +314,44 @@
 <p>a.  对于通过构造函数<code>Foo()</code>和<code>Object()</code>来创建的实例来说，它的<code>__proto__</code>指向创建这个实例的构造函数的<code>prototype</code>，即<code>Foo.prototype</code>和<code>Object.prototype</code>.</p>
 <p>b. 对于<code>function Foo()</code>和<code>function Object()</code>来说，其<code>constructor</code>为<code>Function</code>，所以二者的对应的<code>__proto__</code>为<code>Function.prototype</code>。</p>
 <p>c. 对于内建对象(built-in object)：例如<code>Function()</code>，<code>Function.prototype</code>本身也是一个对象，这个对象是由 <code>Object()</code> 这个构造函数创建所以<code>Function.prototype.__proto__=== Object.prototype //true，</code>所有的内建对象都是由<code>Object()</code>创建而来。</p>
-<p>除了使用构造函数来创建对象以外，JS中对象被创建的方式还有：（1）对象字面量的方式 （2）ES5中的<code>Object.create()</code><br>对象字面量的形式相当于调用了对应的构造函数来创建实例后赋值给该变量，所以<code>__proto__</code>指向其对应构造函数的原型。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj=&#123;&#125;;</div><div class="line"><span class="keyword">var</span> foo=<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"><span class="built_in">console</span>.log(foo.__proto__==<span class="built_in">Function</span>.prototype);  <span class="comment">//true</span></div><div class="line"><span class="built_in">console</span>.log(obj.__proto__==<span class="built_in">Object</span>.prototype);   <span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>除了使用构造函数来创建对象以外，JS中对象被创建的方式还有：（1）对象字面量的方式 （2）ES5中的<code>Object.create()</code><br>对象字面量的形式相当于调用了对应的构造函数来创建实例后赋值给该变量，所以<code>__proto__</code>指向其对应构造函数的原型。</p>
+<pre><code class="javascript">    var obj={};
+    var foo=function () {};
+    console.log(foo.__proto__==Function.prototype);  //true
+    console.log(obj.__proto__==Object.prototype);   //true
+</code></pre>
 <h4 id="2-Object-create"><a href="#2-Object-create" class="headerlink" title="2. Object.create()"></a><strong>2. Object.create()</strong></h4><p>这是ES5中新增的方法，在这之前这被称为原型式继承，在《JavaScript高级程序设计》P169：</p>
 <blockquote>
-<p>道格拉斯在2006年写了一篇文章，题为 Prototypal Inheritance In JavaScript。在这篇文章中，他介绍了一种实现继承的方法，这种方法并没有使用严格意义上的构造函数。他的想法是借助原型可以基于已有的对象创建新对象，同时还不比因此创建自定义类型，为了达到这个目的，他给出了如下函数:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">o</span>)</span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">    F.prototype = o;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>道格拉斯在2006年写了一篇文章，题为 Prototypal Inheritance In JavaScript。在这篇文章中，他介绍了一种实现继承的方法，这种方法并没有使用严格意义上的构造函数。他的想法是借助原型可以基于已有的对象创建新对象，同时还不比因此创建自定义类型，为了达到这个目的，他给出了如下函数:</p>
+<pre><code class="javascript">function object(o){
+    function F(){}
+    F.prototype = o;
+    return new F()
+}
+</code></pre>
 </blockquote>
-<p>由 <code>Object.create()</code> 创出来的对象没有构造函数，准确的说是在 <code>Object.create()</code> 函数外部我们不能访问到它的构造函数，然而在函数内部实现中是有的，它短暂地存在了那么一会儿。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person=&#123;</div><div class="line">	<span class="attr">familyName</span>:<span class="string">"wang"</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> mySon=<span class="built_in">Object</span>.create(person);</div></pre></td></tr></table></figure></p>
-<p>假设我们现在就在函数内部:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//var mySon=Object.create(person);相当于执行了：</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">F.prototype = person;</div><div class="line"><span class="comment">//此时有：</span></div><div class="line">mySon.__proto__ === F.prototype <span class="comment">//true</span></div><div class="line"><span class="comment">//最后：</span></div><div class="line"><span class="keyword">var</span> mySon = <span class="keyword">new</span> F();</div><div class="line"><span class="comment">//所以有：</span></div><div class="line">mySon.__proto__ === person;</div></pre></td></tr></table></figure></p>
+<p>由 <code>Object.create()</code> 创出来的对象没有构造函数，准确的说是在 <code>Object.create()</code> 函数外部我们不能访问到它的构造函数，然而在函数内部实现中是有的，它短暂地存在了那么一会儿。</p>
+<pre><code class="javascript">var person={
+    familyName:&quot;wang&quot;
+};
+var mySon=Object.create(person);
+</code></pre>
+<p>假设我们现在就在函数内部:</p>
+<pre><code class="javascript">//var mySon=Object.create(person);相当于执行了：
+function F(){}
+F.prototype = person;
+//此时有：
+mySon.__proto__ === F.prototype //true
+//最后：
+var mySon = new F();
+//所以有：
+mySon.__proto__ === person;
+</code></pre>
 <p>因此由<code>Object.create(person)</code>创建出来的对象它的隐式原型指向person。</p>
 <h4 id="3-instanceof"><a href="#3-instanceof" class="headerlink" title="3. instanceof"></a><strong>3. instanceof</strong></h4><p>instanceof 操作符的内部实现机制和<code>__proto__</code>（隐式原型）、<code>prototype</code>（显式原型）有直接的关系。</p>
 <p>instanceof的左值一般是一个对象，右值一般是一个构造函数，用来判断左值是否是右值的实例。它的内部实现原理是这样的： </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">L.__proto__.__proto__ ..... ？= R.prototype</div></pre></td></tr></table></figure>
-<p>也就是沿着L的<code>__proto__</code>一直寻找到原型链末端，直到等于R.prototype或者null为止。</p>
+<pre><code> L.__proto__.__proto__ ..... ？= R.prototype
+</code></pre><p>也就是沿着L的<code>__proto__</code>一直寻找到原型链末端，直到等于R.prototype或者null为止。</p>
 
       
     </div>
@@ -369,7 +412,16 @@
 <blockquote>
 <p>If ‘margin-top’, or’margin-bottom’ are ‘auto’, their used value is 0.</p>
 </blockquote>
-<p>可以理解为在普通内容流（normal content flow）中，margin:auto的效果等同于margin-top:0;margin-bottom:0。<br>但是我们可以用以下代码实现垂直居中：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.ac</span>&#123;</div><div class="line">	<span class="attribute">margin</span>: auto;</div><div class="line">	<span class="attribute">position</span>:absolute;</div><div class="line">	<span class="attribute">top</span>:<span class="number">0</span>;</div><div class="line">	<span class="attribute">left</span>:<span class="number">0</span>;</div><div class="line">	<span class="attribute">right</span>:<span class="number">0</span>;</div><div class="line">	<span class="attribute">bottom</span>:<span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以理解为在普通内容流（normal content flow）中，margin:auto的效果等同于margin-top:0;margin-bottom:0。<br>但是我们可以用以下代码实现垂直居中：</p>
+<pre><code class="css">.ac{
+    margin: auto;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+</code></pre>
 <p>此方法即是Absolute Centering。详细内容的英文原文可以参见<a href="http://codepen.io/shshaw/details/gEiDt" target="_blank" rel="external">Absolute Centering</a></p>
 <h4 id="绝对居中的实现原理："><a href="#绝对居中的实现原理：" class="headerlink" title="绝对居中的实现原理："></a>绝对居中的实现原理：</h4><p><strong>“其实在接触到一样新方法时，知道其中的实现原理远比知道如何用重要的多。”</strong></p>
 <p style="text-align:right">——沃兹基硕德 </p>
@@ -465,7 +517,27 @@
 </ol>
 <h4 id="四、BFC的作用及原理"><a href="#四、BFC的作用及原理" class="headerlink" title="四、BFC的作用及原理"></a>四、BFC的作用及原理</h4><p>了解一个概念之后，更重要的意义在于如何合理使用它解决实际问题。BFC的概念常用于解决以下问题：</p>
 <p><strong>1.自适应两栏布局代码：</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    body &#123;</div><div class="line">        width: 300px;</div><div class="line">        position: relative;</div><div class="line">    &#125;</div><div class="line">    .aside &#123;</div><div class="line">        width: 100px;</div><div class="line">        height: 150px;</div><div class="line">        float: left;</div><div class="line">        background: #f66;</div><div class="line">    &#125;</div><div class="line">    .main &#123;</div><div class="line">        height: 200px;</div><div class="line">        background: #fcc;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"aside"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<pre><code class="language-HTML">    &lt;style&gt;
+        body {
+            width: 300px;
+            position: relative;
+        }
+        .aside {
+            width: 100px;
+            height: 150px;
+            float: left;
+            background: #f66;
+        }
+        .main {
+            height: 200px;
+            background: #fcc;
+        }
+    &lt;/style&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;aside&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;main&quot;&gt;&lt;/div&gt;
+    &lt;/body&gt;
+</code></pre>
 <p>　　如图：<br><img src="/img/1476102991605.png" alt="Alt text"></p>
 <p>根据BFC布局规则第3条，虽然存在浮动的元素aslide，但main的左边依然会与包含块的左边相接触。<br>根据BFC布局规则第4条，</p>
 <blockquote>
@@ -475,7 +547,24 @@
 <pre><code>.main {
     overflow: hidden;
 }
-</code></pre><p>当触发main生成BFC后，这个新的BFC不会与浮动的aside重叠。因此会根据包含块的宽度，和aside的宽度，自动变窄。效果如下：<br><img src="/img/1476103166327.png" alt="Alt text"><br>　<br><strong>2.清除内部浮动</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    .par &#123;</div><div class="line">        border: 5px solid #fcc;</div><div class="line">        width: 300px;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    .child &#123;</div><div class="line">        border: 5px solid #f66;</div><div class="line">        width:100px;</div><div class="line">        height: 100px;</div><div class="line">        float: left;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"par"</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+</code></pre><p>当触发main生成BFC后，这个新的BFC不会与浮动的aside重叠。因此会根据包含块的宽度，和aside的宽度，自动变窄。效果如下：<br><img src="/img/1476103166327.png" alt="Alt text"><br>　<br><strong>2.清除内部浮动</strong></p>
+<pre><code class="HTML">&lt;style&gt;
+    .par {
+        border: 5px solid #fcc;
+        width: 300px;
+    }
+
+    .child {
+        border: 5px solid #f66;
+        width:100px;
+        height: 100px;
+        float: left;
+    }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;par&quot;&gt;&lt;div class=&quot;child&quot;&gt;&lt;/div&gt;&lt;div class=&quot;child&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
 <p>如图：<br>　<img src="/img/1476104333086.png" alt="Alt text"><br>根据BFC布局规则第六条：</p>
 <blockquote>
 <p>计算BFC的高度时，浮动元素也参与计算</p>
@@ -486,14 +575,49 @@
     overflow: hidden;
 }
 </code></pre><p>效果如下：</p>
-<p>　<img src="/img/1476104355378.png" alt="Alt text"><br>　<br><strong>3.防止垂直 margin 重叠</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    p &#123;</div><div class="line">        color: #f55;</div><div class="line">        background: #fcc;</div><div class="line">        width: 200px;</div><div class="line">        line-height: 100px;</div><div class="line">        text-align:center;</div><div class="line">        margin: 100px;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Haha<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hehe<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>　<img src="/img/1476104355378.png" alt="Alt text"><br>　<br><strong>3.防止垂直 margin 重叠</strong></p>
+<pre><code class="HTML">&lt;style&gt;
+    p {
+        color: #f55;
+        background: #fcc;
+        width: 200px;
+        line-height: 100px;
+        text-align:center;
+        margin: 100px;
+    }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;p&gt;Haha&lt;/p&gt;
+    &lt;p&gt;Hehe&lt;/p&gt;
+&lt;/body&gt;
+</code></pre>
 <p>效果：<br>　<img src="/img/1476104520280.png" alt="Alt text"></p>
 <p>两个p之间的距离为100px，发送了margin重叠。</p>
 <p>根据BFC布局规则第二条：</p>
 <blockquote>
 <p>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠</p>
 </blockquote>
-<p>我们可以在p外面包裹一层容器，并触发该容器生成一个BFC。那么两个P便不属于同一个BFC，就不会发生margin重叠了。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    .wrap &#123;</div><div class="line">        overflow: hidden;</div><div class="line">    &#125;</div><div class="line">    p &#123;</div><div class="line">        color: #f55;</div><div class="line">        background: #fcc;</div><div class="line">        width: 200px;</div><div class="line">        line-height: 100px;</div><div class="line">        text-align:center;</div><div class="line">        margin: 100px;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Haha<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hehe<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>我们可以在p外面包裹一层容器，并触发该容器生成一个BFC。那么两个P便不属于同一个BFC，就不会发生margin重叠了。</p>
+<pre><code class="HTML">&lt;style&gt;
+    .wrap {
+        overflow: hidden;
+    }
+    p {
+        color: #f55;
+        background: #fcc;
+        width: 200px;
+        line-height: 100px;
+        text-align:center;
+        margin: 100px;
+    }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;p&gt;Haha&lt;/p&gt;
+    &lt;div class=&quot;wrap&quot;&gt;
+        &lt;p&gt;Hehe&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
 <p>效果如下:<br><img src="/img/1476104574780.png" alt="Alt text"></p>
 <h4 id="五、IE的haslayout"><a href="#五、IE的haslayout" class="headerlink" title="五、IE的haslayout"></a>五、IE的haslayout</h4><p><strong>1.什么是haslayout</strong></p>
 <p>layout是IE的一个概念，它决定了元素如何对其内容定位和尺寸计算，以及与其他元素的关系和相互作用。当一个元素“拥有布局”时，它会负责本身及其子元素的尺寸和定位。而如果一个元素“没有拥有布局”，那么它的尺寸和位置由最近的拥有布局的祖先元素控制。</p>
@@ -502,13 +626,42 @@
 <p>理论上说，每个元素都应该控制自己的尺寸和定位，即每个元素都应该“拥有布局”，当然这只是理想状态。而对于早期的IE显示引擎来说，如果所有元素都“拥有布局”的话，会导致很大的性能问题。</p>
 <p>因此IE开发团队决定使用布局概念来减少浏览器的性能开销，即只将布局应用于实际需要的那些元素，所以便出现了“拥有布局”和“没有拥有布局”两种情况。</p>
 <p><strong>3.默认情况下拥有布局的元素**</strong></p>
-<p>下面，先来看下哪些元素在默认情况下就“拥有布局”。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">html, body</div><div class="line">table</div><div class="line">tr, td</div><div class="line">img</div><div class="line">hr</div><div class="line">input, select, textarea, button</div><div class="line">iframe, embed, object, applet</div><div class="line">marquee</div></pre></td></tr></table></figure></p>
+<p>下面，先来看下哪些元素在默认情况下就“拥有布局”。</p>
+<pre><code class="HTML">html, body
+table
+tr, td
+img
+hr
+input, select, textarea, button
+iframe, embed, object, applet
+marquee
+</code></pre>
 <p><strong>4.查看和触发haslayout</strong></p>
-<p>haslayout是IE私有的，而且它不是css属性，我们无法通过css显式的设置元素的haslayout。但我们可以通过javascript来查看一个元素是否拥有布局：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;div1&quot;&gt;这是一个div&lt;/div&gt;;</div><div class="line">var oDiv = document.getElementById(&apos;div1&apos;);</div><div class="line">alert(oDiv.currentStyle.hasLayout);   </div><div class="line">//弹出false</div></pre></td></tr></table></figure></p>
+<p>haslayout是IE私有的，而且它不是css属性，我们无法通过css显式的设置元素的haslayout。但我们可以通过javascript来查看一个元素是否拥有布局：</p>
+<pre><code class="JavaScript">&lt;div id=&quot;div1&quot;&gt;这是一个div&lt;/div&gt;;
+var oDiv = document.getElementById(&#39;div1&#39;);
+alert(oDiv.currentStyle.hasLayout);   
+//弹出false
+</code></pre>
 <p>如果元素拥有布局，obj.currentStyle.hasLayout就会返回true，否则返回false。hasLayout是一个只读属性，所以也无法通过javascript进行设置。</p>
-<p>在实际开发过程中，很多IE下（IE6、IE7）的显示问题，都可以通过触发元素的haslayout来解决，下面列出一些常见的可以触发元素haslayout的属性和方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">float: left或right</div><div class="line">display: inline-block</div><div class="line">position: absolute</div><div class="line">width: 除auto外任何值</div><div class="line">height: 除auto外任何值</div><div class="line">zoom: 处normal外任何值</div><div class="line">writing-mode: tb-rl</div></pre></td></tr></table></figure></p>
-<p>在IE7中，以下属性也可以触发元素的haslayout</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">min-height: 任意值</div><div class="line">min-width: 任意值</div><div class="line">max-height: 除none 外任意值</div><div class="line">max-width: 除none 外任意值</div><div class="line">overflow: 除visible外任意值，仅用于块级元素</div><div class="line">overflow-x: 除visible 外任意值，仅用于块级元素</div><div class="line">overflow-y: 除visible 外任意值，仅用于块级元素</div><div class="line">position: fixed</div></pre></td></tr></table></figure>
+<p>在实际开发过程中，很多IE下（IE6、IE7）的显示问题，都可以通过触发元素的haslayout来解决，下面列出一些常见的可以触发元素haslayout的属性和方法：</p>
+<pre><code>float: left或right
+display: inline-block
+position: absolute
+width: 除auto外任何值
+height: 除auto外任何值
+zoom: 处normal外任何值
+writing-mode: tb-rl
+</code></pre><p>在IE7中，以下属性也可以触发元素的haslayout</p>
+<pre><code class="CSS">min-height: 任意值
+min-width: 任意值
+max-height: 除none 外任意值
+max-width: 除none 外任意值
+overflow: 除visible外任意值，仅用于块级元素
+overflow-x: 除visible 外任意值，仅用于块级元素
+overflow-y: 除visible 外任意值，仅用于块级元素
+position: fixed
+</code></pre>
 <p><strong>5.haslayout解决IE bugs</strong></p>
 <p>IE有很多常见的浮动bug，一般情况下我们会使用zoom: 1;来触发haslayout从而来解决这些bug，因为zoom: 1不会影响到元素的现有表现，另外在IE6及较早版本的浏览器中还可以使用height:1%来触发，IE7中可以使用min-height: 0来触发。</p>
 
@@ -567,19 +720,84 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"><a href="#本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容" class="headerlink" title="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"></a>本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容</h5><h4 id="1-forEach操作数组"><a href="#1-forEach操作数组" class="headerlink" title="1. forEach操作数组"></a>1. forEach操作数组</h4><p>当我们想对数组所有元素进行自加操作，如果进行如下操作：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr=[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item,index,arr</span>)</span>&#123;</div><div class="line">	item++;</div><div class="line">    &#125;);</div><div class="line"><span class="built_in">console</span>.log(arr);</div></pre></td></tr></table></figure></p>
-<p>结果是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</div></pre></td></tr></table></figure></p>
-<p>我们发现原数组并没有变化，因为forEach()的三个参数items，index，array中，items仅获得该数组各个元素的值，所以改变这个值并不会改变原数组。<br>正确的在原数组基础上修改的方法如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr=[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item,index,arr</span>)</span>&#123;</div><div class="line">	arr[index]++;</div><div class="line">    &#125;);</div><div class="line"><span class="built_in">console</span>.log(arr);</div></pre></td></tr></table></figure></p>
-<p>结果是：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[3,4,5,6]</div></pre></td></tr></table></figure></p>
-<h4 id="2-slice"><a href="#2-slice" class="headerlink" title="2.slice"></a>2.slice</h4><p>先看一个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [[]];</div><div class="line"><span class="keyword">var</span> arr2=[]; <span class="comment">//新建了两个数组，arr1为二维数组</span></div><div class="line"><span class="keyword">var</span> newArr1=arr1.slice();</div><div class="line"><span class="keyword">var</span> newArr2=arr2.slice();<span class="comment">//复制了两个新的的数组</span></div><div class="line">arr1[<span class="number">0</span>][<span class="number">0</span>]=<span class="string">"666"</span>;</div><div class="line">arr2[<span class="number">0</span>]=<span class="string">"666"</span>;</div><div class="line"><span class="built_in">console</span>.log(newArr1);</div><div class="line"><span class="built_in">console</span>.log(newArr2);</div></pre></td></tr></table></figure></p>
+        <h5 id="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"><a href="#本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容" class="headerlink" title="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"></a>本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容</h5><h4 id="1-forEach操作数组"><a href="#1-forEach操作数组" class="headerlink" title="1. forEach操作数组"></a>1. forEach操作数组</h4><p>当我们想对数组所有元素进行自加操作，如果进行如下操作：</p>
+<pre><code class="javascript">var arr=[2,3,4,5];
+arr.forEach(function(item,index,arr){
+    item++;
+    });
+console.log(arr);
+</code></pre>
+<p>结果是：</p>
+<pre><code class="javascript">[2,3,4,5]
+</code></pre>
+<p>我们发现原数组并没有变化，因为forEach()的三个参数items，index，array中，items仅获得该数组各个元素的值，所以改变这个值并不会改变原数组。<br>正确的在原数组基础上修改的方法如下：</p>
+<pre><code class="javascript">var arr=[2,3,4,5];
+arr.forEach(function(item,index,arr){
+    arr[index]++;
+    });
+console.log(arr);
+</code></pre>
+<p>结果是：</p>
+<pre><code class="bash">[3,4,5,6]
+</code></pre>
+<h4 id="2-slice"><a href="#2-slice" class="headerlink" title="2.slice"></a>2.slice</h4><p>先看一个例子：</p>
+<pre><code class="javascript">var arr1 = [[]];
+var arr2=[]; //新建了两个数组，arr1为二维数组
+var newArr1=arr1.slice();
+var newArr2=arr2.slice();//复制了两个新的的数组
+arr1[0][0]=&quot;666&quot;;
+arr2[0]=&quot;666&quot;;
+console.log(newArr1);
+console.log(newArr2);
+</code></pre>
 <p>首先我们新建立两个数组，然后用slice“复制”了a这两个数组，在分别向原数组添加元素后，新数组会不会改变呢？<br>看起来我们既然是复制了新的数组，似乎和之前的数组并没有什么关系。<br>结果是：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>[<span class="number">1</span>]</div><div class="line">  <span class="comment">//0: Array[1]</span></div><div class="line">    <span class="comment">//0: "666"</span></div><div class="line">[]</div></pre></td></tr></table></figure>
+<pre><code class="javascript">Array[1]
+  //0: Array[1]
+    //0: &quot;666&quot;
+[]
+</code></pre>
 <p>为什么会产生了不同结果呢？<br>slice 遵循一级深度拷贝规则，规则如下：</p>
 <p>如果该元素是个对象引用 （不是实际的对象），slice 会拷贝这个对象引用到新的数组里。两个对象引用都引用了同一个对象。如果被引用的对象发生改变，则改变将反应到新的和原来的数组中，数组是对象，所以<code>newArr1</code>实际是拷贝了每一个内层数组的引用。</p>
 <p>对于字符串和数字来说（不是 String 和 Number 对象），slice 会拷贝字符串和数字到新的数组里。在一个数组里修改这些字符串或数字，不会影响另一个数组。<br>如果向两个数组任一中添加了新元素，则另一个不会受到影响。</p>
-<h3 id="3-数组去重三种方法"><a href="#3-数组去重三种方法" class="headerlink" title="3.数组去重三种方法"></a>3.数组去重三种方法</h3><p>第一种方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> result = [];</div><div class="line">    <span class="keyword">this</span>.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(result.indexOf(v) &lt; <span class="number">0</span>)&#123;  <span class="comment">//判断result中是否存在该值</span></div><div class="line">            result.push(v);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> result;</div></pre></td></tr></table></figure></p>
-<p>第二种方法，模拟hash表，将同一数值的不同类型存储在对应的hash表的对应项中。例如对于<code>[2,&quot;2&quot;]</code>,相应的项<code>hash(0)</code>对应<code>[&quot;number&quot;,&quot;string&quot;];</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="keyword">var</span> result = [],hash = &#123;&#125;;</div><div class="line">      <span class="keyword">this</span>.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123;</div><div class="line">          <span class="keyword">var</span> type = <span class="keyword">typeof</span>(v);  <span class="comment">//获取元素类型</span></div><div class="line">          hash[v] || (hash[v] = <span class="keyword">new</span> <span class="built_in">Array</span>());</div><div class="line">          <span class="keyword">if</span>(hash[v].indexOf(type) &lt; <span class="number">0</span>)&#123;</div><div class="line">              hash[v].push(type);  <span class="comment">//存储元素的类型</span></div><div class="line">              result.push(v);</div><div class="line">          &#125;</div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>第三种方法先排序，然后取数组各项依次和result数组最后一项作比较，如果不同则存入，如果相同则舍弃。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Array</span>.prototype.unique = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">       <span class="keyword">this</span>.sort(compare);</div><div class="line">       <span class="keyword">var</span> result = [<span class="keyword">this</span>[<span class="number">0</span>]];</div><div class="line">       <span class="keyword">this</span>.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">v</span>) </span>&#123;</div><div class="line">           <span class="keyword">if</span> (v != result[result.length - <span class="number">1</span>]) &#123; <span class="comment">//仅与result最后一个元素比较</span></div><div class="line">               result.push(v);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div><div class="line">       <span class="keyword">return</span> result;</div><div class="line">       <span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params">value1, value2</span>) </span>&#123;</div><div class="line">           <span class="keyword">return</span> value1 - value2;</div><div class="line">       &#125;</div><div class="line">   &#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="3-数组去重三种方法"><a href="#3-数组去重三种方法" class="headerlink" title="3.数组去重三种方法"></a>3.数组去重三种方法</h3><p>第一种方法：</p>
+<pre><code class="javascript">Array.prototype.unique = function(){
+    var result = [];
+    this.forEach(function(v){
+        if(result.indexOf(v) &lt; 0){  //判断result中是否存在该值
+            result.push(v);
+        }
+    });
+    return result;
+</code></pre>
+<p>第二种方法，模拟hash表，将同一数值的不同类型存储在对应的hash表的对应项中。例如对于<code>[2,&quot;2&quot;]</code>,相应的项<code>hash(0)</code>对应<code>[&quot;number&quot;,&quot;string&quot;];</code></p>
+<pre><code class="javascript">Array.prototype.unique = function(){
+      var result = [],hash = {};
+      this.forEach(function(v){
+          var type = typeof(v);  //获取元素类型
+          hash[v] || (hash[v] = new Array());
+          if(hash[v].indexOf(type) &lt; 0){
+              hash[v].push(type);  //存储元素的类型
+              result.push(v);
+          }
+      });
+      return result;
+}
+</code></pre>
+<p>第三种方法先排序，然后取数组各项依次和result数组最后一项作比较，如果不同则存入，如果相同则舍弃。</p>
+<pre><code class="javascript"> Array.prototype.unique = function () {
+        this.sort(compare);
+        var result = [this[0]];
+        this.forEach(function (v) {
+            if (v != result[result.length - 1]) { //仅与result最后一个元素比较
+                result.push(v);
+            }
+        });
+        return result;
+        function compare(value1, value2) {
+            return value1 - value2;
+        }
+    };
+</code></pre>
 
       
     </div>
@@ -636,17 +854,45 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Ⅰ.当字符串内含有转义字符时，使用<code>.length</code>返回的是转义后字符串的长度。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str=<span class="string">"\x41"</span>;</div><div class="line">alert(str.length);<span class="comment">//1</span></div></pre></td></tr></table></figure></p>
-<p>同时，即使字符串中包含双字节字符（比如汉字），每个也只算一个字符。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str=<span class="string">"王浩然"</span>;</div><div class="line">alert(str.length);<span class="comment">//3</span></div></pre></td></tr></table></figure></p>
-<p>Ⅱ.字符串一旦创建，它的值不可改变。我们在改变变量保存字符串的值时，实际上一个创建新字符串、赋值、删除原字符串的过程。所以在某些低版本浏览器中，字符串拼接效率较低。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str=<span class="string">"Hello"</span>;</div><div class="line">str+=<span class="string">"World"</span></div></pre></td></tr></table></figure></p>
+        <p>Ⅰ.当字符串内含有转义字符时，使用<code>.length</code>返回的是转义后字符串的长度。</p>
+<pre><code class="javascript">var str=&quot;\x41&quot;;
+alert(str.length);//1
+</code></pre>
+<p>同时，即使字符串中包含双字节字符（比如汉字），每个也只算一个字符。</p>
+<pre><code class="javascript">var str=&quot;王浩然&quot;;
+alert(str.length);//3
+</code></pre>
+<p>Ⅱ.字符串一旦创建，它的值不可改变。我们在改变变量保存字符串的值时，实际上一个创建新字符串、赋值、删除原字符串的过程。所以在某些低版本浏览器中，字符串拼接效率较低。</p>
+<pre><code class="javascript">var str=&quot;Hello&quot;;
+str+=&quot;World&quot;
+</code></pre>
 <p>过程是得到Hello+World的长度，即10。然后创建一个长度为10的字符串，之后输入<code>&quot;Hello&quot;</code>和<code>&quot;World&quot;</code>。最后销毁原字符串<code>&quot;Hello&quot;</code>和字符串<code>&quot;World&quot;</code>。</p>
 <p>Ⅲ.<code>null</code>和<code>undefined</code>没有<code>toString()</code>方法，因为我们在对一个不确定的值使用<code>toString()</code>方法 时，存在报错的风险。<br>但是另一种转换方法<code>String()</code>则没有这个顾虑，因为<code>String()</code>的转换规则是：<br>    1.如果可以使用<code>toString()</code>方法，则调用并返回。<br>    2.如果值是<code>null</code>或<code>undefined</code>，则对应返回<code>&quot;null&quot;</code>或<code>&quot;undefined&quot;</code>。</p>
 <p>Ⅳ.当传入参数为负值时：<br><code>slice()</code>将负值与字符串长度相加；<br><code>sustr()</code>第一个参数为负，则加上字符串的长度。第二个参数为负，转换为0；<br><code>substring()</code>会将所有的副参数转为0。它还有一个行为就是，在面对两个参数时，永远是从小的参数开始，到大的参数对应位置结束。而不是从第一个参数开始。</p>
-<p>Ⅴ.字符串匹配：<br> 1.<code>match()</code>返回的是一个数组。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str=<span class="string">"dog,rat,cat,hat,mat"</span>;</div><div class="line"><span class="keyword">var</span> _match=str.match(<span class="regexp">/.at/</span>);</div><div class="line"><span class="built_in">console</span>.log(_match);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//console:</span></div><div class="line">[<span class="string">"rat"</span>, <span class="attr">index</span>: <span class="number">5</span>, <span class="attr">input</span>: <span class="string">"dog,rat,cat,hat,mat"</span>]</div><div class="line"><span class="number">0</span>:<span class="string">"rat"</span></div><div class="line">index:<span class="number">5</span></div><div class="line">input:<span class="string">"dog,rat,cat,hat,mat"</span></div><div class="line">length:<span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>Ⅴ.字符串匹配：<br> 1.<code>match()</code>返回的是一个数组。</p>
+<pre><code class="javascript">var str=&quot;dog,rat,cat,hat,mat&quot;;
+var _match=str.match(/.at/);
+console.log(_match);
+
+
+//console:
+[&quot;rat&quot;, index: 5, input: &quot;dog,rat,cat,hat,mat&quot;]
+0:&quot;rat&quot;
+index:5
+input:&quot;dog,rat,cat,hat,mat&quot;
+length:1
+</code></pre>
 <p>依次是匹配到的字符串片段、其开始的下标、输入的字符串。</p>
 <p><code>search()</code>返回的是第一个匹配项的索引。</p>
 <p><code>replace()</code>约定了一个特殊标记符$：<br><span>$i</span> (i:1-99) ：表示从左到右正则子表达式所匹配的文本。<br><span>$&amp;</span>：表示与正则表达式匹配的全文本。<br><span>$`</span>(切换技能键)：表示匹配字符串的左边文本。<br><span>$’</span>(单引号)：表示匹配字符串的右边文本。<br><span>$$</span>：表示$。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">"boy &amp; girl"</span>.replace(<span class="regexp">/(\w+)\s*&amp;\s*(\w+)/g</span>,<span class="string">"$2 &amp; $1"</span>) <span class="comment">//girl &amp; boy</span></div><div class="line"><span class="string">"boy"</span>.replace(<span class="regexp">/\w+/g</span>,<span class="string">"$&amp;-$&amp;"</span>) <span class="comment">// boy-boy</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">var</span> str=<span class="string">"javascript"</span></div><div class="line">str.replace(<span class="regexp">/script/</span>,<span class="string">"$&amp; != $`"</span>) <span class="comment">//javascript != java</span></div><div class="line">str.replace(<span class="regexp">/java/</span>,<span class="string">"$&amp;$' is "</span>) <span class="comment">// javascript is script</span></div></pre></td></tr></table></figure>
+<pre><code class="javascript">&quot;boy &amp; girl&quot;.replace(/(\w+)\s*&amp;\s*(\w+)/g,&quot;$2 &amp; $1&quot;) //girl &amp; boy
+&quot;boy&quot;.replace(/\w+/g,&quot;$&amp;-$&amp;&quot;) // boy-boy
+
+
+var str=&quot;javascript&quot;
+str.replace(/script/,&quot;$&amp; != $`&quot;) //javascript != java
+str.replace(/java/,&quot;$&amp;$&#39; is &quot;) // javascript is script
+</code></pre>
 
       
     </div>
@@ -703,8 +949,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先我们可能都知道创建一个字符串通常有三种写法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str1=<span class="string">"wanghaoran"</span>;</div><div class="line"><span class="keyword">var</span> str2=<span class="built_in">String</span>(<span class="string">"wanghaoran"</span>);</div><div class="line"><span class="keyword">var</span> str3=<span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"wanghaoran"</span>);</div></pre></td></tr></table></figure></p>
-<p>我们对每一个str执行<code>typeof</code>，可以得到如下结果：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> str1;</div><div class="line"><span class="comment">// 'string'</span></div><div class="line"><span class="keyword">typeof</span> str2;</div><div class="line"><span class="comment">// 'string'</span></div><div class="line"><span class="keyword">typeof</span> str3;</div><div class="line"><span class="comment">// 'object'</span></div></pre></td></tr></table></figure></p>
+        <p>首先我们可能都知道创建一个字符串通常有三种写法：</p>
+<pre><code class="javascript">var str1=&quot;wanghaoran&quot;;
+var str2=String(&quot;wanghaoran&quot;);
+var str3=new String(&quot;wanghaoran&quot;);
+</code></pre>
+<p>我们对每一个str执行<code>typeof</code>，可以得到如下结果：</p>
+<pre><code class="javascript">typeof str1;
+// &#39;string&#39;
+typeof str2;
+// &#39;string&#39;
+typeof str3;
+// &#39;object&#39;
+</code></pre>
 <p>前两种方法创建的字符串都属于Primitive String ，即原始数据类型中的原始类型字符串，返回的自然是<code>string</code>。</p>
 <p>而第三种方法使用了构造函数创建了一个String Object，所以它的类型是对象，即<code>Object</code></p>
 <p>那么问题来了，为什么一个原始类型的字符串能够调用各种字符串方法或者查看属性呢？这不是对象能做的事吗？</p>
@@ -715,8 +972,24 @@
 <p>Create a new String object whose [[PrimitiveValue]] internal property is set to the value of the argument.</p>
 </blockquote>
 <p>过程中创建了一个对象，并且将这个字符串的内容复制给这个对象。</p>
-<p>但是这个包装对象是临时的，在操作完成时就会释放，下次再重新访问时会重新建立。所以虽然我们可以像对象那样，在原始数据类型的值上调用各种内置的对象方法，但是对原始类型的数值进行自定义方法或者属性时，并不能得到保存。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person=<span class="string">"wanghaoran"</span>;</div><div class="line">person.sex=<span class="string">"male"</span>;</div><div class="line">person.callName=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	alert(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(person.sex);<span class="comment">//undefined</span></div><div class="line">person.callName();<span class="comment">//报错...is Not a function</span></div></pre></td></tr></table></figure></p>
-<p>当然以下方法是没有问题的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person=<span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"wanghaoran"</span>);</div><div class="line">person.sex=<span class="string">"male"</span>;</div><div class="line">person.callName=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	alert(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(person.sex);<span class="comment">//male</span></div><div class="line">person.callName();<span class="comment">//弹出wanghaoran</span></div></pre></td></tr></table></figure></p>
+<p>但是这个包装对象是临时的，在操作完成时就会释放，下次再重新访问时会重新建立。所以虽然我们可以像对象那样，在原始数据类型的值上调用各种内置的对象方法，但是对原始类型的数值进行自定义方法或者属性时，并不能得到保存。</p>
+<pre><code class="javascript">var person=&quot;wanghaoran&quot;;
+person.sex=&quot;male&quot;;
+person.callName=function(){
+    alert(this);
+}
+console.log(person.sex);//undefined
+person.callName();//报错...is Not a function
+</code></pre>
+<p>当然以下方法是没有问题的：</p>
+<pre><code class="javascript">var person=new String(&quot;wanghaoran&quot;);
+person.sex=&quot;male&quot;;
+person.callName=function(){
+    alert(this);
+}
+console.log(person.sex);//male
+person.callName();//弹出wanghaoran
+</code></pre>
 
       
     </div>
@@ -781,7 +1054,8 @@
 </script>
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
-
+<script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script>
 
 
 

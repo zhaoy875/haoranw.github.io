@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>__proto__、prototype与原型链 | ransama&#39;s Blog</title>
@@ -25,6 +26,8 @@
     <link rel="icon" href="/favicon.png">
   
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/9.7.0/styles/atom-one-dark.min.css">
+
 </head>
 
 <body>
@@ -225,18 +228,44 @@
 <p>a.  对于通过构造函数<code>Foo()</code>和<code>Object()</code>来创建的实例来说，它的<code>__proto__</code>指向创建这个实例的构造函数的<code>prototype</code>，即<code>Foo.prototype</code>和<code>Object.prototype</code>.</p>
 <p>b. 对于<code>function Foo()</code>和<code>function Object()</code>来说，其<code>constructor</code>为<code>Function</code>，所以二者的对应的<code>__proto__</code>为<code>Function.prototype</code>。</p>
 <p>c. 对于内建对象(built-in object)：例如<code>Function()</code>，<code>Function.prototype</code>本身也是一个对象，这个对象是由 <code>Object()</code> 这个构造函数创建所以<code>Function.prototype.__proto__=== Object.prototype //true，</code>所有的内建对象都是由<code>Object()</code>创建而来。</p>
-<p>除了使用构造函数来创建对象以外，JS中对象被创建的方式还有：（1）对象字面量的方式 （2）ES5中的<code>Object.create()</code><br>对象字面量的形式相当于调用了对应的构造函数来创建实例后赋值给该变量，所以<code>__proto__</code>指向其对应构造函数的原型。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj=&#123;&#125;;</div><div class="line"><span class="keyword">var</span> foo=<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"><span class="built_in">console</span>.log(foo.__proto__==<span class="built_in">Function</span>.prototype);  <span class="comment">//true</span></div><div class="line"><span class="built_in">console</span>.log(obj.__proto__==<span class="built_in">Object</span>.prototype);   <span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>除了使用构造函数来创建对象以外，JS中对象被创建的方式还有：（1）对象字面量的方式 （2）ES5中的<code>Object.create()</code><br>对象字面量的形式相当于调用了对应的构造函数来创建实例后赋值给该变量，所以<code>__proto__</code>指向其对应构造函数的原型。</p>
+<pre><code class="javascript">    var obj={};
+    var foo=function () {};
+    console.log(foo.__proto__==Function.prototype);  //true
+    console.log(obj.__proto__==Object.prototype);   //true
+</code></pre>
 <h4 id="2-Object-create"><a href="#2-Object-create" class="headerlink" title="2. Object.create()"></a><strong>2. Object.create()</strong></h4><p>这是ES5中新增的方法，在这之前这被称为原型式继承，在《JavaScript高级程序设计》P169：</p>
 <blockquote>
-<p>道格拉斯在2006年写了一篇文章，题为 Prototypal Inheritance In JavaScript。在这篇文章中，他介绍了一种实现继承的方法，这种方法并没有使用严格意义上的构造函数。他的想法是借助原型可以基于已有的对象创建新对象，同时还不比因此创建自定义类型，为了达到这个目的，他给出了如下函数:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">o</span>)</span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">    F.prototype = o;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>道格拉斯在2006年写了一篇文章，题为 Prototypal Inheritance In JavaScript。在这篇文章中，他介绍了一种实现继承的方法，这种方法并没有使用严格意义上的构造函数。他的想法是借助原型可以基于已有的对象创建新对象，同时还不比因此创建自定义类型，为了达到这个目的，他给出了如下函数:</p>
+<pre><code class="javascript">function object(o){
+    function F(){}
+    F.prototype = o;
+    return new F()
+}
+</code></pre>
 </blockquote>
-<p>由 <code>Object.create()</code> 创出来的对象没有构造函数，准确的说是在 <code>Object.create()</code> 函数外部我们不能访问到它的构造函数，然而在函数内部实现中是有的，它短暂地存在了那么一会儿。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person=&#123;</div><div class="line">	<span class="attr">familyName</span>:<span class="string">"wang"</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> mySon=<span class="built_in">Object</span>.create(person);</div></pre></td></tr></table></figure></p>
-<p>假设我们现在就在函数内部:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//var mySon=Object.create(person);相当于执行了：</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">F.prototype = person;</div><div class="line"><span class="comment">//此时有：</span></div><div class="line">mySon.__proto__ === F.prototype <span class="comment">//true</span></div><div class="line"><span class="comment">//最后：</span></div><div class="line"><span class="keyword">var</span> mySon = <span class="keyword">new</span> F();</div><div class="line"><span class="comment">//所以有：</span></div><div class="line">mySon.__proto__ === person;</div></pre></td></tr></table></figure></p>
+<p>由 <code>Object.create()</code> 创出来的对象没有构造函数，准确的说是在 <code>Object.create()</code> 函数外部我们不能访问到它的构造函数，然而在函数内部实现中是有的，它短暂地存在了那么一会儿。</p>
+<pre><code class="javascript">var person={
+    familyName:&quot;wang&quot;
+};
+var mySon=Object.create(person);
+</code></pre>
+<p>假设我们现在就在函数内部:</p>
+<pre><code class="javascript">//var mySon=Object.create(person);相当于执行了：
+function F(){}
+F.prototype = person;
+//此时有：
+mySon.__proto__ === F.prototype //true
+//最后：
+var mySon = new F();
+//所以有：
+mySon.__proto__ === person;
+</code></pre>
 <p>因此由<code>Object.create(person)</code>创建出来的对象它的隐式原型指向person。</p>
 <h4 id="3-instanceof"><a href="#3-instanceof" class="headerlink" title="3. instanceof"></a><strong>3. instanceof</strong></h4><p>instanceof 操作符的内部实现机制和<code>__proto__</code>（隐式原型）、<code>prototype</code>（显式原型）有直接的关系。</p>
 <p>instanceof的左值一般是一个对象，右值一般是一个构造函数，用来判断左值是否是右值的实例。它的内部实现原理是这样的： </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">L.__proto__.__proto__ ..... ？= R.prototype</div></pre></td></tr></table></figure>
-<p>也就是沿着L的<code>__proto__</code>一直寻找到原型链末端，直到等于R.prototype或者null为止。</p>
+<pre><code> L.__proto__.__proto__ ..... ？= R.prototype
+</code></pre><p>也就是沿着L的<code>__proto__</code>一直寻找到原型链末端，直到等于R.prototype或者null为止。</p>
 
       
     </div>
@@ -345,7 +374,8 @@
 </script>
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
-
+<script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script>
 
 
 

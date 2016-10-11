@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>NodeList和HTMLCollection | ransama&#39;s Blog</title>
@@ -29,6 +30,8 @@
     <link rel="icon" href="/favicon.png">
   
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/9.7.0/styles/atom-one-dark.min.css">
+
 </head>
 
 <body>
@@ -229,7 +232,13 @@
 <p>而我们再来看NodeList的原型链<br><code>myNodeList</code> –&gt; <code>NodeList.prototype</code> –&gt; <code>Object.prototype</code> –&gt; <code>null</code></p>
 <p><code>NodeList.prototype</code> 只有一个 <code>item</code> 方法，并没有 <code>Array.prototype</code> 上的那些方法。</p>
 <p>当然，如果很想用数组方法来操作NodeList时，我们可以采用以下方法：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> forEach = <span class="built_in">Array</span>.prototype.forEach;</div><div class="line"><span class="keyword">var</span> divs = <span class="built_in">document</span>.getElementsByTagName( <span class="string">'div'</span> );</div><div class="line"><span class="keyword">var</span> firstDiv = divs[ <span class="number">0</span> ];</div><div class="line">forEach.call(firstDiv.childNodes, <span class="function"><span class="keyword">function</span>(<span class="params"> divChild </span>)</span>&#123;</div><div class="line">  divChild.parentNode.style.color = <span class="string">'#0F0'</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<pre><code class="javascript">var forEach = Array.prototype.forEach;
+var divs = document.getElementsByTagName( &#39;div&#39; );
+var firstDiv = divs[ 0 ];
+forEach.call(firstDiv.childNodes, function( divChild ){
+  divChild.parentNode.style.color = &#39;#0F0&#39;;
+});
+</code></pre>
 <h3 id="2-NodeList是动态的？"><a href="#2-NodeList是动态的？" class="headerlink" title="2. NodeList是动态的？"></a>2. NodeList是动态的？</h3><p>可能很多书上会表示NodeList是动态，实际上<strong>这句话不全对</strong>。<br><strong>了解一个概念首先应该参考热门社区的用法文档或者官方标准的描述，然后根据实例来分析。</strong><br>在MDN关于<a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList" target="_blank" rel="external">NodeList</a>的描述中，我们可以看到几个大字：<strong>A sometimes-live collection.</strong><br>大家可能都知道，通过<code>Node.childNodes</code>获取到的childNodes是动态的，那什么情况下是静态的呢：</p>
 <blockquote>
 <p>In other cases, the NodeList is a static collection, meaning any subsequent change in the DOM does not affect the content of the collection. document.querySelectorAll returns a static NodeList.</p>
@@ -246,7 +255,15 @@
 <p><strong>HTMLCollection是动态的，它会在文档改变时自动更新。</strong></p>
 <p>用法：在 JavaScript 中，为了获取给定的 HTMLCollection 的元素，可以使用方括号语法来代替直接调用 item() 或 namedItem() 方法。在方括号中，数值如同 item()，字符串值如同 namedItem()。</p>
 <p>例如，假定在文档中有一个 <form> 元素，且它的 id 是 “myForm”：</form></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> elem1, elem2;</div><div class="line"><span class="comment">// document.forms 是一个 HTMLCollection</span></div><div class="line">elem1 = <span class="built_in">document</span>.forms[<span class="number">0</span>];</div><div class="line">elem2 = <span class="built_in">document</span>.forms.item(<span class="number">0</span>);</div><div class="line">alert(elem1 === elem2); <span class="comment">// 显示 "true"</span></div><div class="line">elem1 = <span class="built_in">document</span>.forms[<span class="string">"myForm"</span>];</div><div class="line">elem2 = <span class="built_in">document</span>.forms.namedItem(<span class="string">"myForm"</span>);</div><div class="line">alert(elem1 === elem2); <span class="comment">// 显示 "true"</span></div></pre></td></tr></table></figure>
+<pre><code class="javascript">var elem1, elem2;
+// document.forms 是一个 HTMLCollection
+elem1 = document.forms[0];
+elem2 = document.forms.item(0);
+alert(elem1 === elem2); // 显示 &quot;true&quot;
+elem1 = document.forms[&quot;myForm&quot;];
+elem2 = document.forms.namedItem(&quot;myForm&quot;);
+alert(elem1 === elem2); // 显示 &quot;true&quot;
+</code></pre>
 <p>浏览器兼容性：当使用字符串作为 <code>namedItem()</code>的参数，且匹配的元素多于一个时，不同的浏览器表现不同。Firefox 8 表现如同 DOM 2 和 DOM 4 说明的，返回第一个匹配的元素。而 Webkit 浏览器和 IE 返回另外一个 HTMLCollection，Opera 返回一个包含所有元素的 NodeList。</p>
 <p>但是， W3C里面对于HTMLCollection的描述还有下面一句：</p>
 <blockquote>
@@ -353,7 +370,8 @@
 </script>
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
-
+<script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script>
 
 
 

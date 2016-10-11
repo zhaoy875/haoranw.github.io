@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>绝对居中(Absolute Centering) | ransama&#39;s Blog</title>
@@ -37,6 +38,8 @@ If ‘margin-top’, or’margin-bottom’ are ‘auto’, their used value is 0
     <link rel="icon" href="/favicon.png">
   
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/9.7.0/styles/atom-one-dark.min.css">
+
 </head>
 
 <body>
@@ -235,7 +238,16 @@ If ‘margin-top’, or’margin-bottom’ are ‘auto’, their used value is 0
 <blockquote>
 <p>If ‘margin-top’, or’margin-bottom’ are ‘auto’, their used value is 0.</p>
 </blockquote>
-<p>可以理解为在普通内容流（normal content flow）中，margin:auto的效果等同于margin-top:0;margin-bottom:0。<br>但是我们可以用以下代码实现垂直居中：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.ac</span>&#123;</div><div class="line">	<span class="attribute">margin</span>: auto;</div><div class="line">	<span class="attribute">position</span>:absolute;</div><div class="line">	<span class="attribute">top</span>:<span class="number">0</span>;</div><div class="line">	<span class="attribute">left</span>:<span class="number">0</span>;</div><div class="line">	<span class="attribute">right</span>:<span class="number">0</span>;</div><div class="line">	<span class="attribute">bottom</span>:<span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以理解为在普通内容流（normal content flow）中，margin:auto的效果等同于margin-top:0;margin-bottom:0。<br>但是我们可以用以下代码实现垂直居中：</p>
+<pre><code class="css">.ac{
+    margin: auto;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+</code></pre>
 <p>此方法即是Absolute Centering。详细内容的英文原文可以参见<a href="http://codepen.io/shshaw/details/gEiDt" target="_blank" rel="external">Absolute Centering</a></p>
 <h4 id="绝对居中的实现原理："><a href="#绝对居中的实现原理：" class="headerlink" title="绝对居中的实现原理："></a>绝对居中的实现原理：</h4><p><strong>“其实在接触到一样新方法时，知道其中的实现原理远比知道如何用重要的多。”</strong></p>
 <p style="text-align:right">——沃兹基硕德 </p>
@@ -363,7 +375,8 @@ If ‘margin-top’, or’margin-bottom’ are ‘auto’, their used value is 0
 </script>
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
-
+<script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script>
 
 
 

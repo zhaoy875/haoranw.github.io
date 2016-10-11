@@ -2,23 +2,42 @@
 <html>
 <head>
   <meta charset="utf-8">
+
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>从创建一个字符串说起 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先我们可能都知道创建一个字符串通常有三种写法：123var str1=&quot;wanghaoran&quot;;var str2=String(&quot;wanghaoran&quot;);var str3=new String(&quot;wanghaoran&quot;);
-我们对每一个str执行typeof，可以得到如下结果：123456typeof str1;// &apos;string&apos;typeof str2;// &apos;string&apos;typeof">
+  <meta name="description" content="首先我们可能都知道创建一个字符串通常有三种写法：
+var str1=&amp;quot;wanghaoran&amp;quot;;
+var str2=String(&amp;quot;wanghaoran&amp;quot;);
+var str3=new String(&amp;quot;wanghaoran&amp;quot;);
+
+我们对每一个str执行typeof，可以得到如下结果：
+typeof str1;
+// &amp;#39;string">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从创建一个字符串说起">
 <meta property="og:url" content="/2014/05/21/从创建一个字符串说起/index.html">
 <meta property="og:site_name" content="ransama's Blog">
-<meta property="og:description" content="首先我们可能都知道创建一个字符串通常有三种写法：123var str1=&quot;wanghaoran&quot;;var str2=String(&quot;wanghaoran&quot;);var str3=new String(&quot;wanghaoran&quot;);
-我们对每一个str执行typeof，可以得到如下结果：123456typeof str1;// &apos;string&apos;typeof str2;// &apos;string&apos;typeof">
+<meta property="og:description" content="首先我们可能都知道创建一个字符串通常有三种写法：
+var str1=&amp;quot;wanghaoran&amp;quot;;
+var str2=String(&amp;quot;wanghaoran&amp;quot;);
+var str3=new String(&amp;quot;wanghaoran&amp;quot;);
+
+我们对每一个str执行typeof，可以得到如下结果：
+typeof str1;
+// &amp;#39;string">
 <meta property="og:updated_time" content="2016-09-22T11:52:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从创建一个字符串说起">
-<meta name="twitter:description" content="首先我们可能都知道创建一个字符串通常有三种写法：123var str1=&quot;wanghaoran&quot;;var str2=String(&quot;wanghaoran&quot;);var str3=new String(&quot;wanghaoran&quot;);
-我们对每一个str执行typeof，可以得到如下结果：123456typeof str1;// &apos;string&apos;typeof str2;// &apos;string&apos;typeof">
+<meta name="twitter:description" content="首先我们可能都知道创建一个字符串通常有三种写法：
+var str1=&amp;quot;wanghaoran&amp;quot;;
+var str2=String(&amp;quot;wanghaoran&amp;quot;);
+var str3=new String(&amp;quot;wanghaoran&amp;quot;);
+
+我们对每一个str执行typeof，可以得到如下结果：
+typeof str1;
+// &amp;#39;string">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -26,6 +45,8 @@
     <link rel="icon" href="/favicon.png">
   
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/9.7.0/styles/atom-one-dark.min.css">
+
 </head>
 
 <body>
@@ -220,8 +241,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先我们可能都知道创建一个字符串通常有三种写法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str1=<span class="string">"wanghaoran"</span>;</div><div class="line"><span class="keyword">var</span> str2=<span class="built_in">String</span>(<span class="string">"wanghaoran"</span>);</div><div class="line"><span class="keyword">var</span> str3=<span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"wanghaoran"</span>);</div></pre></td></tr></table></figure></p>
-<p>我们对每一个str执行<code>typeof</code>，可以得到如下结果：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> str1;</div><div class="line"><span class="comment">// 'string'</span></div><div class="line"><span class="keyword">typeof</span> str2;</div><div class="line"><span class="comment">// 'string'</span></div><div class="line"><span class="keyword">typeof</span> str3;</div><div class="line"><span class="comment">// 'object'</span></div></pre></td></tr></table></figure></p>
+        <p>首先我们可能都知道创建一个字符串通常有三种写法：</p>
+<pre><code class="javascript">var str1=&quot;wanghaoran&quot;;
+var str2=String(&quot;wanghaoran&quot;);
+var str3=new String(&quot;wanghaoran&quot;);
+</code></pre>
+<p>我们对每一个str执行<code>typeof</code>，可以得到如下结果：</p>
+<pre><code class="javascript">typeof str1;
+// &#39;string&#39;
+typeof str2;
+// &#39;string&#39;
+typeof str3;
+// &#39;object&#39;
+</code></pre>
 <p>前两种方法创建的字符串都属于Primitive String ，即原始数据类型中的原始类型字符串，返回的自然是<code>string</code>。</p>
 <p>而第三种方法使用了构造函数创建了一个String Object，所以它的类型是对象，即<code>Object</code></p>
 <p>那么问题来了，为什么一个原始类型的字符串能够调用各种字符串方法或者查看属性呢？这不是对象能做的事吗？</p>
@@ -232,8 +264,24 @@
 <p>Create a new String object whose [[PrimitiveValue]] internal property is set to the value of the argument.</p>
 </blockquote>
 <p>过程中创建了一个对象，并且将这个字符串的内容复制给这个对象。</p>
-<p>但是这个包装对象是临时的，在操作完成时就会释放，下次再重新访问时会重新建立。所以虽然我们可以像对象那样，在原始数据类型的值上调用各种内置的对象方法，但是对原始类型的数值进行自定义方法或者属性时，并不能得到保存。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person=<span class="string">"wanghaoran"</span>;</div><div class="line">person.sex=<span class="string">"male"</span>;</div><div class="line">person.callName=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	alert(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(person.sex);<span class="comment">//undefined</span></div><div class="line">person.callName();<span class="comment">//报错...is Not a function</span></div></pre></td></tr></table></figure></p>
-<p>当然以下方法是没有问题的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person=<span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"wanghaoran"</span>);</div><div class="line">person.sex=<span class="string">"male"</span>;</div><div class="line">person.callName=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	alert(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(person.sex);<span class="comment">//male</span></div><div class="line">person.callName();<span class="comment">//弹出wanghaoran</span></div></pre></td></tr></table></figure></p>
+<p>但是这个包装对象是临时的，在操作完成时就会释放，下次再重新访问时会重新建立。所以虽然我们可以像对象那样，在原始数据类型的值上调用各种内置的对象方法，但是对原始类型的数值进行自定义方法或者属性时，并不能得到保存。</p>
+<pre><code class="javascript">var person=&quot;wanghaoran&quot;;
+person.sex=&quot;male&quot;;
+person.callName=function(){
+    alert(this);
+}
+console.log(person.sex);//undefined
+person.callName();//报错...is Not a function
+</code></pre>
+<p>当然以下方法是没有问题的：</p>
+<pre><code class="javascript">var person=new String(&quot;wanghaoran&quot;);
+person.sex=&quot;male&quot;;
+person.callName=function(){
+    alert(this);
+}
+console.log(person.sex);//male
+person.callName();//弹出wanghaoran
+</code></pre>
 
       
     </div>
@@ -337,7 +385,8 @@
 </script>
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
-
+<script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script>
 
 
 

@@ -20,7 +20,7 @@ Formatting contextFormatt">
 <meta property="og:image" content="/img/1476104355378.png">
 <meta property="og:image" content="/img/1476104520280.png">
 <meta property="og:image" content="/img/1476104574780.png">
-<meta property="og:updated_time" content="2016-10-10T13:48:55.000Z">
+<meta property="og:updated_time" content="2016-10-11T08:26:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解BFC">
 <meta name="twitter:description" content="一、BFC定义BFC全称Block Formatting Context，即”块级格式化上下文”。Box 是 CSS 布局的对象和基本单位， 。一个页面是由很多个Box组成的。元素的类型和 display 属性，决定了这个Box的类型。 不同类型的 Box， 会参与不同的Formatting Context，因此Box内的元素会以不同的方式渲染。
@@ -289,6 +289,30 @@ Formatting contextFormatt">
 </blockquote>
 <p>我们可以在p外面包裹一层容器，并触发该容器生成一个BFC。那么两个P便不属于同一个BFC，就不会发生margin重叠了。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    .wrap &#123;</div><div class="line">        overflow: hidden;</div><div class="line">    &#125;</div><div class="line">    p &#123;</div><div class="line">        color: #f55;</div><div class="line">        background: #fcc;</div><div class="line">        width: 200px;</div><div class="line">        line-height: 100px;</div><div class="line">        text-align:center;</div><div class="line">        margin: 100px;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Haha<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hehe<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p>效果如下:<br><img src="/img/1476104574780.png" alt="Alt text"></p>
+<h4 id="五、IE的haslayout"><a href="#五、IE的haslayout" class="headerlink" title="五、IE的haslayout"></a>五、IE的haslayout</h4><ol>
+<li>什么是haslayout</li>
+</ol>
+<p>layout是IE的一个概念，它决定了元素如何对其内容定位和尺寸计算，以及与其他元素的关系和相互作用。当一个元素“拥有布局”时，它会负责本身及其子元素的尺寸和定位。而如果一个元素“没有拥有布局”，那么它的尺寸和位置由最近的拥有布局的祖先元素控制。</p>
+<p>必须说明的是，IE8及以上浏览器使用了全新的显示引擎，已经不在使用haslayout属性，因此文中提到的haslayout属性只针对IE6和IE7。</p>
+<ol>
+<li>为什么会有haslayout</li>
+</ol>
+<p>理论上说，每个元素都应该控制自己的尺寸和定位，即每个元素都应该“拥有布局”，当然这只是理想状态。而对于早期的IE显示引擎来说，如果所有元素都“拥有布局”的话，会导致很大的性能问题。</p>
+<p>因此IE开发团队决定使用布局概念来减少浏览器的性能开销，即只将布局应用于实际需要的那些元素，所以便出现了“拥有布局”和“没有拥有布局”两种情况。</p>
+<ol>
+<li>默认情况下拥有布局的元素</li>
+</ol>
+<p>下面，先来看下哪些元素在默认情况下就“拥有布局”。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">html, body</div><div class="line">table</div><div class="line">tr, td</div><div class="line">img</div><div class="line">hr</div><div class="line">input, select, textarea, button</div><div class="line">iframe, embed, object, applet</div><div class="line">marquee</div></pre></td></tr></table></figure></p>
+<p>4.查看和触发haslayout</p>
+<p>haslayout是IE私有的，而且它不是css属性，我们无法通过css显式的设置元素的haslayout。但我们可以通过javascript来查看一个元素是否拥有布局：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;div1&quot;&gt;这是一个div&lt;/div&gt;;</div><div class="line">var oDiv = document.getElementById(&apos;div1&apos;);</div><div class="line">alert(oDiv.currentStyle.hasLayout);   </div><div class="line">//弹出false</div></pre></td></tr></table></figure></p>
+<p>如果元素拥有布局，obj.currentStyle.hasLayout就会返回true，否则返回false。hasLayout是一个只读属性，所以也无法通过javascript进行设置。</p>
+<p>在实际开发过程中，很多IE下（IE6、IE7）的显示问题，都可以通过触发元素的haslayout来解决，下面列出一些常见的可以触发元素haslayout的属性和方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">float: left或right</div><div class="line">display: inline-block</div><div class="line">position: absolute</div><div class="line">width: 除auto外任何值</div><div class="line">height: 除auto外任何值</div><div class="line">zoom: 处normal外任何值</div><div class="line">writing-mode: tb-rl</div></pre></td></tr></table></figure></p>
+<p>在IE7中，以下属性也可以触发元素的haslayout</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">min-height: 任意值</div><div class="line">min-width: 任意值</div><div class="line">max-height: 除none 外任意值</div><div class="line">max-width: 除none 外任意值</div><div class="line">overflow: 除visible外任意值，仅用于块级元素</div><div class="line">overflow-x: 除visible 外任意值，仅用于块级元素</div><div class="line">overflow-y: 除visible 外任意值，仅用于块级元素</div><div class="line">position: fixed</div></pre></td></tr></table></figure>
+<ol>
+<li>haslayout解决IE bugs</li>
+</ol>
+<p>IE有很多常见的浮动bug，一般情况下我们会使用zoom: 1;来触发haslayout从而来解决这些bug，因为zoom: 1不会影响到元素的现有表现，另外在IE6及较早版本的浏览器中还可以使用height:1%来触发，IE7中可以使用min-height: 0来触发。</p>
 
       
     </div>

@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>理解BFC | ransama&#39;s Blog</title>
+  <title>理解BFC与haslayout | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="一、BFC定义BFC全称Block Formatting Context，即”块级格式化上下文”。Box 是 CSS 布局的对象和基本单位， 。一个页面是由很多个Box组成的。元素的类型和 display 属性，决定了这个Box的类型。 不同类型的 Box， 会参与不同的Formatting Context，因此Box内的元素会以不同的方式渲染。
 Formatting contextFormatt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="理解BFC">
+<meta property="og:title" content="理解BFC与haslayout">
 <meta property="og:url" content="/2014/09/22/BFC定义/index.html">
 <meta property="og:site_name" content="ransama's Blog">
 <meta property="og:description" content="一、BFC定义BFC全称Block Formatting Context，即”块级格式化上下文”。Box 是 CSS 布局的对象和基本单位， 。一个页面是由很多个Box组成的。元素的类型和 display 属性，决定了这个Box的类型。 不同类型的 Box， 会参与不同的Formatting Context，因此Box内的元素会以不同的方式渲染。
@@ -20,9 +20,9 @@ Formatting contextFormatt">
 <meta property="og:image" content="/img/1476104355378.png">
 <meta property="og:image" content="/img/1476104520280.png">
 <meta property="og:image" content="/img/1476104574780.png">
-<meta property="og:updated_time" content="2016-10-11T08:35:20.000Z">
+<meta property="og:updated_time" content="2016-10-11T08:40:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="理解BFC">
+<meta name="twitter:title" content="理解BFC与haslayout">
 <meta name="twitter:description" content="一、BFC定义BFC全称Block Formatting Context，即”块级格式化上下文”。Box 是 CSS 布局的对象和基本单位， 。一个页面是由很多个Box组成的。元素的类型和 display 属性，决定了这个Box的类型。 不同类型的 Box， 会参与不同的Formatting Context，因此Box内的元素会以不同的方式渲染。
 Formatting contextFormatt">
 <meta name="twitter:image" content="/img/1476102991605.png">
@@ -207,7 +207,7 @@ Formatting contextFormatt">
         
   
     <h1 class="article-title" itemprop="name">
-      理解BFC
+      理解BFC与haslayout
     </h1>
   
 
@@ -246,7 +246,8 @@ Formatting contextFormatt">
 <li>overflow不为visible；</li>
 </ol>
 <h4 id="四、BFC的作用及原理"><a href="#四、BFC的作用及原理" class="headerlink" title="四、BFC的作用及原理"></a>四、BFC的作用及原理</h4><p>了解一个概念之后，更重要的意义在于如何合理使用它解决实际问题。BFC的概念常用于解决以下问题：</p>
-<p><strong>1.自适应两栏布局代码：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    body &#123;</div><div class="line">        width: 300px;</div><div class="line">        position: relative;</div><div class="line">    &#125;</div><div class="line">    .aside &#123;</div><div class="line">        width: 100px;</div><div class="line">        height: 150px;</div><div class="line">        float: left;</div><div class="line">        background: #f66;</div><div class="line">    &#125;</div><div class="line">    .main &#123;</div><div class="line">        height: 200px;</div><div class="line">        background: #fcc;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"aside"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>1.自适应两栏布局代码：</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">    body &#123;</div><div class="line">        width: 300px;</div><div class="line">        position: relative;</div><div class="line">    &#125;</div><div class="line">    .aside &#123;</div><div class="line">        width: 100px;</div><div class="line">        height: 150px;</div><div class="line">        float: left;</div><div class="line">        background: #f66;</div><div class="line">    &#125;</div><div class="line">    .main &#123;</div><div class="line">        height: 200px;</div><div class="line">        background: #fcc;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"aside"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>　　如图：<br><img src="/img/1476102991605.png" alt="Alt text"></p>
 <p>根据BFC布局规则第3条，虽然存在浮动的元素aslide，但main的左边依然会与包含块的左边相接触。<br>根据BFC布局规则第4条，</p>
 <blockquote>
@@ -347,7 +348,7 @@ Formatting contextFormatt">
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="BFC定义" data-title="理解BFC" data-url="/2014/09/22/BFC定义/"></div>
+	<div class="ds-thread" data-thread-key="BFC定义" data-title="理解BFC与haslayout" data-url="/2014/09/22/BFC定义/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

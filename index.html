@@ -69,10 +69,10 @@
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
 						<li>菜单</li>
-						<li>标签</li>
+						<li>Tags</li>
 						
 						
-						<li>关于我</li>
+						<li>A propos</li>
 						
 					</ul>
 				</div>
@@ -517,26 +517,26 @@ mySon.__proto__ === person;
 </ol>
 <h4 id="四、BFC的作用及原理"><a href="#四、BFC的作用及原理" class="headerlink" title="四、BFC的作用及原理"></a>四、BFC的作用及原理</h4><p>了解一个概念之后，更重要的意义在于如何合理使用它解决实际问题。BFC的概念常用于解决以下问题：</p>
 <p><strong>1.自适应两栏布局代码：</strong></p>
-<pre><code class="language-HTML">    &lt;style&gt;
-        body {
-            width: 300px;
-            position: relative;
-        }
-        .aside {
-            width: 100px;
-            height: 150px;
-            float: left;
-            background: #f66;
-        }
-        .main {
-            height: 200px;
-            background: #fcc;
-        }
-    &lt;/style&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;aside&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;main&quot;&gt;&lt;/div&gt;
-    &lt;/body&gt;
+<pre><code class="language-HTML">&lt;style&gt;
+    body {
+        width: 300px;
+        position: relative;
+    }
+    .aside {
+        width: 100px;
+        height: 150px;
+        float: left;
+        background: #f66;
+    }
+    .main {
+        height: 200px;
+        background: #fcc;
+    }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;aside&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;main&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
 </code></pre>
 <p>　　如图：<br><img src="/img/1476102991605.png" alt="Alt text"></p>
 <p>根据BFC布局规则第3条，虽然存在浮动的元素aslide，但main的左边依然会与包含块的左边相接触。<br>根据BFC布局规则第4条，</p>
@@ -638,22 +638,24 @@ marquee
 </code></pre>
 <p><strong>4.查看和触发haslayout</strong></p>
 <p>haslayout是IE私有的，而且它不是css属性，我们无法通过css显式的设置元素的haslayout。但我们可以通过javascript来查看一个元素是否拥有布局：</p>
-<pre><code class="JavaScript">&lt;div id=&quot;div1&quot;&gt;这是一个div&lt;/div&gt;;
-var oDiv = document.getElementById(&#39;div1&#39;);
-alert(oDiv.currentStyle.hasLayout);   
-//弹出false
+<pre><code class="HTML">&lt;div id=&quot;div1&quot;&gt;这是一个div&lt;/div&gt;;
+&lt;script&gt;
+  var oDiv = document.getElementById(&#39;div1&#39;);
+  alert(oDiv.currentStyle.hasLayout);   //弹出false
+&lt;/script&gt;
 </code></pre>
 <p>如果元素拥有布局，obj.currentStyle.hasLayout就会返回true，否则返回false。hasLayout是一个只读属性，所以也无法通过javascript进行设置。</p>
 <p>在实际开发过程中，很多IE下（IE6、IE7）的显示问题，都可以通过触发元素的haslayout来解决，下面列出一些常见的可以触发元素haslayout的属性和方法：</p>
-<pre><code>float: left或right
+<pre><code class="CSS">float: left或right
 display: inline-block
 position: absolute
 width: 除auto外任何值
 height: 除auto外任何值
 zoom: 处normal外任何值
 writing-mode: tb-rl
-</code></pre><p>在IE7中，以下属性也可以触发元素的haslayout</p>
-<pre><code class="CSS">min-height: 任意值
+</code></pre>
+<p>在IE7中，以下属性也可以触发元素的haslayout</p>
+<pre><code class="language-CSS">min-height: 任意值
 min-width: 任意值
 max-height: 除none 外任意值
 max-width: 除none 外任意值
@@ -1042,7 +1044,7 @@ person.callName();//弹出wanghaoran
 <script>
 	var yiliaConfig = {
 		fancybox: true,
-		mathjax: true,
+		mathjax: false,
 		animate: true,
 		isHome: true,
 		isPost: false,
@@ -1052,34 +1054,17 @@ person.callName();//弹出wanghaoran
 		open_in_new: false
 	}
 </script>
+<script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
+<script src="/js/highlightjs-line-numbers.min.js".js"></script>
+<script >
+	hljs.initHighlightingOnLoad();
+	hljs.initLineNumbersOnLoad();
+</script>
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script src="/js/main.js"></script>
-<script src="http://cdn.bootcss.com/highlight.js/9.7.0/highlight.min.js"></script>
-<script >hljs.initHighlightingOnLoad();</script>
 
 
 
-
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-});
-
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
-});
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
   </div>

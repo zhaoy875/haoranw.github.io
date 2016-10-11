@@ -194,6 +194,19 @@ a {
     width: 100%;
   }
 }
+.hljs-line-numbers {
+  text-align: right;
+  color: #666 !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 #container {
   position: relative;
   min-height: 100%;
@@ -1520,7 +1533,6 @@ a {
 .article-entry pre code {
   background: none;
   text-shadow: none;
-  padding: 0;
   color: #fff;
 }
 .article-entry .highlight {

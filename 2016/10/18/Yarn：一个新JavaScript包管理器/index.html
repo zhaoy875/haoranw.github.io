@@ -4,14 +4,33 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2015 | ransama&#39;s Blog</title>
+  <title>Yarn：全新的JavaScript包管理器 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ransama's Blog">
-<meta property="og:url" content="/archives/2015/index.html">
+  <meta name="description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
+yarn亮点
+极致的快速：会缓存已经下载过的包，避免重复下载。
+安全 ：下载前会检查签名及包的完整性
+网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。
+扁平化模式 ： 对于不匹配的依赖版本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yarn：全新的JavaScript包管理器">
+<meta property="og:url" content="/2016/10/18/Yarn：一个新JavaScript包管理器/index.html">
 <meta property="og:site_name" content="ransama's Blog">
+<meta property="og:description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
+yarn亮点
+极致的快速：会缓存已经下载过的包，避免重复下载。
+安全 ：下载前会检查签名及包的完整性
+网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。
+扁平化模式 ： 对于不匹配的依赖版本">
+<meta property="og:updated_time" content="2016-10-18T10:03:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ransama's Blog">
+<meta name="twitter:title" content="Yarn：全新的JavaScript包管理器">
+<meta name="twitter:description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
+yarn亮点
+极致的快速：会缓存已经下载过的包，避免重复下载。
+安全 ：下载前会检查签名及包的完整性
+网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。
+扁平化模式 ： 对于不匹配的依赖版本">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -135,54 +154,135 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-Yarn：一个新JavaScript包管理器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/10/25/prototype与原型链/" class="archive-article-date">
-  	<time datetime="2015-10-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/10/25/prototype与原型链/">__proto__、prototype与原型链</a>
+    <h1 class="article-title" itemprop="name">
+      Yarn：全新的JavaScript包管理器
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。</p>
+<h4 id="yarn亮点"><a href="#yarn亮点" class="headerlink" title="yarn亮点"></a>yarn亮点</h4><ol>
+<li>极致的快速：会缓存已经下载过的包，避免重复下载。</li>
+<li>安全 ：下载前会检查签名及包的完整性</li>
+<li>网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。</li>
+<li>扁平化模式 ： 对于不匹配的依赖版本的包创立一个独立的包，避免创建重复的。</li>
+</ol>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>如果原先有npm工具的话，安装yarn很简单，只需要一行命令即可</p>
+<pre><code>npm install -g yarn
+</code></pre><p>什么，你说你没有npm？那你怎么会找到这篇yarn的文章…<br>真的没有的话请看这里<a href="https://yarnpkg.com/en/docs/install" target="_blank" rel="external">各平台下yarn工具安装方式</a></p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>安装yarn之后默认的包安装源和原来npm安装源是一样的，可用查看命令</p>
+<pre><code class="bash">yarn config get registry
+</code></pre>
+<p>若想提高yarn安装的速度，可将包安装源修改为cnpm的安装源，执行以下命令即可</p>
+<pre><code class="bash">yarn config set registry &#39;https://registry.npm.taobao.org&#39;
+</code></pre>
+<h4 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h4><p>初始化某个项目</p>
+<pre><code class="bash">npm install
+yarn install
+</code></pre>
+<p>默认的安装依赖操作</p>
+<pre><code class="bash">npm install/link
+yarn install/link
+</code></pre>
+<p>安装某个依赖，并且默认保存到package</p>
+<pre><code class="bash">npm install xxx —save
+yarn add xxx
+</code></pre>
+<p>移除某个依赖项目</p>
+<pre><code class="bash">npm uninstall xxx —save
+yarn remove xxx
+</code></pre>
+<p>安装某个开发时依赖项目</p>
+<pre><code class="bash">npm install --save-dev xxx
+yarn add xxx —dev
+</code></pre>
+<p>更新某个依赖项目</p>
+<pre><code class="bash">npm update --save xxx
+yarn upgrade xxx
+</code></pre>
+<p>安装某个全局依赖项目</p>
+<pre><code class="bash">npm install -g xxx
+yarn global add xxx
+</code></pre>
+<p>发布/登录/登出，一系列NPM Registry操作</p>
+<pre><code class="bash">npm publish/login/logout
+yarn publish/login/logout
+</code></pre>
+<p>运行某个命令</p>
+<pre><code class="bash">npm run/test
+yarn run/test
+</code></pre>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/18/Yarn：一个新JavaScript包管理器/" class="archive-article-date">
+  	<time datetime="2016-10-18T03:44:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yarn/">yarn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端工程化/">前端工程化</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2015/10/25/prototype与原型链/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">__proto__、prototype与原型链</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
 
 
       </div>
@@ -205,8 +305,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

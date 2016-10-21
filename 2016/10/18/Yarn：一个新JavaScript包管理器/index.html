@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Yarn：全新的JavaScript包管理器 | ransama&#39;s Blog</title>
+  <title>Yarn：一个新的JavaScript包管理器 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
 yarn亮点
@@ -13,7 +13,7 @@ yarn亮点
 网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。
 扁平化模式 ： 对于不匹配的依赖版本">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Yarn：全新的JavaScript包管理器">
+<meta property="og:title" content="Yarn：一个新的JavaScript包管理器">
 <meta property="og:url" content="/2016/10/18/Yarn：一个新JavaScript包管理器/index.html">
 <meta property="og:site_name" content="ransama's Blog">
 <meta property="og:description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
@@ -22,9 +22,9 @@ yarn亮点
 安全 ：下载前会检查签名及包的完整性
 网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。
 扁平化模式 ： 对于不匹配的依赖版本">
-<meta property="og:updated_time" content="2016-10-18T10:03:42.000Z">
+<meta property="og:updated_time" content="2016-10-21T02:47:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yarn：全新的JavaScript包管理器">
+<meta name="twitter:title" content="Yarn：一个新的JavaScript包管理器">
 <meta name="twitter:description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
 yarn亮点
 极致的快速：会缓存已经下载过的包，避免重复下载。
@@ -164,7 +164,7 @@ yarn亮点
         
   
     <h1 class="article-title" itemprop="name">
-      Yarn：全新的JavaScript包管理器
+      Yarn：一个新的JavaScript包管理器
     </h1>
   
 
@@ -180,8 +180,9 @@ yarn亮点
 <li>扁平化模式 ： 对于不匹配的依赖版本的包创立一个独立的包，避免创建重复的。</li>
 </ol>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>如果原先有npm工具的话，安装yarn很简单，只需要一行命令即可</p>
-<pre><code>npm install -g yarn
-</code></pre><p>什么，你说你没有npm？那你怎么会找到这篇yarn的文章…<br>真的没有的话请看这里<a href="https://yarnpkg.com/en/docs/install" target="_blank" rel="external">各平台下yarn工具安装方式</a></p>
+<pre><code class="bash">npm install -g yarn
+</code></pre>
+<p>什么，你说你没有npm？那你怎么会找到这篇yarn的文章…<br>真的没有的话请看这里<a href="https://yarnpkg.com/en/docs/install" target="_blank" rel="external">各平台下yarn工具安装方式</a></p>
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>安装yarn之后默认的包安装源和原来npm安装源是一样的，可用查看命令</p>
 <pre><code class="bash">yarn config get registry
 </code></pre>
@@ -197,16 +198,16 @@ yarn install
 yarn install/link
 </code></pre>
 <p>安装某个依赖，并且默认保存到package</p>
-<pre><code class="bash">npm install xxx —save
+<pre><code class="bash">npm install xxx --save
 yarn add xxx
 </code></pre>
 <p>移除某个依赖项目</p>
-<pre><code class="bash">npm uninstall xxx —save
+<pre><code class="bash">npm uninstall xxx --save
 yarn remove xxx
 </code></pre>
 <p>安装某个开发时依赖项目</p>
 <pre><code class="bash">npm install --save-dev xxx
-yarn add xxx —dev
+yarn add xxx --dev
 </code></pre>
 <p>更新某个依赖项目</p>
 <pre><code class="bash">npm update --save xxx
@@ -284,7 +285,7 @@ yarn run/test
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Yarn：一个新JavaScript包管理器" data-title="Yarn：全新的JavaScript包管理器" data-url="/2016/10/18/Yarn：一个新JavaScript包管理器/"></div>
+	<div class="ds-thread" data-thread-key="Yarn：一个新JavaScript包管理器" data-title="Yarn：一个新的JavaScript包管理器" data-url="/2016/10/18/Yarn：一个新JavaScript包管理器/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -313,11 +314,12 @@ yarn run/test
     		&copy; 2016 我善养吾浩然之气丶
     	</div>
       	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/haoranw/haoranw.github.io" target="_blank">ransama</a> by haoranw
       	</div>
     </div>
   </div>
 </footer>
+
     </div>
     <script>
 	var yiliaConfig = {

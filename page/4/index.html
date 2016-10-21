@@ -4,42 +4,14 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>关于String的一些细节 | ransama&#39;s Blog</title>
+  <title>ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Ⅰ.当字符串内含有转义字符时，使用.length返回的是转义后字符串的长度。
-var str=&amp;quot;\x41&amp;quot;;
-alert(str.length);//1
-
-同时，即使字符串中包含双字节字符（比如汉字），每个也只算一个字符。
-var str=&amp;quot;王浩然&amp;quot;;
-alert(str.length);//3
-
-Ⅱ.字符串一旦创建，它的值不可改变。我们在改变变量保存字符串">
-<meta property="og:type" content="article">
-<meta property="og:title" content="关于String的一些细节">
-<meta property="og:url" content="/2014/04/11/关于String的一些细节/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="ransama's Blog">
+<meta property="og:url" content="/page/4/index.html">
 <meta property="og:site_name" content="ransama's Blog">
-<meta property="og:description" content="Ⅰ.当字符串内含有转义字符时，使用.length返回的是转义后字符串的长度。
-var str=&amp;quot;\x41&amp;quot;;
-alert(str.length);//1
-
-同时，即使字符串中包含双字节字符（比如汉字），每个也只算一个字符。
-var str=&amp;quot;王浩然&amp;quot;;
-alert(str.length);//3
-
-Ⅱ.字符串一旦创建，它的值不可改变。我们在改变变量保存字符串">
-<meta property="og:updated_time" content="2016-10-21T11:21:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于String的一些细节">
-<meta name="twitter:description" content="Ⅰ.当字符串内含有转义字符时，使用.length返回的是转义后字符串的长度。
-var str=&amp;quot;\x41&amp;quot;;
-alert(str.length);//1
-
-同时，即使字符串中包含双字节字符（比如汉字），每个也只算一个字符。
-var str=&amp;quot;王浩然&amp;quot;;
-alert(str.length);//3
-
-Ⅱ.字符串一旦创建，它的值不可改变。我们在改变变量保存字符串">
+<meta name="twitter:title" content="ransama's Blog">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -163,7 +135,9 @@ alert(str.length);//3
 </nav>
 
       <div class="body-wrap">
-        <article id="post-关于String的一些细节" class="article article-type-post" itemscope itemprop="blogPost">
+        
+  
+    <article id="post-从创建一个字符串说起" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -172,8 +146,8 @@ alert(str.length);//3
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      关于String的一些细节
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/21/从创建一个字符串说起/">从创建一个字符串说起</a>
     </h1>
   
 
@@ -181,52 +155,54 @@ alert(str.length);//3
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Ⅰ.当字符串内含有转义字符时，使用<code>.length</code>返回的是转义后字符串的长度。</p>
-<pre><code class="javascript">var str=&quot;\x41&quot;;
-alert(str.length);//1
+        <p>首先我们可能都知道创建一个字符串通常有三种写法：</p>
+<pre><code class="javascript">var str1=&quot;wanghaoran&quot;;
+var str2=String(&quot;wanghaoran&quot;);
+var str3=new String(&quot;wanghaoran&quot;);
 </code></pre>
-<p>同时，即使字符串中包含双字节字符（比如汉字），每个也只算一个字符。</p>
-<pre><code class="javascript">var str=&quot;王浩然&quot;;
-alert(str.length);//3
+<p>我们对每一个str执行<code>typeof</code>，可以得到如下结果：</p>
+<pre><code class="javascript">typeof str1;
+// &#39;string&#39;
+typeof str2;
+// &#39;string&#39;
+typeof str3;
+// &#39;object&#39;
 </code></pre>
-<p>Ⅱ.字符串一旦创建，它的值不可改变。我们在改变变量保存字符串的值时，实际上一个创建新字符串、赋值、删除原字符串的过程。所以在某些低版本浏览器中，字符串拼接效率较低。</p>
-<pre><code class="javascript">var str=&quot;Hello&quot;;
-str+=&quot;World&quot;
+<p>前两种方法创建的字符串都属于Primitive String ，即原始数据类型中的原始类型字符串，返回的自然是<code>string</code>。</p>
+<p>而第三种方法使用了构造函数创建了一个String Object，所以它的类型是对象，即<code>Object</code></p>
+<p>那么问题来了，为什么一个原始类型的字符串能够调用各种字符串方法或者查看属性呢？这不是对象能做的事吗？</p>
+<p>要了解这个问题的答案就要从源头着手。首先根据ES发布的规范：</p>
+<p>JS在运行到形如<code>PrimitiveType.method</code>即处理某个基本类型的某方法时，会调用<code>CheckObjectCoercible(baseValue)</code>方法，在此方法中会进行<code>ToObject</code>运算。</p>
+<p>针对<code>String</code>类型的<code>ToObject</code>运算的描述如下：</p>
+<blockquote>
+<p>Create a new String object whose [[PrimitiveValue]] internal property is set to the value of the argument.</p>
+</blockquote>
+<p>过程中创建了一个对象，并且将这个字符串的内容复制给这个对象。</p>
+<p>但是这个包装对象是临时的，在操作完成时就会释放，下次再重新访问时会重新建立。所以虽然我们可以像对象那样，在原始数据类型的值上调用各种内置的对象方法，但是对原始类型的数值进行自定义方法或者属性时，并不能得到保存。</p>
+<pre><code class="javascript">var person=&quot;wanghaoran&quot;;
+person.sex=&quot;male&quot;;
+person.callName=function(){
+    alert(this);
+}
+console.log(person.sex);//undefined
+person.callName();//报错...is Not a function
 </code></pre>
-<p>过程是得到Hello+World的长度，即10。然后创建一个长度为10的字符串，之后输入<code>&quot;Hello&quot;</code>和<code>&quot;World&quot;</code>。最后销毁原字符串<code>&quot;Hello&quot;</code>和字符串<code>&quot;World&quot;</code>。</p>
-<p>Ⅲ.<code>null</code>和<code>undefined</code>没有<code>toString()</code>方法，因为我们在对一个不确定的值使用<code>toString()</code>方法 时，存在报错的风险。<br>但是另一种转换方法<code>String()</code>则没有这个顾虑，因为<code>String()</code>的转换规则是：<br>    1.如果可以使用<code>toString()</code>方法，则调用并返回。<br>    2.如果值是<code>null</code>或<code>undefined</code>，则对应返回<code>&quot;null&quot;</code>或<code>&quot;undefined&quot;</code>。</p>
-<p>Ⅳ.当传入参数为负值时：<br><code>slice()</code>将负值与字符串长度相加；<br><code>sustr()</code>第一个参数为负，则加上字符串的长度。第二个参数为负，转换为0；<br><code>substring()</code>会将所有的副参数转为0。它还有一个行为就是，在面对两个参数时，永远是从小的参数开始，到大的参数对应位置结束。而不是从第一个参数开始。</p>
-<p>Ⅴ.字符串匹配：<br> 1.<code>match()</code>返回的是一个数组。</p>
-<pre><code class="javascript">var str=&quot;dog,rat,cat,hat,mat&quot;;
-var _match=str.match(/.at/);
-console.log(_match);
-
-
-//console:
-[&quot;rat&quot;, index: 5, input: &quot;dog,rat,cat,hat,mat&quot;]
-0:&quot;rat&quot;
-index:5
-input:&quot;dog,rat,cat,hat,mat&quot;
-length:1
-</code></pre>
-<p>依次是匹配到的字符串片段、其开始的下标、输入的字符串。</p>
-<p><code>search()</code>返回的是第一个匹配项的索引。</p>
-<p><code>replace()</code>约定了一个特殊标记符$：<br><span>$i</span> (i:1-99) ：表示从左到右正则子表达式所匹配的文本。<br><span>$&amp;</span>：表示与正则表达式匹配的全文本。<br><span>$`</span>(切换技能键)：表示匹配字符串的左边文本。<br><span>$’</span>(单引号)：表示匹配字符串的右边文本。<br><span>$$</span>：表示$。</p>
-<pre><code class="javascript">&quot;boy &amp; girl&quot;.replace(/(\w+)\s*&amp;\s*(\w+)/g,&quot;$2 &amp; $1&quot;) //girl &amp; boy
-&quot;boy&quot;.replace(/\w+/g,&quot;$&amp;-$&amp;&quot;) // boy-boy
-
-
-var str=&quot;javascript&quot;
-str.replace(/script/,&quot;$&amp; != $`&quot;) //javascript != java
-str.replace(/java/,&quot;$&amp;$&#39; is &quot;) // javascript is script
+<p>当然以下方法是没有问题的：</p>
+<pre><code class="javascript">var person=new String(&quot;wanghaoran&quot;);
+person.sex=&quot;male&quot;;
+person.callName=function(){
+    alert(this);
+}
+console.log(person.sex);//male
+person.callName();//弹出wanghaoran
 </code></pre>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2014/04/11/关于String的一些细节/" class="archive-article-date">
-  	<time datetime="2014-04-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-11</time>
+      <a href="/2014/03/21/从创建一个字符串说起/" class="archive-article-date">
+  	<time datetime="2014-03-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-21</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -241,73 +217,21 @@ str.replace(/java/,&quot;$&amp;$&#39; is &quot;) // javascript is script
   </div>
 </article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2014/05/03/数组二三事/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          数组二三事
-        
-      </div>
-    </a>
+
+
+
+
+
+
+
+
+
   
   
-    <a href="/2014/03/21/从创建一个字符串说起/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">从创建一个字符串说起</div>
-      <i class="icon-circle-right"></i>
-    </a>
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    </nav>
   
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
-</div>
-
-
-
-
-
-
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="关于String的一些细节" data-title="关于String的一些细节" data-url="/2014/04/11/关于String的一些细节/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-
-
 
 
       </div>
@@ -330,8 +254,8 @@ str.replace(/java/,&quot;$&amp;$&#39; is &quot;) // javascript is script
 		fancybox: true,
 		mathjax: false,
 		animate: true,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

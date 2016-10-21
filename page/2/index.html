@@ -137,6 +137,99 @@
       <div class="body-wrap">
         
   
+    <article id="post-prototype与原型链" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/10/25/prototype与原型链/">__proto__、prototype与原型链</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="关键词：-proto-，prototype，Object-create-，instanceof"><a href="#关键词：-proto-，prototype，Object-create-，instanceof" class="headerlink" title="关键词：__proto__，prototype，Object.create()，instanceof"></a>关键词：<code>__proto__</code>，prototype，Object.create()，instanceof</h4><h4 id="1-proto-（隐式原型）与prototype（显式原型）"><a href="#1-proto-（隐式原型）与prototype（显式原型）" class="headerlink" title="1.  __proto__（隐式原型）与prototype（显式原型）"></a><strong>1.  <code>__proto__</code>（隐式原型）与prototype（显式原型）</strong></h4><p><strong>显式原型(explicit prototype property)：</strong><br>几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象。</p>
+<p><strong>隐式原型(implicit prototype link)：</strong><br>JavaScript中任意对象都有一个内置属性<code>[[prototype]]</code>，可以通过<code>.__proto__</code>，或者通过符合ES5标准的Get方法<code>Object.getPrototypeOf()</code> 来访问。</p>
+<p>为了介绍二者之间的关系，先上一张图：<br><img src="/img/proto.png" alt="prototype"><br>根据ECMA定义<code>__proto__</code>的指向 <strong>to the value of its constructor’s “prototype”</strong>（其<code>constructor</code>的显式原型），所以我们来看图中：</p>
+<p>a.  对于通过构造函数<code>Foo()</code>和<code>Object()</code>来创建的实例来说，它的<code>__proto__</code>指向创建这个实例的构造函数的<code>prototype</code>，即<code>Foo.prototype</code>和<code>Object.prototype</code>.</p>
+<p>b. 对于<code>function Foo()</code>和<code>function Object()</code>来说，其<code>constructor</code>为<code>Function</code>，所以二者的对应的<code>__proto__</code>为<code>Function.prototype</code>。</p>
+<p>c. 对于内建对象(built-in object)：例如<code>Function()</code>，<code>Function.prototype</code>本身也是一个对象，这个对象是由 <code>Object()</code> 这个构造函数创建所以<code>Function.prototype.__proto__=== Object.prototype //true，</code>所有的内建对象都是由<code>Object()</code>创建而来。</p>
+<p>除了使用构造函数来创建对象以外，JS中对象被创建的方式还有：（1）对象字面量的方式 （2）ES5中的<code>Object.create()</code><br>对象字面量的形式相当于调用了对应的构造函数来创建实例后赋值给该变量，所以<code>__proto__</code>指向其对应构造函数的原型。</p>
+<pre><code class="javascript">    var obj={};
+    var foo=function () {};
+    console.log(foo.__proto__==Function.prototype);  //true
+    console.log(obj.__proto__==Object.prototype);   //true
+</code></pre>
+<h4 id="2-Object-create"><a href="#2-Object-create" class="headerlink" title="2. Object.create()"></a><strong>2. Object.create()</strong></h4><p>这是ES5中新增的方法，在这之前这被称为原型式继承，在《JavaScript高级程序设计》P169：</p>
+<blockquote>
+<p>道格拉斯在2006年写了一篇文章，题为 Prototypal Inheritance In JavaScript。在这篇文章中，他介绍了一种实现继承的方法，这种方法并没有使用严格意义上的构造函数。他的想法是借助原型可以基于已有的对象创建新对象，同时还不比因此创建自定义类型，为了达到这个目的，他给出了如下函数:</p>
+<pre><code class="javascript">function object(o){
+    function F(){}
+    F.prototype = o;
+    return new F()
+}
+</code></pre>
+</blockquote>
+<p>由 <code>Object.create()</code> 创出来的对象没有构造函数，准确的说是在 <code>Object.create()</code> 函数外部我们不能访问到它的构造函数，然而在函数内部实现中是有的，它短暂地存在了那么一会儿。</p>
+<pre><code class="javascript">var person={
+    familyName:&quot;wang&quot;
+};
+var mySon=Object.create(person);
+</code></pre>
+<p>假设我们现在就在函数内部:</p>
+<pre><code class="javascript">//var mySon=Object.create(person);相当于执行了：
+function F(){}
+F.prototype = person;
+//此时有：
+mySon.__proto__ === F.prototype //true
+//最后：
+var mySon = new F();
+//所以有：
+mySon.__proto__ === person;
+</code></pre>
+<p>因此由<code>Object.create(person)</code>创建出来的对象它的隐式原型指向person。</p>
+<h4 id="3-instanceof"><a href="#3-instanceof" class="headerlink" title="3. instanceof"></a><strong>3. instanceof</strong></h4><p>instanceof 操作符的内部实现机制和<code>__proto__</code>（隐式原型）、<code>prototype</code>（显式原型）有直接的关系。</p>
+<p>instanceof的左值一般是一个对象，右值一般是一个构造函数，用来判断左值是否是右值的实例。它的内部实现原理是这样的：</p>
+<pre><code> L.__proto__.__proto__ ..... ？= R.prototype
+</code></pre><p>也就是沿着L的<code>__proto__</code>一直寻找到原型链末端，直到等于R.prototype或者null为止。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/10/25/prototype与原型链/" class="archive-article-date">
+  	<time datetime="2014-10-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-10-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-NodeList和HTMLCollection" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -313,227 +406,9 @@ alert(elem1 === elem2); // 显示 &quot;true&quot;
 
 
   
-    <article id="post-BFC定义" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/22/BFC定义/">理解BFC与haslayout</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="一、BFC定义"><a href="#一、BFC定义" class="headerlink" title="一、BFC定义"></a>一、BFC定义</h4><p>BFC全称<strong>Block Formatting Context</strong>，即”块级格式化上下文”。<br><strong>Box</strong> 是 CSS 布局的对象和基本单位， 。一个页面是由很多个Box组成的。元素的类型和 display 属性，决定了这个Box的类型。 不同类型的 Box， 会参与不同的Formatting Context，因此Box内的元素会以不同的方式渲染。</p>
-<p><strong>Formatting context</strong><br>Formatting context 是CSS2.1 规范中的一个概念。它是页面中的一块渲染区域，并且有一套渲染规则，它决定了其子元素将如何定位，以及和其他元素的关系和相互作用。最常见的 Formatting context 有 Block fomatting context (简称BFC)和 Inline formatting context (简称IFC)，CSS3中还增加了GFC和FFC。</p>
-<h4 id="二、BFC布局规则："><a href="#二、BFC布局规则：" class="headerlink" title="二、BFC布局规则："></a>二、BFC布局规则：</h4><ol>
-<li>内部的Box会在垂直方向，一个接一个地放置；</li>
-<li>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠；</li>
-<li>每个元素的margin box的左边， 与包含块border； box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此；</li>
-<li>BFC的区域不会与float box重叠；</li>
-<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此；</li>
-<li>计算BFC的高度时，浮动元素也参与计算。</li>
-</ol>
-<h4 id="三、生成BFC的条件和规则"><a href="#三、生成BFC的条件和规则" class="headerlink" title="三、生成BFC的条件和规则"></a>三、生成BFC的条件和规则</h4><p>满足如下条件一条或多条即会生成BFC：</p>
-<ol>
-<li>根元素</li>
-<li>float属性不为none</li>
-<li>position为absolute或fixed</li>
-<li>display为inline-block, table-cell, table-caption, flex, inline-flex</li>
-<li>overflow不为visible；</li>
-</ol>
-<h4 id="四、BFC的作用及原理"><a href="#四、BFC的作用及原理" class="headerlink" title="四、BFC的作用及原理"></a>四、BFC的作用及原理</h4><p>了解一个概念之后，更重要的意义在于如何合理使用它解决实际问题。BFC的概念常用于解决以下问题：</p>
-<p><strong>1.自适应两栏布局代码：</strong></p>
-<pre><code class="language-HTML">&lt;style&gt;
-    body {
-        width: 300px;
-        position: relative;
-    }
-    .aside {
-        width: 100px;
-        height: 150px;
-        float: left;
-        background: #f66;
-    }
-    .main {
-        height: 200px;
-        background: #fcc;
-    }
-&lt;/style&gt;
-&lt;body&gt;
-    &lt;div class=&quot;aside&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;main&quot;&gt;&lt;/div&gt;
-&lt;/body&gt;
-</code></pre>
-<p>　　如图：<br><img src="/img/1476102991605.png" alt="Alt text"></p>
-<p>根据BFC布局规则第3条，虽然存在浮动的元素aslide，但main的左边依然会与包含块的左边相接触。<br>根据BFC布局规则第4条，</p>
-<blockquote>
-<p>BFC的区域不会与float box重叠。</p>
-</blockquote>
-<p>我们可以通过通过触发main生成BFC， 来实现自适应两栏布局。</p>
-<pre><code>.main {
-    overflow: hidden;
-}
-</code></pre><p>当触发main生成BFC后，这个新的BFC不会与浮动的aside重叠。因此会根据包含块的宽度，和aside的宽度，自动变窄。效果如下：<br><img src="/img/1476103166327.png" alt="Alt text"><br>　<br><strong>2.清除内部浮动</strong></p>
-<pre><code class="HTML">&lt;style&gt;
-    .par {
-        border: 5px solid #fcc;
-        width: 300px;
-    }
-
-    .child {
-        border: 5px solid #f66;
-        width:100px;
-        height: 100px;
-        float: left;
-    }
-&lt;/style&gt;
-&lt;body&gt;
-    &lt;div class=&quot;par&quot;&gt;&lt;div class=&quot;child&quot;&gt;&lt;/div&gt;&lt;div class=&quot;child&quot;&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;/body&gt;
-</code></pre>
-<p>如图：<br>　<img src="/img/1476104333086.png" alt="Alt text"><br>根据BFC布局规则第六条：</p>
-<blockquote>
-<p>计算BFC的高度时，浮动元素也参与计算</p>
-</blockquote>
-<p>为达到清除内部浮动，我们可以触发par生成BFC，那么par在计算高度时，par内部的浮动元素child也会参与计算。</p>
-<p>添加代码：</p>
-<pre><code>.par {
-    overflow: hidden;
-}
-</code></pre><p>效果如下：</p>
-<p>　<img src="/img/1476104355378.png" alt="Alt text"><br>　<br><strong>3.防止垂直 margin 重叠</strong></p>
-<pre><code class="HTML">&lt;style&gt;
-    p {
-        color: #f55;
-        background: #fcc;
-        width: 200px;
-        line-height: 100px;
-        text-align:center;
-        margin: 100px;
-    }
-&lt;/style&gt;
-&lt;body&gt;
-    &lt;p&gt;Haha&lt;/p&gt;
-    &lt;p&gt;Hehe&lt;/p&gt;
-&lt;/body&gt;
-</code></pre>
-<p>效果：<br>　<img src="/img/1476104520280.png" alt="Alt text"></p>
-<p>两个p之间的距离为100px，发送了margin重叠。</p>
-<p>根据BFC布局规则第二条：</p>
-<blockquote>
-<p>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠</p>
-</blockquote>
-<p>我们可以在p外面包裹一层容器，并触发该容器生成一个BFC。那么两个P便不属于同一个BFC，就不会发生margin重叠了。</p>
-<pre><code class="HTML">&lt;style&gt;
-    .wrap {
-        overflow: hidden;
-    }
-    p {
-        color: #f55;
-        background: #fcc;
-        width: 200px;
-        line-height: 100px;
-        text-align:center;
-        margin: 100px;
-    }
-&lt;/style&gt;
-&lt;body&gt;
-    &lt;p&gt;Haha&lt;/p&gt;
-    &lt;div class=&quot;wrap&quot;&gt;
-        &lt;p&gt;Hehe&lt;/p&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-</code></pre>
-<p>效果如下:<br><img src="/img/1476104574780.png" alt="Alt text"></p>
-<h4 id="五、IE的haslayout"><a href="#五、IE的haslayout" class="headerlink" title="五、IE的haslayout"></a>五、IE的haslayout</h4><p><strong>1.什么是haslayout</strong></p>
-<p>layout是IE的一个概念，它决定了元素如何对其内容定位和尺寸计算，以及与其他元素的关系和相互作用。当一个元素“拥有布局”时，它会负责本身及其子元素的尺寸和定位。而如果一个元素“没有拥有布局”，那么它的尺寸和位置由最近的拥有布局的祖先元素控制。</p>
-<p>必须说明的是，IE8及以上浏览器使用了全新的显示引擎，已经不在使用haslayout属性，因此文中提到的haslayout属性只针对IE6和IE7。</p>
-<p><strong>2.为什么会有haslayout</strong></p>
-<p>理论上说，每个元素都应该控制自己的尺寸和定位，即每个元素都应该“拥有布局”，当然这只是理想状态。而对于早期的IE显示引擎来说，如果所有元素都“拥有布局”的话，会导致很大的性能问题。</p>
-<p>因此IE开发团队决定使用布局概念来减少浏览器的性能开销，即只将布局应用于实际需要的那些元素，所以便出现了“拥有布局”和“没有拥有布局”两种情况。</p>
-<p><strong>3.默认情况下拥有布局的元素**</strong></p>
-<p>下面，先来看下哪些元素在默认情况下就“拥有布局”。</p>
-<pre><code class="HTML">html, body
-table
-tr, td
-img
-hr
-input, select, textarea, button
-iframe, embed, object, applet
-marquee
-</code></pre>
-<p><strong>4.查看和触发haslayout</strong></p>
-<p>haslayout是IE私有的，而且它不是css属性，我们无法通过css显式的设置元素的haslayout。但我们可以通过javascript来查看一个元素是否拥有布局：</p>
-<pre><code class="HTML">&lt;div id=&quot;div1&quot;&gt;这是一个div&lt;/div&gt;;
-&lt;script&gt;
-  var oDiv = document.getElementById(&#39;div1&#39;);
-  alert(oDiv.currentStyle.hasLayout);   //弹出false
-&lt;/script&gt;
-</code></pre>
-<p>如果元素拥有布局，obj.currentStyle.hasLayout就会返回true，否则返回false。hasLayout是一个只读属性，所以也无法通过javascript进行设置。</p>
-<p>在实际开发过程中，很多IE下（IE6、IE7）的显示问题，都可以通过触发元素的haslayout来解决，下面列出一些常见的可以触发元素haslayout的属性和方法：</p>
-<pre><code class="CSS">float: left或right
-display: inline-block
-position: absolute
-width: 除auto外任何值
-height: 除auto外任何值
-zoom: 处normal外任何值
-writing-mode: tb-rl
-</code></pre>
-<p>在IE7中，以下属性也可以触发元素的haslayout</p>
-<pre><code class="language-CSS">min-height: 任意值
-min-width: 任意值
-max-height: 除none 外任意值
-max-width: 除none 外任意值
-overflow: 除visible外任意值，仅用于块级元素
-overflow-x: 除visible 外任意值，仅用于块级元素
-overflow-y: 除visible 外任意值，仅用于块级元素
-position: fixed
-</code></pre>
-<p><strong>5.haslayout解决IE bugs</strong></p>
-<p>IE有很多常见的浮动bug，一般情况下我们会使用zoom: 1;来触发haslayout从而来解决这些bug，因为zoom: 1不会影响到元素的现有表现，另外在IE6及较早版本的浏览器中还可以使用height:1%来触发，IE7中可以使用min-height: 0来触发。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/06/22/BFC定义/" class="archive-article-date">
-  	<time datetime="2014-06-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-06-22</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -596,7 +471,7 @@ position: fixed
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
+    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a>
     			</div>
     	</section>
     

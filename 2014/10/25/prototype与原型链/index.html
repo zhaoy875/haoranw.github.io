@@ -4,33 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Yarn：一个新的JavaScript包管理器 | ransama&#39;s Blog</title>
+  <title>__proto__、prototype与原型链 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
-yarn亮点
-极致的快速：会缓存已经下载过的包，避免重复下载。
-安全 ：下载前会检查签名及包的完整性
-网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。
-扁平化模式 ： 对于不匹配的依赖版本">
+  <meta name="description" content="关键词：__proto__，prototype，Object.create()，instanceof1.  __proto__（隐式原型）与prototype（显式原型）显式原型(explicit prototype property)：几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Yarn：一个新的JavaScript包管理器">
-<meta property="og:url" content="/2016/10/18/Yarn：一个新JavaScript包管理器/index.html">
+<meta property="og:title" content="__proto__、prototype与原型链">
+<meta property="og:url" content="/2014/10/25/prototype与原型链/index.html">
 <meta property="og:site_name" content="ransama's Blog">
-<meta property="og:description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
-yarn亮点
-极致的快速：会缓存已经下载过的包，避免重复下载。
-安全 ：下载前会检查签名及包的完整性
-网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。
-扁平化模式 ： 对于不匹配的依赖版本">
-<meta property="og:updated_time" content="2016-10-21T02:47:33.000Z">
+<meta property="og:description" content="关键词：__proto__，prototype，Object.create()，instanceof1.  __proto__（隐式原型）与prototype（显式原型）显式原型(explicit prototype property)：几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数">
+<meta property="og:image" content="/img/proto.png">
+<meta property="og:updated_time" content="2016-10-21T11:20:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yarn：一个新的JavaScript包管理器">
-<meta name="twitter:description" content="npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。
-yarn亮点
-极致的快速：会缓存已经下载过的包，避免重复下载。
-安全 ：下载前会检查签名及包的完整性
-网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。
-扁平化模式 ： 对于不匹配的依赖版本">
+<meta name="twitter:title" content="__proto__、prototype与原型链">
+<meta name="twitter:description" content="关键词：__proto__，prototype，Object.create()，instanceof1.  __proto__（隐式原型）与prototype（显式原型）显式原型(explicit prototype property)：几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数">
+<meta name="twitter:image" content="/img/proto.png">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -154,7 +141,7 @@ yarn亮点
 </nav>
 
       <div class="body-wrap">
-        <article id="post-Yarn：一个新JavaScript包管理器" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-prototype与原型链" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -164,7 +151,7 @@ yarn亮点
         
   
     <h1 class="article-title" itemprop="name">
-      Yarn：一个新的JavaScript包管理器
+      __proto__、prototype与原型链
     </h1>
   
 
@@ -172,71 +159,62 @@ yarn亮点
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。</p>
-<h4 id="yarn亮点"><a href="#yarn亮点" class="headerlink" title="yarn亮点"></a>yarn亮点</h4><ol>
-<li>极致的快速：会缓存已经下载过的包，避免重复下载。</li>
-<li>安全 ：下载前会检查签名及包的完整性</li>
-<li>网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。</li>
-<li>扁平化模式 ： 对于不匹配的依赖版本的包创立一个独立的包，避免创建重复的。</li>
-</ol>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>如果原先有npm工具的话，安装yarn很简单，只需要一行命令即可</p>
-<pre><code class="bash">npm install -g yarn
+        <h4 id="关键词：-proto-，prototype，Object-create-，instanceof"><a href="#关键词：-proto-，prototype，Object-create-，instanceof" class="headerlink" title="关键词：__proto__，prototype，Object.create()，instanceof"></a>关键词：<code>__proto__</code>，prototype，Object.create()，instanceof</h4><h4 id="1-proto-（隐式原型）与prototype（显式原型）"><a href="#1-proto-（隐式原型）与prototype（显式原型）" class="headerlink" title="1.  __proto__（隐式原型）与prototype（显式原型）"></a><strong>1.  <code>__proto__</code>（隐式原型）与prototype（显式原型）</strong></h4><p><strong>显式原型(explicit prototype property)：</strong><br>几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象。</p>
+<p><strong>隐式原型(implicit prototype link)：</strong><br>JavaScript中任意对象都有一个内置属性<code>[[prototype]]</code>，可以通过<code>.__proto__</code>，或者通过符合ES5标准的Get方法<code>Object.getPrototypeOf()</code> 来访问。</p>
+<p>为了介绍二者之间的关系，先上一张图：<br><img src="/img/proto.png" alt="prototype"><br>根据ECMA定义<code>__proto__</code>的指向 <strong>to the value of its constructor’s “prototype”</strong>（其<code>constructor</code>的显式原型），所以我们来看图中：</p>
+<p>a.  对于通过构造函数<code>Foo()</code>和<code>Object()</code>来创建的实例来说，它的<code>__proto__</code>指向创建这个实例的构造函数的<code>prototype</code>，即<code>Foo.prototype</code>和<code>Object.prototype</code>.</p>
+<p>b. 对于<code>function Foo()</code>和<code>function Object()</code>来说，其<code>constructor</code>为<code>Function</code>，所以二者的对应的<code>__proto__</code>为<code>Function.prototype</code>。</p>
+<p>c. 对于内建对象(built-in object)：例如<code>Function()</code>，<code>Function.prototype</code>本身也是一个对象，这个对象是由 <code>Object()</code> 这个构造函数创建所以<code>Function.prototype.__proto__=== Object.prototype //true，</code>所有的内建对象都是由<code>Object()</code>创建而来。</p>
+<p>除了使用构造函数来创建对象以外，JS中对象被创建的方式还有：（1）对象字面量的方式 （2）ES5中的<code>Object.create()</code><br>对象字面量的形式相当于调用了对应的构造函数来创建实例后赋值给该变量，所以<code>__proto__</code>指向其对应构造函数的原型。</p>
+<pre><code class="javascript">    var obj={};
+    var foo=function () {};
+    console.log(foo.__proto__==Function.prototype);  //true
+    console.log(obj.__proto__==Object.prototype);   //true
 </code></pre>
-<p>什么，你说你没有npm？那你怎么会找到这篇yarn的文章…<br>真的没有的话请看这里<a href="https://yarnpkg.com/en/docs/install" target="_blank" rel="external">各平台下yarn工具安装方式</a></p>
-<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>安装yarn之后默认的包安装源和原来npm安装源是一样的，可用查看命令</p>
-<pre><code class="bash">yarn config get registry
+<h4 id="2-Object-create"><a href="#2-Object-create" class="headerlink" title="2. Object.create()"></a><strong>2. Object.create()</strong></h4><p>这是ES5中新增的方法，在这之前这被称为原型式继承，在《JavaScript高级程序设计》P169：</p>
+<blockquote>
+<p>道格拉斯在2006年写了一篇文章，题为 Prototypal Inheritance In JavaScript。在这篇文章中，他介绍了一种实现继承的方法，这种方法并没有使用严格意义上的构造函数。他的想法是借助原型可以基于已有的对象创建新对象，同时还不比因此创建自定义类型，为了达到这个目的，他给出了如下函数:</p>
+<pre><code class="javascript">function object(o){
+    function F(){}
+    F.prototype = o;
+    return new F()
+}
 </code></pre>
-<p>若想提高yarn安装的速度，可将包安装源修改为cnpm的安装源，执行以下命令即可</p>
-<pre><code class="bash">yarn config set registry &#39;https://registry.npm.taobao.org&#39;
+</blockquote>
+<p>由 <code>Object.create()</code> 创出来的对象没有构造函数，准确的说是在 <code>Object.create()</code> 函数外部我们不能访问到它的构造函数，然而在函数内部实现中是有的，它短暂地存在了那么一会儿。</p>
+<pre><code class="javascript">var person={
+    familyName:&quot;wang&quot;
+};
+var mySon=Object.create(person);
 </code></pre>
-<h4 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h4><p>初始化某个项目</p>
-<pre><code class="bash">npm install
-yarn install
+<p>假设我们现在就在函数内部:</p>
+<pre><code class="javascript">//var mySon=Object.create(person);相当于执行了：
+function F(){}
+F.prototype = person;
+//此时有：
+mySon.__proto__ === F.prototype //true
+//最后：
+var mySon = new F();
+//所以有：
+mySon.__proto__ === person;
 </code></pre>
-<p>默认的安装依赖操作</p>
-<pre><code class="bash">npm install/link
-yarn install/link
-</code></pre>
-<p>安装某个依赖，并且默认保存到package</p>
-<pre><code class="bash">npm install xxx --save
-yarn add xxx
-</code></pre>
-<p>移除某个依赖项目</p>
-<pre><code class="bash">npm uninstall xxx --save
-yarn remove xxx
-</code></pre>
-<p>安装某个开发时依赖项目</p>
-<pre><code class="bash">npm install --save-dev xxx
-yarn add xxx --dev
-</code></pre>
-<p>更新某个依赖项目</p>
-<pre><code class="bash">npm update --save xxx
-yarn upgrade xxx
-</code></pre>
-<p>安装某个全局依赖项目</p>
-<pre><code class="bash">npm install -g xxx
-yarn global add xxx
-</code></pre>
-<p>发布/登录/登出，一系列NPM Registry操作</p>
-<pre><code class="bash">npm publish/login/logout
-yarn publish/login/logout
-</code></pre>
-<p>运行某个命令</p>
-<pre><code class="bash">npm run/test
-yarn run/test
-</code></pre>
+<p>因此由<code>Object.create(person)</code>创建出来的对象它的隐式原型指向person。</p>
+<h4 id="3-instanceof"><a href="#3-instanceof" class="headerlink" title="3. instanceof"></a><strong>3. instanceof</strong></h4><p>instanceof 操作符的内部实现机制和<code>__proto__</code>（隐式原型）、<code>prototype</code>（显式原型）有直接的关系。</p>
+<p>instanceof的左值一般是一个对象，右值一般是一个构造函数，用来判断左值是否是右值的实例。它的内部实现原理是这样的：</p>
+<pre><code> L.__proto__.__proto__ ..... ？= R.prototype
+</code></pre><p>也就是沿着L的<code>__proto__</code>一直寻找到原型链末端，直到等于R.prototype或者null为止。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/10/18/Yarn：一个新JavaScript包管理器/" class="archive-article-date">
-  	<time datetime="2016-10-18T03:44:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
+      <a href="/2014/10/25/prototype与原型链/" class="archive-article-date">
+  	<time datetime="2014-10-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-10-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yarn/">yarn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端工程化/">前端工程化</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
 	</div>
 
       
@@ -249,9 +227,18 @@ yarn run/test
   
 <nav id="article-nav">
   
+    <a href="/2014/11/02/一句话描述HTTPS/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          一句话描述HTTPS
+        
+      </div>
+    </a>
   
-    <a href="/2014/11/02/一句话描述HTTPS/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">一句话描述HTTPS</div>
+  
+    <a href="/2014/09/10/NodeList和HTMLCollection/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeList和HTMLCollection</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -285,7 +272,7 @@ yarn run/test
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Yarn：一个新JavaScript包管理器" data-title="Yarn：一个新的JavaScript包管理器" data-url="/2016/10/18/Yarn：一个新JavaScript包管理器/"></div>
+	<div class="ds-thread" data-thread-key="prototype与原型链" data-title="__proto__、prototype与原型链" data-url="/2014/10/25/prototype与原型链/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

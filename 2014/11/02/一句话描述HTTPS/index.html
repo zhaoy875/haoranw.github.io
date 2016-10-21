@@ -4,14 +4,21 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2014/5 | ransama&#39;s Blog</title>
+  <title>一句话描述HTTPS | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ransama's Blog">
-<meta property="og:url" content="/archives/2014/05/index.html">
+  <meta name="description" content="HTTP+加密+认证+完整性保护=HTTPS。
+加密通常， HTTP协议承载于TCP协议之上，HTTPS则在HTTP和TCP之间添加一个安全协议层SSL(Secure Socket Layer)、TSL(Transport Layer Security)。当使用SSL时，则变成先和SSL通信，再由SSL和TCP通信。SSL使用两把密钥进行加密。公开密钥随意发布。发送密文的一方使用对方公开的密钥进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一句话描述HTTPS">
+<meta property="og:url" content="/2014/11/02/一句话描述HTTPS/index.html">
 <meta property="og:site_name" content="ransama's Blog">
+<meta property="og:description" content="HTTP+加密+认证+完整性保护=HTTPS。
+加密通常， HTTP协议承载于TCP协议之上，HTTPS则在HTTP和TCP之间添加一个安全协议层SSL(Secure Socket Layer)、TSL(Transport Layer Security)。当使用SSL时，则变成先和SSL通信，再由SSL和TCP通信。SSL使用两把密钥进行加密。公开密钥随意发布。发送密文的一方使用对方公开的密钥进">
+<meta property="og:updated_time" content="2016-10-21T11:25:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ransama's Blog">
+<meta name="twitter:title" content="一句话描述HTTPS">
+<meta name="twitter:description" content="HTTP+加密+认证+完整性保护=HTTPS。
+加密通常， HTTP协议承载于TCP协议之上，HTTPS则在HTTP和TCP之间添加一个安全协议层SSL(Secure Socket Layer)、TSL(Transport Layer Security)。当使用SSL时，则变成先和SSL通信，再由SSL和TCP通信。SSL使用两把密钥进行加密。公开密钥随意发布。发送密文的一方使用对方公开的密钥进">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -135,54 +142,132 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-一句话描述HTTPS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/05/03/数组二三事/" class="archive-article-date">
-  	<time datetime="2014-05-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/05/03/数组二三事/">数组二三事</a>
+    <h1 class="article-title" itemprop="name">
+      一句话描述HTTPS
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <strong>HTTP+加密+认证+完整性保护=HTTPS</strong>。</p>
+<h4 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h4><p>通常， HTTP协议承载于TCP协议之上，HTTPS则在HTTP和TCP之间添加一个安全协议层SSL(Secure Socket Layer)、TSL(Transport Layer Security)。当使用SSL时，则变成先和SSL通信，再由SSL和TCP通信。<br>SSL使用两把密钥进行加密。公开密钥随意发布。发送密文的一方使用对方公开的密钥进行加密处理，对方收到被加密的信息后，再使用自己的私有密钥进行解密。利用这种方式，不需要发送用来解密的私有密钥，也不必担心密钥被攻击者窃听而盗走。<br>公开密钥加密处理起来比共享密钥加密更为复杂，因此若在通信时使用公开密钥加密的方式，效率就很低。<br><strong>HTTPS采用混合加密</strong>。在交换密钥环节使用公开密钥加密方式，之后建立的通信交换报文阶段则使用共享密钥加密方式。</p>
+<h4 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h4><p>使用公开密钥存在一个问题：无法证明公开密钥本身就是货真价实的公开密钥。</p>
+<ul>
+<li>为了解决此问题，可以使用由数字证书机构CA和其相关机构颁发的公开密钥证书。</li>
+<li>在申请到数字证书之后，服务器在收到通过HTTPS的访问请求时，会将这份由认证机构颁发的公钥证书发送给客户端。</li>
+<li>接到证书的客户端可以使用数字证书认证机构的公开密钥，对那张证书上的数字签名进行验证，一旦验证通过，客户端便可明确两件事：一，认证服务器的公开密钥是真实有效的数字证书认证机构。二，服务器公开密钥是值得信赖的。</li>
+<li>为了保认证机构的公开密钥安全转交给客户端，多数浏览器选择在内部植入常用认证机关的公开密钥，问题得以解决。</li>
+</ul>
+<h4 id="完整性保护"><a href="#完整性保护" class="headerlink" title="完整性保护"></a>完整性保护</h4><p>HTTPS的通信步骤较HTTP复杂很多，在完整性保护方面，应用层发送数据时会附加MAC(Message Authentication Code)的报文摘要。MAC能够查知报文是否遭到篡改，从而保护报文的完整性。</p>
+<div style="height:100px"></div>
+
+
+
+
+
+
+
+
+<p>参考：<br>《图解HTTP》</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/02/一句话描述HTTPS/" class="archive-article-date">
+  	<time datetime="2014-11-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-02</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+    <a href="/2016/10/18/Yarn：一个新JavaScript包管理器/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Yarn：一个新的JavaScript包管理器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/25/prototype与原型链/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">__proto__、prototype与原型链</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="一句话描述HTTPS" data-title="一句话描述HTTPS" data-url="/2014/11/02/一句话描述HTTPS/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 
       </div>
@@ -206,8 +291,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

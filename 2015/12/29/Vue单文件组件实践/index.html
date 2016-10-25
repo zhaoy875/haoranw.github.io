@@ -4,14 +4,42 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>ransama&#39;s Blog</title>
+  <title>Vue单文件组件实践 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ransama's Blog">
-<meta property="og:url" content="/index.html">
+  <meta name="description" content="小明是个前端新人，他在开发过程中，拿到一个替换模块的需求，面对茫茫然一堆文件文件，一脸懵逼，于是他开始了以下步骤：
+
+回想了一下到底html/template模板部分在哪里，找到了，替换；
+又回想了一下css/sass样式部分写在哪，重复上一步。
+找了半天到底逻辑部分写在哪个文件，打开，替换。
+也许小明学了一些模块化开发的步骤，稍微轻松了一些。
+
+但是还是很麻烦，很痛苦不是吗？没关系，现在我们可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue单文件组件实践">
+<meta property="og:url" content="/2015/12/29/Vue单文件组件实践/index.html">
 <meta property="og:site_name" content="ransama's Blog">
+<meta property="og:description" content="小明是个前端新人，他在开发过程中，拿到一个替换模块的需求，面对茫茫然一堆文件文件，一脸懵逼，于是他开始了以下步骤：
+
+回想了一下到底html/template模板部分在哪里，找到了，替换；
+又回想了一下css/sass样式部分写在哪，重复上一步。
+找了半天到底逻辑部分写在哪个文件，打开，替换。
+也许小明学了一些模块化开发的步骤，稍微轻松了一些。
+
+但是还是很麻烦，很痛苦不是吗？没关系，现在我们可以">
+<meta property="og:image" content="/img/1477317034180.png">
+<meta property="og:image" content="/img/1477318648669.png">
+<meta property="og:updated_time" content="2016-10-25T06:42:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ransama's Blog">
+<meta name="twitter:title" content="Vue单文件组件实践">
+<meta name="twitter:description" content="小明是个前端新人，他在开发过程中，拿到一个替换模块的需求，面对茫茫然一堆文件文件，一脸懵逼，于是他开始了以下步骤：
+
+回想了一下到底html/template模板部分在哪里，找到了，替换；
+又回想了一下css/sass样式部分写在哪，重复上一步。
+找了半天到底逻辑部分写在哪个文件，打开，替换。
+也许小明学了一些模块化开发的步骤，稍微轻松了一些。
+
+但是还是很麻烦，很痛苦不是吗？没关系，现在我们可以">
+<meta name="twitter:image" content="/img/1477317034180.png">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -135,9 +163,7 @@
 </nav>
 
       <div class="body-wrap">
-        
-  
-    <article id="post-Yarn：一个新JavaScript包管理器" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Vue单文件组件实践" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -146,110 +172,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/18/Yarn：一个新JavaScript包管理器/">Yarn：一个新的JavaScript包管理器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>npm工具存在挺多难以忍受的诟病，包括安装速度慢、每次都要在线重新安装等问题，yarn正是为了解决npm当前所存在的问题而出现的。</p>
-<h4 id="yarn亮点"><a href="#yarn亮点" class="headerlink" title="yarn亮点"></a>yarn亮点</h4><ol>
-<li>极致的快速：会缓存已经下载过的包，避免重复下载。</li>
-<li>安全 ：下载前会检查签名及包的完整性</li>
-<li>网络优化 ： 力求网络资源最大利用化，让资源下载完美队列执行，避免大量的无用请求，下载失败会自动重新请求，避免整个安装过程失败。</li>
-<li>扁平化模式 ： 对于不匹配的依赖版本的包创立一个独立的包，避免创建重复的。</li>
-</ol>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>如果原先有npm工具的话，安装yarn很简单，只需要一行命令即可</p>
-<pre><code class="bash">npm install -g yarn
-</code></pre>
-<p>什么，你说你没有npm？那你怎么会找到这篇yarn的文章…<br>真的没有的话请看这里<a href="https://yarnpkg.com/en/docs/install" target="_blank" rel="external">各平台下yarn工具安装方式</a></p>
-<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>安装yarn之后默认的包安装源和原来npm安装源是一样的，可用查看命令</p>
-<pre><code class="bash">yarn config get registry
-</code></pre>
-<p>若想提高yarn安装的速度，可将包安装源修改为taobao的安装源，执行以下命令即可</p>
-<pre><code class="bash">yarn config set registry &#39;https://registry.npm.taobao.org&#39;
-</code></pre>
-<h4 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h4><p>初始化某个项目</p>
-<pre><code class="bash">npm install
-yarn install
-</code></pre>
-<p>默认的安装依赖操作</p>
-<pre><code class="bash">npm install/link
-yarn install/link
-</code></pre>
-<p>安装某个依赖，并且默认保存到package</p>
-<pre><code class="bash">npm install xxx --save
-yarn add xxx
-</code></pre>
-<p>移除某个依赖项目</p>
-<pre><code class="bash">npm uninstall xxx --save
-yarn remove xxx
-</code></pre>
-<p>安装某个开发时依赖项目</p>
-<pre><code class="bash">npm install --save-dev xxx
-yarn add xxx --dev
-</code></pre>
-<p>更新某个依赖项目</p>
-<pre><code class="bash">npm update --save xxx
-yarn upgrade xxx
-</code></pre>
-<p>安装某个全局依赖项目</p>
-<pre><code class="bash">npm install -g xxx
-yarn global add xxx
-</code></pre>
-<p>发布/登录/登出，一系列NPM Registry操作</p>
-<pre><code class="bash">npm publish/login/logout
-yarn publish/login/logout
-</code></pre>
-<p>运行某个命令</p>
-<pre><code class="bash">npm run/test
-yarn run/test
-</code></pre>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/18/Yarn：一个新JavaScript包管理器/" class="archive-article-date">
-  	<time datetime="2016-10-18T03:44:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yarn/">yarn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端工程化/">前端工程化</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Vue单文件组件实践" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/29/Vue单文件组件实践/">Vue单文件组件实践</a>
+    <h1 class="article-title" itemprop="name">
+      Vue单文件组件实践
     </h1>
   
 
@@ -406,81 +330,73 @@ comunity.vue
   </div>
 </article>
 
-
-
-
-
-
-
-
-
-
   
-    <article id="post-TCP协议族" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+<nav id="article-nav">
+  
+    <a href="/2016/10/18/Yarn：一个新JavaScript包管理器/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
         
+          Yarn：一个新的JavaScript包管理器
+        
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/04/TCP协议族/">HTTP、TCP/IP、UDP、Socket区别与联系</a>
-    </h1>
   
+    <a href="/2014/11/04/TCP协议族/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP、TCP/IP、UDP、Socket区别与联系</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="TCP-IP协议族"><a href="#TCP-IP协议族" class="headerlink" title="TCP/IP协议族"></a>TCP/IP协议族</h4><p>TCP/IP是个协议族，可分为四个层次：应用层、传输层、网络层和数据链路层。</p>
-<ol>
-<li>在应用层有FTP、<strong>HTTP</strong>、TELNET、SMTP、DNS等协议。</li>
-<li>在传输层中有TCP协议与UDP协议。</li>
-<li>在网络层有IP协议、ICMP协议、ARP协议、RARP协议和BOOTP协议。</li>
-<li>链路层用来处理连接网络的硬件部分。</li>
-</ol>
-<h4 id="TCP与UDP"><a href="#TCP与UDP" class="headerlink" title="TCP与UDP"></a>TCP与UDP</h4><p>UDP 是User Datagram Protocol的简称， 中文名是用户数据报协议，提供面向事务的简单不可靠信息传送服务。它是面向非连接的协议，不与对方建立连接，而是直接就把数据包发送过去。UDP协议的优点是比较简单，容易实现，但是缺点是可靠性较差，一旦数据包发出，无法知道对方是否收到。 UDP适用于一次只传送少量数据、对可靠性要求不高的应用环境。<br>为了解决这个问题，提高网络可靠性，TCP(Transmission Control Protocol)协议就诞生了，在正式收发数据前，必须和对方建立可靠的连接。一个TCP连接必须要经过三次“对话”才能建立起来。</p>
-<h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>HTTP协议即超文本传送协议(Hypertext Transfer Protocol )，完成从客户端到服务器端等一系列运作流程。HTTP协议是建立在TCP协议之上的一种应用。<br>HTTP 是基于 TCP/IP 协议的应用层协议。它不涉及数据包（packet）传输，主要规定了客户端和服务器之间的通信格式，默认使用80端口。</p>
-<h4 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h4><p>应用层通过传输层进行数据通信时，TCP会遇到同时为多个应用程序进程提供并发服务的问题。多个TCP连接或多个应用程序进程可能需要通过同一个 TCP协议端口传输数据。为了区别不同的应用程序进程和连接，许多计算机操作系统为应用程序与TCP／IP协议交互提供了套接字(Socket)接口。应用层可以和传输层通过Socket接口，区分来自不同应用程序进程或网络连接的通信，实现数据传输的并发服务。<br>Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一组接口。在设计模式中，Socket其实就是一个门面模式，它把复杂的TCP/IP协议族隐藏在Socket接口后面，对用户来说，一组简单的接口就是全部，让Socket去组织数据，以符合指定的协议。</p>
-<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>当用户输入了一个网址之后，DNS将网址解析为IP地址，HTTP协议生成针对目标Web服务器的HTTP请求报文。TCP为了方便通信，将HTTP请求按序号分为多个报文段，并将每个报文可靠的传给对方。然后根据IP协议搜索对方的地址，一边中转一边传送。在另一端，根据TCP协议将到达报文段重组，合并为完整的报文，最后根据HTTP协议解析报文，web服务器进行对请求内容的处理。</p>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/11/04/TCP协议族/" class="archive-article-date">
-  	<time datetime="2014-11-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
 
 
 
 
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Vue单文件组件实践" data-title="Vue单文件组件实践" data-url="/2015/12/29/Vue单文件组件实践/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
 
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -503,8 +419,8 @@ comunity.vue
 		fancybox: true,
 		mathjax: false,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

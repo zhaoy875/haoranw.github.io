@@ -28,7 +28,7 @@
 但是还是很麻烦，很痛苦不是吗？没关系，现在我们可以">
 <meta property="og:image" content="/img/1477317034180.png">
 <meta property="og:image" content="/img/1477318648669.png">
-<meta property="og:updated_time" content="2016-10-25T06:42:33.000Z">
+<meta property="og:updated_time" content="2016-10-25T07:10:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue单文件组件实践">
 <meta name="twitter:description" content="小明是个前端新人，他在开发过程中，拿到一个替换模块的需求，面对茫茫然一堆文件文件，一脸懵逼，于是他开始了以下步骤：
@@ -189,7 +189,7 @@
 <li>也许小明学了一些模块化开发的步骤，稍微轻松了一些。</li>
 </ol>
 <p>但是还是很麻烦，很痛苦不是吗？<br>没关系，现在我们可以使用Vue的单文件组件构建项目来告别这类问题！</p>
-<h3 id="单文件组件介绍"><a href="#单文件组件介绍" class="headerlink" title="单文件组件介绍"></a>单文件组件介绍</h3><p>先来看一段官方指南对于单文件组件的描述：</p>
+<h2 id="单文件组件介绍"><a href="#单文件组件介绍" class="headerlink" title="单文件组件介绍"></a>单文件组件介绍</h2><p>先来看一段官方指南对于单文件组件的描述：</p>
 <blockquote>
 <p>在中大型项目开发过程中，使用模块构建系统非常重要。使用Vue.js中提供的单文件组件的思路，我们可以将界面拆分为多个小组件，每个组件在同一地方封装它的 CSS 样式，模板和 JavaScript 定义。<br><img src="/img/1477317034180.png" alt="Alt text"></p>
 </blockquote>
@@ -198,8 +198,8 @@
 <li>利于代码复用，我们可能在同一个项目中多处用到同一个类型的模块，而我们需要做的仅仅只是将这个组件放入它应该在的位置，借助MVVM框架的各种渲染控制，各个模块随意组合，随心所欲。</li>
 <li>替换或者增减相应的模块非常方便。在实际开发过程中，增减功能或者模块十分频繁，在这类情况下，我们只需要改变对应的组件即可。</li>
 </ol>
-<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p>本文仅描述采用单文件组件构建项目的思路，<code>webpack</code>和<code>Vue.js</code>等相关基础知识请查阅官方文档。</p>
-<h4 id="组件分析"><a href="#组件分析" class="headerlink" title="组件分析"></a>组件分析</h4><p>在使用一种基于组件开发的模式时，最为重要的一件事就是组件分解了。先来看一个页面：<br><img src="/img/1477318648669.png" alt="Alt text"></p>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><p>本文仅描述采用单文件组件构建项目的思路，<code>webpack</code>和<code>Vue.js</code>等相关基础知识请查阅官方文档。</p>
+<h3 id="组件分析"><a href="#组件分析" class="headerlink" title="组件分析"></a>组件分析</h3><p>在使用一种基于组件开发的模式时，最为重要的一件事就是组件分解了。先来看一个页面：<br><img src="/img/1477318648669.png" alt="Alt text"></p>
 <p>图中页面大致可分解为：</p>
 <ul>
 <li>主体，带头部导航，左右滑动切换栏目</li>
@@ -215,7 +215,7 @@
 ├──block.vue       //列表中的大图展示
 ├──list.vue        //正常的list项
 </code></pre>
-<h5 id="主模块"><a href="#主模块" class="headerlink" title="主模块"></a>主模块</h5><p>首先针对主模块，部分代码如下：</p>
+<h3 id="主模块"><a href="#主模块" class="headerlink" title="主模块"></a>主模块</h3><p>首先针对主模块，部分代码如下：</p>
 <pre><code class="html">---
 comunity.vue
 ---
@@ -291,7 +291,7 @@ comunity.vue
 </code></pre>
 </li>
 </ol>
-<h4 id="栏目模块"><a href="#栏目模块" class="headerlink" title="栏目模块"></a>栏目模块</h4><p>在引入了<code>hot.vue</code>模块之后，我们来设计和编写具体内容。<br>根据组件分解，在该页面有三个模块：轮播、大图列表项和小图列表项。我们将三个模块分别为命名为<code>swiper</code>，<code>block</code>，<code>list</code>。<br>因为大图列表和小图列表是混杂在一起排列的，顺序不定，所以在我们需要后台返回的数据中，包含对于列表项类型的参数。<br>假设后台返回的数据中对于类型的描述为<code>{...,type:&quot;block&quot;}</code>或<code>{...,type:&quot;list&quot;}</code>。<br>此时，根据返回数据<code>lists</code>我们可以通过<code>v-if</code>来控制此处需要选择的类型。</p>
+<h3 id="栏目模块"><a href="#栏目模块" class="headerlink" title="栏目模块"></a>栏目模块</h3><p>在引入了<code>hot.vue</code>模块之后，我们来设计和编写具体内容。<br>根据组件分解，在该页面有三个模块：轮播、大图列表项和小图列表项。我们将三个模块分别为命名为<code>swiper</code>，<code>block</code>，<code>list</code>。<br>因为大图列表和小图列表是混杂在一起排列的，顺序不定，所以在我们需要后台返回的数据中，包含对于列表项类型的参数。<br>假设后台返回的数据中对于类型的描述为<code>{...,type:&quot;block&quot;}</code>或<code>{...,type:&quot;list&quot;}</code>。<br>此时，根据返回数据<code>lists</code>我们可以通过<code>v-if</code>来控制此处需要选择的类型。</p>
 <pre><code class="html">&lt;template v-for=&quot;content in lists&quot;&gt;
     &lt;block v-if=&quot;content.type==&#39;block&#39;&quot;&gt;&lt;/block&gt;
     &lt;list v-if=&quot;content.type==&#39;list&#39;&quot;&gt;&lt;/list&gt;
@@ -307,8 +307,8 @@ comunity.vue
 &lt;/template&gt;
 </code></pre>
 <p>同样地，我们任然需要导入组件和设置页面包含组件，设置与上一步类似。</p>
-<h4 id="具体内容模块"><a href="#具体内容模块" class="headerlink" title="具体内容模块"></a>具体内容模块</h4><p>经过上述步骤，我们现在需要编写最内层的三个模块，相信大家可以很轻松完成。</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在完成了上述工作之后，当项目内的其他页面需要用到相同模块时，我们可以直接重用相关组件。在需求变动时，也可以很轻松的替换对应组件，大大的提高了开发效率。</p>
+<h3 id="具体内容模块"><a href="#具体内容模块" class="headerlink" title="具体内容模块"></a>具体内容模块</h3><p>经过上述步骤，我们现在需要编写最内层的三个模块，相信大家可以很轻松完成。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在完成了上述工作之后，当项目内的其他页面需要用到相同模块时，我们可以直接重用相关组件。在需求变动时，也可以很轻松的替换对应组件，大大的提高了开发效率。</p>
 
       
     </div>
@@ -382,7 +382,7 @@ comunity.vue
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
+	var duoshuoQuery = {short_name:"haoranw"};
 	(function() {
 		var ds = document.createElement('script');
 		ds.type = 'text/javascript';ds.async = true;

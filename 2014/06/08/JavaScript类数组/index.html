@@ -4,14 +4,27 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2014/4 | ransama&#39;s Blog</title>
+  <title>JavaScript类数组 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ransama's Blog">
-<meta property="og:url" content="/archives/2014/04/index.html">
+  <meta name="description" content="JavaScript中常见的类数组有arguments,NodeList和HTMLCollection等。那它们有什么共性呢？如何判定一个对象是否属于类数组呢？
+判定类数组《JavaScript权威指南》上给出了代码用来判断一个对象是否属于“类数组”。代码如下：
+// Determine if o is an array-like object.
+// Strings and functions">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript类数组">
+<meta property="og:url" content="/2014/06/08/JavaScript类数组/index.html">
 <meta property="og:site_name" content="ransama's Blog">
+<meta property="og:description" content="JavaScript中常见的类数组有arguments,NodeList和HTMLCollection等。那它们有什么共性呢？如何判定一个对象是否属于类数组呢？
+判定类数组《JavaScript权威指南》上给出了代码用来判断一个对象是否属于“类数组”。代码如下：
+// Determine if o is an array-like object.
+// Strings and functions">
+<meta property="og:updated_time" content="2016-10-31T14:14:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ransama's Blog">
+<meta name="twitter:title" content="JavaScript类数组">
+<meta name="twitter:description" content="JavaScript中常见的类数组有arguments,NodeList和HTMLCollection等。那它们有什么共性呢？如何判定一个对象是否属于类数组呢？
+判定类数组《JavaScript权威指南》上给出了代码用来判断一个对象是否属于“类数组”。代码如下：
+// Determine if o is an array-like object.
+// Strings and functions">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -135,54 +148,171 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-JavaScript类数组" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/04/11/关于String的一些细节/" class="archive-article-date">
-  	<time datetime="2014-04-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/11/关于String的一些细节/">关于String的一些细节</a>
+    <h1 class="article-title" itemprop="name">
+      JavaScript类数组
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JavaScript中常见的类数组有arguments,NodeList和HTMLCollection等。<br>那它们有什么共性呢？如何判定一个对象是否属于类数组呢？</p>
+<h4 id="判定类数组"><a href="#判定类数组" class="headerlink" title="判定类数组"></a>判定类数组</h4><p>《JavaScript权威指南》上给出了代码用来判断一个对象是否属于“类数组”。代码如下：</p>
+<pre><code class="javascript">// Determine if o is an array-like object.
+// Strings and functions have numeric length properties, but are
+// excluded by the typeof test. In client-side JavaScript, DOM text
+// nodes have a numeric length property, and may need to be excluded
+// with an additional o.nodeType != 3 test.
+function isArrayLike(o) {
+    if (o &amp;&amp;                                // o is not null, undefined, etc.
+        typeof o === &#39;object&#39; &amp;&amp;            // o is an object
+        isFinite(o.length) &amp;&amp;               // o.length is a finite number
+        o.length &gt;= 0 &amp;&amp;                    // o.length is non-negative
+        o.length===Math.floor(o.length) &amp;&amp;  // o.length is an integer
+        o.length &lt; 4294967296)              // o.length &lt; 2^32
+        return true;                        // Then o is array-like
+    else
+        return false;                       // Otherwise it is not
+}
+</code></pre>
+<p>其实这种判断方式属于一种鸭式辨型（duck typing）：如果它走起来像鸭子，叫起来也像鸭子的话，那它就是鸭子。所以对于类数组，只要满足下面这个条件我们即认为其为类数组：<br><strong> 具有<code>length</code>属性，且<code>length</code>值为大于等于0的整数。</strong></p>
+<h4 id="类数组表现"><a href="#类数组表现" class="headerlink" title="类数组表现"></a>类数组表现</h4><p>既然是“类数组”，那么肯定与数组有所区别，它并不能直接使用数组方法。但我们可以通过一些方法，来像使用数组那样使用类数组。</p>
+<pre><code class="javascript">var a = {&#39;0&#39;:&#39;a&#39;, &#39;1&#39;:&#39;b&#39;, &#39;2&#39;:&#39;c&#39;, length:3};      // An array-like object
+Array.prototype.join.call(a, &#39;+&#39;);                 // =&gt; &#39;a+b+c&#39;
+Array.prototype.slice.call(a, 0);                   // =&gt; [&#39;a&#39;,&#39;b&#39;,&#39;c&#39;]: true array copy
+Array.prototype.map.call(a, function(x) {
+    return x.toUpperCase();
+});                                                // =&gt; [&#39;A&#39;,&#39;B&#39;,&#39;C&#39;]:
+</code></pre>
+<h4 id="类数组对象转化为数组"><a href="#类数组对象转化为数组" class="headerlink" title="类数组对象转化为数组"></a>类数组对象转化为数组</h4><p>有时候处理类数组对象的最好方法是将其转化为数组。</p>
+<pre><code class="javascript">Array.prototype.slice.call(arguments);
+</code></pre>
+<p>对于IE9以前的版本(DOM实现基于COM)，我们可以采用以下方法：</p>
+<pre><code class="javascript">// 伪数组转化成数组
+var makeArray = function(obj) {
+    if (!obj || obj.length === 0) {
+        return [];
+    }
+    // 非伪类对象，直接返回最好
+    if (!obj.length) {
+        return obj;
+    }
+    // 针对IE8以前 DOM的COM实现
+    try {
+        return [].slice.call(obj);
+    } catch (e) {
+        var i = 0,
+            j = obj.length,
+            res = [];
+        for (; i &lt; j; i++) {
+            res.push(obj[i]);
+        }
+        return res;
+    }
+};
+</code></pre>
+<p>采用上述方法将”类”字去掉以后，就可以直接使用数组方法了。</p>
+<pre><code>var a = {&#39;0&#39;:1,&#39;1&#39;:2,&#39;2&#39;:3,length:3};
+var arr = Array.prototype.slice.call(a);    //arr=[1,2,3]
+</code></pre><p><div style="margin-top:200px"></div><br>参考：<br>1.《JavaScript权威指南》<br>2.<a href="https://segmentfault.com/a/1190000000415572" target="_blank" rel="external">segmengtfault.com</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/06/08/JavaScript类数组/" class="archive-article-date">
+  	<time datetime="2014-06-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-06-08</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+    <a href="/2014/06/22/BFC定义/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          理解BFC与haslayout
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/03/数组二三事/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数组二三事</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JavaScript类数组" data-title="JavaScript类数组" data-url="/2014/06/08/JavaScript类数组/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"haoranw"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 
       </div>
@@ -206,8 +336,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -16,7 +16,7 @@
 <meta property="og:description" content="1.NodeList通过各种方法获得的NodeList是一种类数组的对象，保存一组有序的节点，虽然我们可以使用一些数组的方法，但既然有个”类”字，显然它不是一个Array实例。
 嗯，这些废话你应该都知道，虽然可能只是知道这个结果，却并不知道为什么。没关系，因为你现在看了这篇文章。
 首先，JavaScript 的继承机制是基于原型的。数组元素调用的数组方法，实际上是继承自它的原型链上。myArray">
-<meta property="og:updated_time" content="2016-10-21T11:22:38.000Z">
+<meta property="og:updated_time" content="2016-10-31T12:40:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NodeList和HTMLCollection">
 <meta name="twitter:description" content="1.NodeList通过各种方法获得的NodeList是一种类数组的对象，保存一组有序的节点，虽然我们可以使用一些数组的方法，但既然有个”类”字，显然它不是一个Array实例。
@@ -190,19 +190,26 @@ forEach.call(firstDiv.childNodes, function( divChild ){
 <p>An HTMLCollection in the HTML DOM is live; it is automatically updated when the underlying document is changed.</p>
 </blockquote>
 <p><strong>HTMLCollection是动态的，它会在文档改变时自动更新。</strong></p>
-<p>用法：在 JavaScript 中，为了获取给定的 HTMLCollection 的元素，可以使用方括号语法来代替直接调用 item() 或 namedItem() 方法。在方括号中，数值如同 item()，字符串值如同 namedItem()。</p>
-<p>例如，假定在文档中有一个 <form> 元素，且它的 id 是 “myForm”：</form></p>
-<pre><code class="javascript">var elem1, elem2;
-// document.forms 是一个 HTMLCollection
-elem1 = document.forms[0];
-elem2 = document.forms.item(0);
-alert(elem1 === elem2); // 显示 &quot;true&quot;
-elem1 = document.forms[&quot;myForm&quot;];
-elem2 = document.forms.namedItem(&quot;myForm&quot;);
-alert(elem1 === elem2); // 显示 &quot;true&quot;
+<p>假设有如下结构：</p>
+<pre><code class="html">&lt;img src=&quot;apple.jpg&quot; name=&quot;appleImg&quot;&gt;
+&lt;img src=&quot;pear.jpg&quot; name=&quot;pearImg&quot;&gt;
 </code></pre>
+<p>与NodeList对象类似，可以使用方括号语法或<code>items()</code>方法来访问<code>HTMLCollection</code>对象中的项。而这个对象中元素的数量则可以通过其length属性取得。</p>
+<pre><code class="javascript">
+var images=document.getElementsByTagName(&#39;img&#39;);
+alert(images.length);      //输出图像的数量
+alert(images[0].src);     //输出第一个图像元素的src特性
+alert(images.item(0).src);  //同上
+</code></pre>
+<p><code>HTMLCollection</code>对象还有一个方法，叫做<code>nameItem()</code>,使用这个方法可以通过元素的name特性取得集合中的项。</p>
+<pre><code class="javascript">var apple=images.namedItem(&#39;appleImg&#39;);   //取得name为appleImg的节点
+</code></pre>
+<p>在提供按引索访问项的基础上，<code>HTMLCollection</code>还支持按名称访问项，这就为我们取得实际想要的元素提供了便利。而且对于命名的项也可以使用方括号语法来访问。</p>
+<pre><code class="javascript">var same_apple=images[&#39;appleImg&#39;];
+</code></pre>
+<p>对<code>HTMLCollection</code>而言，我们可以向方括号中传入数值或字符串形式的索引值。在其内部实现中，对数值索引就会调用<code>item()</code>，而对字符串索引就会调用<code>namedItem</code>。</p>
 <p>浏览器兼容性：当使用字符串作为 <code>namedItem()</code>的参数，且匹配的元素多于一个时，不同的浏览器表现不同。Firefox 8 表现如同 DOM 2 和 DOM 4 说明的，返回第一个匹配的元素。而 Webkit 浏览器和 IE 返回另外一个 HTMLCollection，Opera 返回一个包含所有元素的 NodeList。</p>
-<p>但是， W3C里面对于HTMLCollection的描述还有下面一句：</p>
+<p>W3C里面对于HTMLCollection的描述还有下面一句：</p>
 <blockquote>
 <p>Note: Elements is the better solution for representing a collection of elements. HTMLCollection is an historical artifact we cannot rid the web of.</p>
 </blockquote>
@@ -356,7 +363,7 @@ alert(elem1 === elem2); // 显示 &quot;true&quot;
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 10px;">MV*</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a>
+    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 10px;">MV*</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a>
     			</div>
     	</section>
     

@@ -4,48 +4,41 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>数组二三事 | ransama&#39;s Blog</title>
+  <title>查阅官方文档的正确姿势 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容1. forEach操作数组当我们想对数组所有元素进行自加操作，如果进行如下操作：
-var arr=[2,3,4,5];
-arr.forEach(function(item,index,arr){
-    item++;
-    });
-console.log(arr);
+  <meta name="description" content="img{    width:50%;}在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：
 
-结果是：
-[2,3,4,5]
+在JavaScript中[] == ![]的结果是什么？
 
-我们发现原数组并没有变">
+1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。在ECMAScript官方规范对于== 流程的定义是：
+即首先对于左右两端的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数组二三事">
-<meta property="og:url" content="/2014/05/03/数组二三事/index.html">
+<meta property="og:title" content="查阅官方文档的正确姿势">
+<meta property="og:url" content="/2016/11/04/查阅官方文档的正确姿势/index.html">
 <meta property="og:site_name" content="ransama's Blog">
-<meta property="og:description" content="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容1. forEach操作数组当我们想对数组所有元素进行自加操作，如果进行如下操作：
-var arr=[2,3,4,5];
-arr.forEach(function(item,index,arr){
-    item++;
-    });
-console.log(arr);
+<meta property="og:description" content="img{    width:50%;}在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：
 
-结果是：
-[2,3,4,5]
+在JavaScript中[] == ![]的结果是什么？
 
-我们发现原数组并没有变">
-<meta property="og:updated_time" content="2016-10-21T11:22:08.000Z">
+1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。在ECMAScript官方规范对于== 流程的定义是：
+即首先对于左右两端的">
+<meta property="og:image" content="/img/1476281473133.png">
+<meta property="og:image" content="/img/1476320118348.png">
+<meta property="og:image" content="/img/1476281822952.png">
+<meta property="og:image" content="/img/1476282017547.png">
+<meta property="og:image" content="/img/1476280994942.png">
+<meta property="og:image" content="/img/1476321059947.png">
+<meta property="og:image" content="/img/1476321489571.png">
+<meta property="og:updated_time" content="2016-11-04T14:16:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数组二三事">
-<meta name="twitter:description" content="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容1. forEach操作数组当我们想对数组所有元素进行自加操作，如果进行如下操作：
-var arr=[2,3,4,5];
-arr.forEach(function(item,index,arr){
-    item++;
-    });
-console.log(arr);
+<meta name="twitter:title" content="查阅官方文档的正确姿势">
+<meta name="twitter:description" content="img{    width:50%;}在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：
 
-结果是：
-[2,3,4,5]
+在JavaScript中[] == ![]的结果是什么？
 
-我们发现原数组并没有变">
+1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。在ECMAScript官方规范对于== 流程的定义是：
+即首先对于左右两端的">
+<meta name="twitter:image" content="/img/1476281473133.png">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -169,7 +162,7 @@ console.log(arr);
 </nav>
 
       <div class="body-wrap">
-        <article id="post-数组二三事" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-查阅官方文档的正确姿势" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -179,7 +172,7 @@ console.log(arr);
         
   
     <h1 class="article-title" itemprop="name">
-      数组二三事
+      查阅官方文档的正确姿势
     </h1>
   
 
@@ -187,96 +180,45 @@ console.log(arr);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"><a href="#本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容" class="headerlink" title="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"></a>本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容</h5><h4 id="1-forEach操作数组"><a href="#1-forEach操作数组" class="headerlink" title="1. forEach操作数组"></a>1. forEach操作数组</h4><p>当我们想对数组所有元素进行自加操作，如果进行如下操作：</p>
-<pre><code class="javascript">var arr=[2,3,4,5];
-arr.forEach(function(item,index,arr){
-    item++;
-    });
-console.log(arr);
-</code></pre>
-<p>结果是：</p>
-<pre><code class="javascript">[2,3,4,5]
-</code></pre>
-<p>我们发现原数组并没有变化，因为forEach()的三个参数items，index，array中，items仅获得该数组各个元素的值，所以改变这个值并不会改变原数组。<br>正确的在原数组基础上修改的方法如下：</p>
-<pre><code class="javascript">var arr=[2,3,4,5];
-arr.forEach(function(item,index,arr){
-    arr[index]++;
-    });
-console.log(arr);
-</code></pre>
-<p>结果是：</p>
-<pre><code class="bash">[3,4,5,6]
-</code></pre>
-<h4 id="2-slice"><a href="#2-slice" class="headerlink" title="2.slice"></a>2.slice</h4><p>先看一个例子：</p>
-<pre><code class="javascript">var arr1 = [[]];
-var arr2=[]; //新建了两个数组，arr1为二维数组
-var newArr1=arr1.slice();
-var newArr2=arr2.slice();//复制了两个新的的数组
-arr1[0][0]=&quot;666&quot;;
-arr2[0]=&quot;666&quot;;
-console.log(newArr1);
-console.log(newArr2);
-</code></pre>
-<p>首先我们新建立两个数组，然后用slice“复制”了a这两个数组，在分别向原数组添加元素后，新数组会不会改变呢？<br>看起来我们既然是复制了新的数组，似乎和之前的数组并没有什么关系。<br>结果是：</p>
-<pre><code class="javascript">Array[1]
-  //0: Array[1]
-    //0: &quot;666&quot;
-[]
-</code></pre>
-<p>为什么会产生了不同结果呢？<br>slice 遵循一级深度拷贝规则，规则如下：</p>
-<p>如果该元素是个对象引用 （不是实际的对象），slice 会拷贝这个对象引用到新的数组里。两个对象引用都引用了同一个对象。如果被引用的对象发生改变，则改变将反应到新的和原来的数组中，数组是对象，所以<code>newArr1</code>实际是拷贝了每一个内层数组的引用。</p>
-<p>对于字符串和数字来说（不是 String 和 Number 对象），slice 会拷贝字符串和数字到新的数组里。在一个数组里修改这些字符串或数字，不会影响另一个数组。<br>如果向两个数组任一中添加了新元素，则另一个不会受到影响。</p>
-<h3 id="3-数组去重三种方法"><a href="#3-数组去重三种方法" class="headerlink" title="3.数组去重三种方法"></a>3.数组去重三种方法</h3><p>第一种方法：</p>
-<pre><code class="javascript">Array.prototype.unique = function(){
-    var result = [];
-    this.forEach(function(v){
-        if(result.indexOf(v) &lt; 0){  //判断result中是否存在该值
-            result.push(v);
-        }
-    });
-    return result;
-</code></pre>
-<p>第二种方法，模拟hash表，将同一数值的不同类型存储在对应的hash表的对应项中。例如对于<code>[2,&quot;2&quot;]</code>,相应的项<code>hash(0)</code>对应<code>[&quot;number&quot;,&quot;string&quot;];</code></p>
-<pre><code class="javascript">Array.prototype.unique = function(){
-      var result = [],hash = {};
-      this.forEach(function(v){
-          var type = typeof(v);  //获取元素类型
-          hash[v] || (hash[v] = new Array());
-          if(hash[v].indexOf(type) &lt; 0){
-              hash[v].push(type);  //存储元素的类型
-              result.push(v);
-          }
-      });
-      return result;
-}
-</code></pre>
-<p>第三种方法先排序，然后取数组各项依次和result数组最后一项作比较，如果不同则存入，如果相同则舍弃。</p>
-<pre><code class="javascript"> Array.prototype.unique = function () {
-        this.sort(compare);
-        var result = [this[0]];
-        this.forEach(function (v) {
-            if (v != result[result.length - 1]) { //仅与result最后一个元素比较
-                result.push(v);
-            }
-        });
-        return result;
-        function compare(value1, value2) {
-            return value1 - value2;
-        }
-    };
-</code></pre>
+        <p><style><br>img{<br>    width:50%;<br>}<br></style><br>在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。<br>以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：</p>
+<blockquote>
+<p>在JavaScript中<code>[] == ![]</code>的结果是什么？</p>
+</blockquote>
+<h3 id="1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。"><a href="#1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。" class="headerlink" title="1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。"></a>1.要回答这道题，首先应该是明确js中<code>==</code>运算符计算的流程和规则。</h3><p>在<a href="http://www.ecma-international.org/ecma-262/7.0/index.html#prod-EqualityExpression" target="_blank" rel="external">ECMAScript官方规范</a>对于<code>==</code> 流程的定义是：</p>
+<p><img src="/img/1476281473133.png" alt="Alt text"><br>即首先对于左右两端的值进行<code>GetValue()</code>操作。</p>
+<h3 id="2-再来看GetValue-："><a href="#2-再来看GetValue-：" class="headerlink" title="2.再来看GetValue()："></a><strong>2.再来看<code>GetValue()</code></strong>：</h3><p><img src="/img/1476320118348.png" alt="Alt text"><br><code>GetValue</code> 会获取一个子表达式的值（消除掉左值引用），在表达式 <code>[] == ![]</code> 中，<code>[]</code> 的结果就是一个空数组的引用。</p>
+<h3 id="3-按照如下规则："><a href="#3-按照如下规则：" class="headerlink" title="3. ![] 按照如下规则："></a><strong>3. <code>![]</code> 按照如下规则</strong>：</h3><p><img src="/img/1476281822952.png" alt="Alt text"><br>执行<code>ToBoolean([])</code>操作。</p>
+<h3 id="4-ToBoolean-根据规则："><a href="#4-ToBoolean-根据规则：" class="headerlink" title="4.ToBoolean([])根据规则："></a><strong>4.<code>ToBoolean([])</code>根据规则</strong>：</h3><p><img src="/img/1476282017547.png" alt="Alt text"><br>返回<code>true</code>；既满足 “If oldValue is true,return false” 。<br>所以<code>![]</code>返回<code>false</code>，比较变成<code>[]==false</code>。<br>现在到了<strong>12.11.3</strong>的第5步。</p>
+<h3 id="5-来看Abstract-Equality-Comparison的规则："><a href="#5-来看Abstract-Equality-Comparison的规则：" class="headerlink" title="5.来看Abstract Equality Comparison的规则："></a><strong>5.来看<code>Abstract Equality Comparison</code>的规则</strong>：</h3><p><img src="/img/1476280994942.png" alt="Alt text"><br>在这段算法里，匹配条件 7，调用<code>ToNumber(false)</code>进行比较。</p>
+<h3 id="6-那么根据ToNumber-的规则："><a href="#6-那么根据ToNumber-的规则：" class="headerlink" title="6.那么根据ToNumber()的规则："></a><strong>6.那么根据<code>ToNumber()</code>的规则</strong>：</h3><p><img src="/img/1476321059947.png" alt="Alt text"><br>所以<code>ToNumber(false)</code> 返回0，于是比较变为<code>[] == 0</code>。<br>在此处因为 <code>[]</code> 是对象，根据7.2.13的规则9，比较<code>ToPrimitive([])==0</code>。</p>
+<h3 id="7-ToPrimitive-object-规则如下："><a href="#7-ToPrimitive-object-规则如下：" class="headerlink" title="7.ToPrimitive (object)规则如下："></a><strong>7.<code>ToPrimitive (object)</code>规则如下</strong>：</h3><p><img src="/img/1476321489571.png" alt="Alt text"></p>
+<p>在这一步中<code>hint</code>为<code>number</code>，所以对应的操作顺序为<code>valueOf,toString</code>直至返回基本数据类型为止。<br>依次执行<code>[].valueOf()</code>，<code>[].toString()</code>。返回空字符串。</p>
+<p>所以在<strong>7.1.3</strong>中我们继续执行<code>Argumengt Type</code>为<code>Object</code>的第二步<code>ToNumber(&#39;&#39;)</code>，返回0；</p>
+<p><code>0 == 0</code><strong>所以结果为 true</strong>。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在解决这个问题的过程中，我们明确了ECMAScript中的对于以下规则的定义：</p>
+<ol>
+<li><code>==</code>；</li>
+<li><code>Abstract Equality Comparison</code></li>
+<li><code>GetValue()</code></li>
+<li><code>ToBoolean()</code></li>
+<li><code>ToNumber()</code></li>
+<li><code>ToPrimitive()</code></li>
+<li><code>valueOf,toString</code></li>
+</ol>
+<p>有理有据，令人信服。</p>
+<p><div style="margin-top:100px;"></div><br>参考：<br><a href="http://www.ecma-international.org/ecma-262/7.0/index.html#prod-EqualityExpression" target="_blank" rel="external">ECMA-262 7th Edition</a></p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2014/05/03/数组二三事/" class="archive-article-date">
-  	<time datetime="2014-05-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-03</time>
+      <a href="/2016/11/04/查阅官方文档的正确姿势/" class="archive-article-date">
+  	<time datetime="2016-11-04T13:48:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-04</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文档/">文档</a></li></ul>
 	</div>
 
       
@@ -289,18 +231,9 @@ console.log(newArr2);
   
 <nav id="article-nav">
   
-    <a href="/2014/06/08/JavaScript类数组/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          JavaScript类数组
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/04/11/关于String的一些细节/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">关于String的一些细节</div>
+    <a href="/2016/10/18/Yarn：一个新JavaScript包管理器/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Yarn：一个新的JavaScript包管理器</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -334,7 +267,7 @@ console.log(newArr2);
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="数组二三事" data-title="数组二三事" data-url="/2014/05/03/数组二三事/"></div>
+	<div class="ds-thread" data-thread-key="查阅官方文档的正确姿势" data-title="查阅官方文档的正确姿势" data-url="/2016/11/04/查阅官方文档的正确姿势/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

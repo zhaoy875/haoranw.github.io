@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>ransama&#39;s Blog</title>
+  <title>Category: 开发环境及工具配置 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="ransama's Blog">
-<meta property="og:url" content="/page/3/index.html">
+<meta property="og:url" content="/categories/开发环境及工具配置/index.html">
 <meta property="og:site_name" content="ransama's Blog">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ransama's Blog">
@@ -137,216 +137,57 @@
       <div class="body-wrap">
         
   
-    <article id="post-数组二三事" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
+  
     
     
-      <header class="article-header">
-        
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2015" class="archive-year">2015</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2015/01/12/开发环境及工具配置系列教程–使用ESlint规范你的代码/" class="archive-article-date">
+  	<time datetime="2015-01-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-12</time>
+</a>
+        </div>
+    	 
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/05/03/数组二三事/">数组二三事</a>
+      <a class="archive-article-title" href="/2015/01/12/开发环境及工具配置系列教程–使用ESlint规范你的代码/">开发环境及工具配置系列教程--使用ESlint规范你的代码</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"><a href="#本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容" class="headerlink" title="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"></a>本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容</h5><h4 id="1-forEach操作数组"><a href="#1-forEach操作数组" class="headerlink" title="1. forEach操作数组"></a>1. forEach操作数组</h4><p>当我们想对数组所有元素进行自加操作，如果进行如下操作：</p>
-<pre><code class="javascript">var arr=[2,3,4,5];
-arr.forEach(function(item,index,arr){
-    item++;
-    });
-console.log(arr);
-</code></pre>
-<p>结果是：</p>
-<pre><code class="javascript">[2,3,4,5]
-</code></pre>
-<p>我们发现原数组并没有变化，因为forEach()的三个参数items，index，array中，items仅获得该数组各个元素的值，所以改变这个值并不会改变原数组。<br>正确的在原数组基础上修改的方法如下：</p>
-<pre><code class="javascript">var arr=[2,3,4,5];
-arr.forEach(function(item,index,arr){
-    arr[index]++;
-    });
-console.log(arr);
-</code></pre>
-<p>结果是：</p>
-<pre><code class="bash">[3,4,5,6]
-</code></pre>
-<h4 id="2-slice"><a href="#2-slice" class="headerlink" title="2.slice"></a>2.slice</h4>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2014/05/03/数组二三事/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/05/03/数组二三事/" class="archive-article-date">
-  	<time datetime="2014-05-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-03</time>
-</a>
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端，JavaScript，工具/">前端，JavaScript，工具</a></li></ul>
 	</div>
 
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-关于String的一些细节" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/04/11/关于String的一些细节/">关于String的一些细节</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Ⅰ.当字符串内含有转义字符时，使用<code>.length</code>返回的是转义后字符串的长度。</p>
-<pre><code class="javascript">var str=&quot;\x41&quot;;
-alert(str.length);//1
-</code></pre>
-<p>同时，即使字符串中包含双字节字符（比如汉字），每个也只算一个字符。</p>
-<pre><code class="javascript">var str=&quot;王浩然&quot;;
-alert(str.length);//3
-</code></pre>
-<p>Ⅱ.字符串一旦创建，它的值不可改变。我们在改变变量保存字符串的值时，实际上一个创建新字符串、赋值、删除原字符串的过程。所以在某些低版本浏览器中，字符串拼接效率较低。</p>
-<pre><code class="javascript">var str=&quot;Hello&quot;;
-str+=&quot;World&quot;
-</code></pre>
-<p>过程是得到Hello+World的长度，即10。然后创建一个长度为10的字符串，之后输入<code>&quot;Hello&quot;</code>和<code>&quot;World&quot;</code>。最后销毁原字符串<code>&quot;Hello&quot;</code>和字符串<code>&quot;World&quot;</code>。</p>
-<p>Ⅲ.<code>null</code>和<code>undefined</code>没有<code>toString()</code>方法，因为我们在对一个不确定的值使用<code>toString()</code>方法 时，存在报错的风险。<br>但是另一种转换方法<code>String()</code>则没有这个顾虑，因为<code>String()</code>的转换规则是：<br>    1.如果可以使用<code>toString()</code>方法，则调用并返回。<br>    2.如果值是<code>null</code>或<code>undefined</code>，则对应返回<code>&quot;null&quot;</code>或<code>&quot;undefined&quot;</code>。</p>
-<p>Ⅳ.当传入参数为负值时：<br><code>slice()</code>将负值与字符串长度相加；<br><code>sustr()</code>第一个参数为负，则加上字符串的长度。第二个参数为负，转换为0；<br><code>substring()</code>会将所有的副参数转为0。它还有一个行为就是，在面对两个参数时，永远是从小的参数开始，到大的参数对应位置结束。而不是从第一个参数开始。<br>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2014/04/11/关于String的一些细节/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/04/11/关于String的一些细节/" class="archive-article-date">
-  	<time datetime="2014-04-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-11</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+          
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/开发环境及工具配置/">开发环境及工具配置</a>
 	</div>
 
-      
 
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-
-
-
-
-
-
-
-
-
   
-    <article id="post-从创建一个字符串说起" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
+    </div></section>
+  
+
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/21/从创建一个字符串说起/">从创建一个字符串说起</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>首先我们可能都知道创建一个字符串通常有三种写法：</p>
-<pre><code class="javascript">var str1=&quot;wanghaoran&quot;;
-var str2=String(&quot;wanghaoran&quot;);
-var str3=new String(&quot;wanghaoran&quot;);
-</code></pre>
-<p>我们对每一个str执行<code>typeof</code>，可以得到如下结果：</p>
-<pre><code class="javascript">typeof str1;
-// &#39;string&#39;
-typeof str2;
-// &#39;string&#39;
-typeof str3;
-// &#39;object&#39;
-</code></pre>
-<p>前两种方法创建的字符串都属于Primitive String ，即原始数据类型中的原始类型字符串，返回的自然是<code>string</code>。</p>
-<p>而第三种方法使用了构造函数创建了一个String Object，所以它的类型是对象，即<code>Object</code></p>
-<p>那么问题来了，为什么一个原始类型的字符串能够调用各种字符串方法或者查看属性呢？这不是对象能做的事吗？<br>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2014/03/21/从创建一个字符串说起/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/03/21/从创建一个字符串说起/" class="archive-article-date">
-  	<time datetime="2014-03-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
-  
 
 
       </div>
@@ -369,11 +210,11 @@ typeof str3;
 		fancybox: true,
 		mathjax: false,
 		animate: true,
-		isHome: true,
+		isHome: false,
 		isPost: false,
 		isArchive: false,
 		isTag: false,
-		isCategory: false,
+		isCategory: true,
 		open_in_new: false,
 		root: "/",
 		innerArchive: true

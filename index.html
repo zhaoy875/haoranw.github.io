@@ -332,6 +332,105 @@
 
 
   
+    <article id="post-开发环境及工具配置系列教程–使用ESlint规范你的代码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/12/开发环境及工具配置系列教程–使用ESlint规范你的代码/">开发环境及工具配置系列教程--使用ESlint规范你的代码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="开发环境及工具配置系列教程–使用ESlint规范你的代码"><a href="#开发环境及工具配置系列教程–使用ESlint规范你的代码" class="headerlink" title="开发环境及工具配置系列教程–使用ESlint规范你的代码"></a>开发环境及工具配置系列教程–使用ESlint规范你的代码</h3><p>为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的javascript代码达到国际化的水准。</p>
+<h4 id="安装ESLint："><a href="#安装ESLint：" class="headerlink" title="安装ESLint："></a>安装ESLint：</h4><p>（教程内容在OS X下测试通过并编写，其它系统仅供参考）<br>安装前请确保已安装node。</p>
+<p>依次在命令行内执行：</p>
+<p>1.<code>npm install eslint -g</code><br>这里的-g选项代表全局。如果你没有设置这个-g选项的话，它会在你当前文件夹下安装ESLint可执行文件。在其他文件夹下面就不能使用了。</p>
+<p>2.<code>eslint</code><br>如果安装成功，输入这条命令会弹出一系列提示信息。如果提示命令不存在，则没有安装成功，重新进行上一步操作。</p>
+<p>官方的教程里面，下一步应该是<code>eslint --init</code>。它相当于一个初始化配置的过程，会问你几个问题，根据个人习惯来生成一个初步规则，在你当前文件夹下生成.eslintrc文件，并且如果你使用包的话，还会要求必须要有package.json文件。其实并没有必要执行这繁琐的一步，所以我们直接跳过。</p>
+<p>3.<code>npm install eslint-config-airbnb -g</code><br>在Eslint默认推荐的三个规则是：Google标准、Airbnb标准和Standard标准。目前来看，公认的最好的标准是Airbnb标准，它对于ES6要求最严格，比如禁止使用var定义变量，必须使用let或者const等等。所以我们选择安装airbnb标准，依旧全局安装。</p>
+<p>4.<code>npm install eslint-plugin-jsx-a11y -g</code><br>a11y是accessibility（无障碍环境）的缩写，从第一个字母a到最后一个字母y，中间一共是11个字母，所以就叫a11y了，类似于i18n表示internationalization（国际化）一样。JSX主要是React会用到，虽然我们的项目里可能并不会用React，但是这个Airbnb标准必须要用到它，所以必须安装。</p>
+<p>5.<code>npm install eslint-plugin-import -g</code><br>Airbnb标准必需。</p>
+<p>最后，编写我们自己的全局.eslintrc.json文件：<br>全局的.eslintrc.json文件则放在当前用户的根目录下，类Unix系统的当前用户目录是~，而Windows系统的话则是类似于C:\Windows\Users\Username这样的地方。<br>MacOS可以在命令行输入<code>touch .eslintrc.json</code>来创建词文件。<br>把以下代码放入.eslintrc.json，就做好了ESLint初步配置。</p>
+<pre><code class="bash">{
+    &quot;extends&quot;: &quot;airbnb&quot;,
+    &quot;installedESLint&quot;: true,
+    &quot;plugins&quot;: [
+        &quot;react&quot;
+    ],
+    &quot;env&quot;: {
+        &quot;jquery&quot;: true,
+        &quot;browser&quot;: true,
+        &quot;node&quot;: true,
+        &quot;es6&quot;: true
+    },
+    &quot;rules&quot;: {
+        &quot;indent&quot;: [&quot;error&quot;, 4]
+    }
+}
+</code></pre>
+<p>其中，<code>env</code>下面主要是为了定义一系列全局变量，否在会报错。比如如果没有添加<code>browser</code>，甚至代码中的<code>alert</code>和<code>window</code>都会提示变量未定义错误信息。<code>rules</code>下面是为了防止缩进不符合2个字符而报错，个人习惯使用4个字符的缩进。</p>
+<h3 id="使用ESLint："><a href="#使用ESLint：" class="headerlink" title="使用ESLint："></a>使用ESLint：</h3><p>最后我们可以使用ESlint来进行检测了；</p>
+<p>1.通过命令行<br>比如我们要检测1.js这个文件，在该文件所属目录下打开命令行，输入</p>
+<pre><code>eslint 1.js
+</code></pre><p>紧接着我们会得到检测完成的反馈信息。</p>
+<p>2.使用IDE<br>以webstorm为例在配置好ESlint之后，ws会自动找到ESlint的路径，所以我们只需要在设置中打开ESlint就可以了。<br>依次找到Preference—&gt;Language &amp; Frameworks —&gt; JavaScript —&gt; Code Quality Tools —&gt; Eslint;<br>点击Enable即可。在这个设置项内ws也提供了修改规则的方式，当然也可以自己修改rules下面的内容来修改规则，具体有哪些规则及使用场景请参考<a href="http://eslint.org/" target="_blank" rel="external">ESlint官网</a></p>
+<p>3.在webpack中使用<br>首先我们需要一个对应的loader：</p>
+<pre><code class="bash">npm install --save-dev eslint-loader
+</code></pre>
+<p>之后在配置文件中加入：</p>
+<pre><code>preLoaders: [
+    {
+        test: /\.js$/,
+        loader: &quot;eslint-loader&quot;,
+        exclude: /node_modules/
+    }
+],
+</code></pre><p>希望每个人都能写出规范高质量的JavaScript代码。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/12/开发环境及工具配置系列教程–使用ESlint规范你的代码/" class="archive-article-date">
+  	<time datetime="2015-01-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端，JavaScript，工具/">前端，JavaScript，工具</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/开发环境及工具配置/">开发环境及工具配置</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-TCP协议族" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -373,60 +472,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-prototype与原型链" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/25/prototype与原型链/">__proto__、prototype与原型链</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="关键词：-proto-，prototype，Object-create-，instanceof"><a href="#关键词：-proto-，prototype，Object-create-，instanceof" class="headerlink" title="关键词：__proto__，prototype，Object.create()，instanceof"></a>关键词：<code>__proto__</code>，prototype，Object.create()，instanceof</h4><h4 id="1-proto-（隐式原型）与prototype（显式原型）"><a href="#1-proto-（隐式原型）与prototype（显式原型）" class="headerlink" title="1.  __proto__（隐式原型）与prototype（显式原型）"></a><strong>1.  <code>__proto__</code>（隐式原型）与prototype（显式原型）</strong></h4><p><strong>显式原型(explicit prototype property)：</strong><br>几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象。</p>
-<p><strong>隐式原型(implicit prototype link)：</strong><br>JavaScript中任意对象都有一个内置属性<code>[[prototype]]</code>，可以通过<code>.__proto__</code>，或者通过符合ES5标准的Get方法<code>Object.getPrototypeOf()</code> 来访问。</p>
-<p>为了介绍二者之间的关系，先上一张图：<br><img src="/img/proto.png" alt="prototype"><br>根据ECMA定义<code>__proto__</code>的指向 <strong>to the value of its constructor’s “prototype”</strong>（其<code>constructor</code>的显式原型），所以我们来看图中：<br>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2014/10/25/prototype与原型链/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/10/25/prototype与原型链/" class="archive-article-date">
-  	<time datetime="2014-10-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-10-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
 	</div>
 
       
@@ -511,7 +556,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 10px;">MV*</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
+    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 10px;">MV*</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/前端，JavaScript，工具/" style="font-size: 10px;">前端，JavaScript，工具</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
     			</div>
     	</section>
     

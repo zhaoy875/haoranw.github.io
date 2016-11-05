@@ -137,60 +137,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-prototype与原型链" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/25/prototype与原型链/">__proto__、prototype与原型链</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="关键词：-proto-，prototype，Object-create-，instanceof"><a href="#关键词：-proto-，prototype，Object-create-，instanceof" class="headerlink" title="关键词：__proto__，prototype，Object.create()，instanceof"></a>关键词：<code>__proto__</code>，prototype，Object.create()，instanceof</h4><h4 id="1-proto-（隐式原型）与prototype（显式原型）"><a href="#1-proto-（隐式原型）与prototype（显式原型）" class="headerlink" title="1.  __proto__（隐式原型）与prototype（显式原型）"></a><strong>1.  <code>__proto__</code>（隐式原型）与prototype（显式原型）</strong></h4><p><strong>显式原型(explicit prototype property)：</strong><br>几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象。</p>
-<p><strong>隐式原型(implicit prototype link)：</strong><br>JavaScript中任意对象都有一个内置属性<code>[[prototype]]</code>，可以通过<code>.__proto__</code>，或者通过符合ES5标准的Get方法<code>Object.getPrototypeOf()</code> 来访问。</p>
-<p>为了介绍二者之间的关系，先上一张图：<br><img src="/img/proto.png" alt="prototype"><br>根据ECMA定义<code>__proto__</code>的指向 <strong>to the value of its constructor’s “prototype”</strong>（其<code>constructor</code>的显式原型），所以我们来看图中：<br>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2014/10/25/prototype与原型链/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/10/25/prototype与原型链/" class="archive-article-date">
-  	<time datetime="2014-10-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-10-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-NodeList和HTMLCollection" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -468,6 +414,78 @@ function isArrayLike(o) {
 
 
   
+    <article id="post-数组二三事" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/05/03/数组二三事/">数组二三事</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"><a href="#本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容" class="headerlink" title="本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容"></a>本篇包含：forEach，slice，一级深度拷贝规则，数组排序等内容</h5><h4 id="1-forEach操作数组"><a href="#1-forEach操作数组" class="headerlink" title="1. forEach操作数组"></a>1. forEach操作数组</h4><p>当我们想对数组所有元素进行自加操作，如果进行如下操作：</p>
+<pre><code class="javascript">var arr=[2,3,4,5];
+arr.forEach(function(item,index,arr){
+    item++;
+    });
+console.log(arr);
+</code></pre>
+<p>结果是：</p>
+<pre><code class="javascript">[2,3,4,5]
+</code></pre>
+<p>我们发现原数组并没有变化，因为forEach()的三个参数items，index，array中，items仅获得该数组各个元素的值，所以改变这个值并不会改变原数组。<br>正确的在原数组基础上修改的方法如下：</p>
+<pre><code class="javascript">var arr=[2,3,4,5];
+arr.forEach(function(item,index,arr){
+    arr[index]++;
+    });
+console.log(arr);
+</code></pre>
+<p>结果是：</p>
+<pre><code class="bash">[3,4,5,6]
+</code></pre>
+<h4 id="2-slice"><a href="#2-slice" class="headerlink" title="2.slice"></a>2.slice</h4>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2014/05/03/数组二三事/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/05/03/数组二三事/" class="archive-article-date">
+  	<time datetime="2014-05-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-03</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -533,7 +551,7 @@ function isArrayLike(o) {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 10px;">MV*</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a>
+    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 10px;">MV*</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
     			</div>
     	</section>
     

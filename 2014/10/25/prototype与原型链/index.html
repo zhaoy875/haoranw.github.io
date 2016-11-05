@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="ransama's Blog">
 <meta property="og:description" content="关键词：__proto__，prototype，Object.create()，instanceof1.  __proto__（隐式原型）与prototype（显式原型）显式原型(explicit prototype property)：几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数">
 <meta property="og:image" content="/img/proto.png">
-<meta property="og:updated_time" content="2016-11-05T07:08:13.000Z">
+<meta property="og:updated_time" content="2016-11-05T08:01:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="__proto__、prototype与原型链">
 <meta name="twitter:description" content="关键词：__proto__，prototype，Object.create()，instanceof1.  __proto__（隐式原型）与prototype（显式原型）显式原型(explicit prototype property)：几乎每一个函数(通过Function.prototype.bind方法构造出来的函数是个例外)在创建之后都会拥有一个名为prototype的属性，这个属性指向函数">
@@ -190,10 +190,9 @@ var mySon=Object.create(person);
 <pre><code class="javascript">//var mySon=Object.create(person);相当于执行了：
 function F(){}
 F.prototype = person;
+var mySon = new F();  
 //此时有：
-mySon.__proto__ === F.prototype //true
-//最后：
-var mySon = new F();
+mySon.__proto__ === F.prototype //true,__proto__指向其constructor的原型。
 //所以有：
 mySon.__proto__ === person;
 </code></pre>

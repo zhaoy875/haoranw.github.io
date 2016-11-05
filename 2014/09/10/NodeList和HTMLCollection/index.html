@@ -16,7 +16,7 @@
 <meta property="og:description" content="1.NodeList通过各种方法获得的NodeList是一种类数组的对象，保存一组有序的节点，虽然我们可以使用一些数组的方法，但既然有个”类”字，显然它不是一个Array实例。
 嗯，这些废话你应该都知道，虽然可能只是知道这个结果，却并不知道为什么。没关系，因为你现在看了这篇文章。
 首先，JavaScript 的继承机制是基于原型的。数组元素调用的数组方法，实际上是继承自它的原型链上。myArray">
-<meta property="og:updated_time" content="2016-10-31T12:40:11.000Z">
+<meta property="og:updated_time" content="2016-11-05T07:08:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NodeList和HTMLCollection">
 <meta name="twitter:description" content="1.NodeList通过各种方法获得的NodeList是一种类数组的对象，保存一组有序的节点，虽然我们可以使用一些数组的方法，但既然有个”类”字，显然它不是一个Array实例。
@@ -176,7 +176,8 @@ forEach.call(firstDiv.childNodes, function( divChild ){
   divChild.parentNode.style.color = &#39;#0F0&#39;;
 });
 </code></pre>
-<h3 id="2-NodeList是动态的？"><a href="#2-NodeList是动态的？" class="headerlink" title="2. NodeList是动态的？"></a>2. NodeList是动态的？</h3><p>可能很多书上会表示NodeList是动态，实际上<strong>这句话不全对</strong>。<br><strong>了解一个概念首先应该参考热门社区的用法文档或者官方标准的描述，然后根据实例来分析。</strong><br>在MDN关于<a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList" target="_blank" rel="external">NodeList</a>的描述中，我们可以看到几个大字：<strong>A sometimes-live collection.</strong><br>大家可能都知道，通过<code>Node.childNodes</code>获取到的childNodes是动态的，那什么情况下是静态的呢：</p>
+<h3 id="2-NodeList是动态的？"><a href="#2-NodeList是动态的？" class="headerlink" title="2. NodeList是动态的？"></a>2. NodeList是动态的？</h3><a id="more"></a>
+<p>可能很多书上会表示NodeList是动态，实际上<strong>这句话不全对</strong>。<br><strong>了解一个概念首先应该参考热门社区的用法文档或者官方标准的描述，然后根据实例来分析。</strong><br>在MDN关于<a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList" target="_blank" rel="external">NodeList</a>的描述中，我们可以看到几个大字：<strong>A sometimes-live collection.</strong><br>大家可能都知道，通过<code>Node.childNodes</code>获取到的childNodes是动态的，那什么情况下是静态的呢：</p>
 <blockquote>
 <p>In other cases, the NodeList is a static collection, meaning any subsequent change in the DOM does not affect the content of the collection. document.querySelectorAll returns a static NodeList.</p>
 </blockquote>

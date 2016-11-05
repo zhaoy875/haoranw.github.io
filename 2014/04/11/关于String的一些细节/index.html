@@ -28,7 +28,7 @@ var str=&amp;quot;王浩然&amp;quot;;
 alert(str.length);//3
 
 Ⅱ.字符串一旦创建，它的值不可改变。我们在改变变量保存字符串">
-<meta property="og:updated_time" content="2016-10-21T11:21:32.000Z">
+<meta property="og:updated_time" content="2016-11-05T07:10:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于String的一些细节">
 <meta name="twitter:description" content="Ⅰ.当字符串内含有转义字符时，使用.length返回的是转义后字符串的长度。
@@ -195,8 +195,7 @@ str+=&quot;World&quot;
 </code></pre>
 <p>过程是得到Hello+World的长度，即10。然后创建一个长度为10的字符串，之后输入<code>&quot;Hello&quot;</code>和<code>&quot;World&quot;</code>。最后销毁原字符串<code>&quot;Hello&quot;</code>和字符串<code>&quot;World&quot;</code>。</p>
 <p>Ⅲ.<code>null</code>和<code>undefined</code>没有<code>toString()</code>方法，因为我们在对一个不确定的值使用<code>toString()</code>方法 时，存在报错的风险。<br>但是另一种转换方法<code>String()</code>则没有这个顾虑，因为<code>String()</code>的转换规则是：<br>    1.如果可以使用<code>toString()</code>方法，则调用并返回。<br>    2.如果值是<code>null</code>或<code>undefined</code>，则对应返回<code>&quot;null&quot;</code>或<code>&quot;undefined&quot;</code>。</p>
-<p>Ⅳ.当传入参数为负值时：<br><code>slice()</code>将负值与字符串长度相加；<br><code>sustr()</code>第一个参数为负，则加上字符串的长度。第二个参数为负，转换为0；<br><code>substring()</code>会将所有的副参数转为0。它还有一个行为就是，在面对两个参数时，永远是从小的参数开始，到大的参数对应位置结束。而不是从第一个参数开始。</p>
-<p>Ⅴ.字符串匹配：<br> 1.<code>match()</code>返回的是一个数组。</p>
+<p>Ⅳ.当传入参数为负值时：<br><code>slice()</code>将负值与字符串长度相加；<br><code>sustr()</code>第一个参数为负，则加上字符串的长度。第二个参数为负，转换为0；<br><code>substring()</code>会将所有的副参数转为0。它还有一个行为就是，在面对两个参数时，永远是从小的参数开始，到大的参数对应位置结束。而不是从第一个参数开始。<br><a id="more"></a><br>Ⅴ.字符串匹配：<br> 1.<code>match()</code>返回的是一个数组。</p>
 <pre><code class="javascript">var str=&quot;dog,rat,cat,hat,mat&quot;;
 var _match=str.match(/.at/);
 console.log(_match);

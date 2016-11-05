@@ -26,7 +26,7 @@ var str3=new String(&amp;quot;wanghaoran&amp;quot;);
 我们对每一个str执行typeof，可以得到如下结果：
 typeof str1;
 // &amp;#39;string">
-<meta property="og:updated_time" content="2016-10-21T11:23:16.000Z">
+<meta property="og:updated_time" content="2016-11-05T07:11:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从创建一个字符串说起">
 <meta name="twitter:description" content="首先我们可能都知道创建一个字符串通常有三种写法：
@@ -193,8 +193,7 @@ typeof str3;
 </code></pre>
 <p>前两种方法创建的字符串都属于Primitive String ，即原始数据类型中的原始类型字符串，返回的自然是<code>string</code>。</p>
 <p>而第三种方法使用了构造函数创建了一个String Object，所以它的类型是对象，即<code>Object</code></p>
-<p>那么问题来了，为什么一个原始类型的字符串能够调用各种字符串方法或者查看属性呢？这不是对象能做的事吗？</p>
-<p>要了解这个问题的答案就要从源头着手。首先根据ES发布的规范：</p>
+<p>那么问题来了，为什么一个原始类型的字符串能够调用各种字符串方法或者查看属性呢？这不是对象能做的事吗？<br><a id="more"></a><br>要了解这个问题的答案就要从源头着手。首先根据ES发布的规范：</p>
 <p>JS在运行到形如<code>PrimitiveType.method</code>即处理某个基本类型的某方法时，会调用<code>CheckObjectCoercible(baseValue)</code>方法，在此方法中会进行<code>ToObject</code>运算。</p>
 <p>针对<code>String</code>类型的<code>ToObject</code>运算的描述如下：</p>
 <blockquote>

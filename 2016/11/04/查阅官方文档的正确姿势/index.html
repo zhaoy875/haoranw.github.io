@@ -29,7 +29,7 @@
 <meta property="og:image" content="/img/1476280994942.png">
 <meta property="og:image" content="/img/1476321059947.png">
 <meta property="og:image" content="/img/1476321489571.png">
-<meta property="og:updated_time" content="2016-11-04T14:16:13.000Z">
+<meta property="og:updated_time" content="2016-11-05T07:11:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="查阅官方文档的正确姿势">
 <meta name="twitter:description" content="img{    width:50%;}在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：
@@ -186,7 +186,7 @@
 </blockquote>
 <h3 id="1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。"><a href="#1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。" class="headerlink" title="1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。"></a>1.要回答这道题，首先应该是明确js中<code>==</code>运算符计算的流程和规则。</h3><p>在<a href="http://www.ecma-international.org/ecma-262/7.0/index.html#prod-EqualityExpression" target="_blank" rel="external">ECMAScript官方规范</a>对于<code>==</code> 流程的定义是：</p>
 <p><img src="/img/1476281473133.png" alt="Alt text"><br>即首先对于左右两端的值进行<code>GetValue()</code>操作。</p>
-<h3 id="2-再来看GetValue-："><a href="#2-再来看GetValue-：" class="headerlink" title="2.再来看GetValue()："></a><strong>2.再来看<code>GetValue()</code></strong>：</h3><p><img src="/img/1476320118348.png" alt="Alt text"><br><code>GetValue</code> 会获取一个子表达式的值（消除掉左值引用），在表达式 <code>[] == ![]</code> 中，<code>[]</code> 的结果就是一个空数组的引用。</p>
+<h3 id="2-再来看GetValue-："><a href="#2-再来看GetValue-：" class="headerlink" title="2.再来看GetValue()："></a><strong>2.再来看<code>GetValue()</code></strong>：</h3><p><img src="/img/1476320118348.png" alt="Alt text"><br><code>GetValue</code> 会获取一个子表达式的值（消除掉左值引用），在表达式 <code>[] == ![]</code> 中，<code>[]</code> 的结果就是一个空数组的引用。<br><a id="more"></a></p>
 <h3 id="3-按照如下规则："><a href="#3-按照如下规则：" class="headerlink" title="3. ![] 按照如下规则："></a><strong>3. <code>![]</code> 按照如下规则</strong>：</h3><p><img src="/img/1476281822952.png" alt="Alt text"><br>执行<code>ToBoolean([])</code>操作。</p>
 <h3 id="4-ToBoolean-根据规则："><a href="#4-ToBoolean-根据规则：" class="headerlink" title="4.ToBoolean([])根据规则："></a><strong>4.<code>ToBoolean([])</code>根据规则</strong>：</h3><p><img src="/img/1476282017547.png" alt="Alt text"><br>返回<code>true</code>；既满足 “If oldValue is true,return false” 。<br>所以<code>![]</code>返回<code>false</code>，比较变成<code>[]==false</code>。<br>现在到了<strong>12.11.3</strong>的第5步。</p>
 <h3 id="5-来看Abstract-Equality-Comparison的规则："><a href="#5-来看Abstract-Equality-Comparison的规则：" class="headerlink" title="5.来看Abstract Equality Comparison的规则："></a><strong>5.来看<code>Abstract Equality Comparison</code>的规则</strong>：</h3><p><img src="/img/1476280994942.png" alt="Alt text"><br>在这段算法里，匹配条件 7，调用<code>ToNumber(false)</code>进行比较。</p>

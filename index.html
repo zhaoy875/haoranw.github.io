@@ -159,30 +159,12 @@
 <blockquote>
 <p>在JavaScript中<code>[] == ![]</code>的结果是什么？</p>
 </blockquote>
-<h3 id="1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。"><a href="#1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。" class="headerlink" title="1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。"></a>1.要回答这道题，首先应该是明确js中<code>==</code>运算符计算的流程和规则。</h3><p>在<a href="http://www.ecma-international.org/ecma-262/7.0/index.html#prod-EqualityExpression" target="_blank" rel="external">ECMAScript官方规范</a>对于<code>==</code> 流程的定义是：</p>
+<h3 id="1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。"><a href="#1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。" class="headerlink" title="1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。"></a>1.要回答这道题，首先应该是明确js中<code>==</code>运算符计算的流程和规则。</h3><p>在<a href="http://www.ecma-international.org/ecma-262/7.0/index.html#prod-EqualityExpression">ECMAScript官方规范</a>对于<code>==</code> 流程的定义是：</p>
 <p><img src="/img/1476281473133.png" alt="Alt text"><br>即首先对于左右两端的值进行<code>GetValue()</code>操作。</p>
-<h3 id="2-再来看GetValue-："><a href="#2-再来看GetValue-：" class="headerlink" title="2.再来看GetValue()："></a><strong>2.再来看<code>GetValue()</code></strong>：</h3><p><img src="/img/1476320118348.png" alt="Alt text"><br><code>GetValue</code> 会获取一个子表达式的值（消除掉左值引用），在表达式 <code>[] == ![]</code> 中，<code>[]</code> 的结果就是一个空数组的引用。</p>
-<h3 id="3-按照如下规则："><a href="#3-按照如下规则：" class="headerlink" title="3. ![] 按照如下规则："></a><strong>3. <code>![]</code> 按照如下规则</strong>：</h3><p><img src="/img/1476281822952.png" alt="Alt text"><br>执行<code>ToBoolean([])</code>操作。</p>
-<h3 id="4-ToBoolean-根据规则："><a href="#4-ToBoolean-根据规则：" class="headerlink" title="4.ToBoolean([])根据规则："></a><strong>4.<code>ToBoolean([])</code>根据规则</strong>：</h3><p><img src="/img/1476282017547.png" alt="Alt text"><br>返回<code>true</code>；既满足 “If oldValue is true,return false” 。<br>所以<code>![]</code>返回<code>false</code>，比较变成<code>[]==false</code>。<br>现在到了<strong>12.11.3</strong>的第5步。</p>
-<h3 id="5-来看Abstract-Equality-Comparison的规则："><a href="#5-来看Abstract-Equality-Comparison的规则：" class="headerlink" title="5.来看Abstract Equality Comparison的规则："></a><strong>5.来看<code>Abstract Equality Comparison</code>的规则</strong>：</h3><p><img src="/img/1476280994942.png" alt="Alt text"><br>在这段算法里，匹配条件 7，调用<code>ToNumber(false)</code>进行比较。</p>
-<h3 id="6-那么根据ToNumber-的规则："><a href="#6-那么根据ToNumber-的规则：" class="headerlink" title="6.那么根据ToNumber()的规则："></a><strong>6.那么根据<code>ToNumber()</code>的规则</strong>：</h3><p><img src="/img/1476321059947.png" alt="Alt text"><br>所以<code>ToNumber(false)</code> 返回0，于是比较变为<code>[] == 0</code>。<br>在此处因为 <code>[]</code> 是对象，根据7.2.13的规则9，比较<code>ToPrimitive([])==0</code>。</p>
-<h3 id="7-ToPrimitive-object-规则如下："><a href="#7-ToPrimitive-object-规则如下：" class="headerlink" title="7.ToPrimitive (object)规则如下："></a><strong>7.<code>ToPrimitive (object)</code>规则如下</strong>：</h3><p><img src="/img/1476321489571.png" alt="Alt text"></p>
-<p>在这一步中<code>hint</code>为<code>number</code>，所以对应的操作顺序为<code>valueOf,toString</code>直至返回基本数据类型为止。<br>依次执行<code>[].valueOf()</code>，<code>[].toString()</code>。返回空字符串。</p>
-<p>所以在<strong>7.1.3</strong>中我们继续执行<code>Argumengt Type</code>为<code>Object</code>的第二步<code>ToNumber(&#39;&#39;)</code>，返回0；</p>
-<p><code>0 == 0</code><strong>所以结果为 true</strong>。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在解决这个问题的过程中，我们明确了ECMAScript中的对于以下规则的定义：</p>
-<ol>
-<li><code>==</code>；</li>
-<li><code>Abstract Equality Comparison</code></li>
-<li><code>GetValue()</code></li>
-<li><code>ToBoolean()</code></li>
-<li><code>ToNumber()</code></li>
-<li><code>ToPrimitive()</code></li>
-<li><code>valueOf,toString</code></li>
-</ol>
-<p>有理有据，令人信服。</p>
-<p><div style="margin-top:100px;"></div><br>参考：<br><a href="http://www.ecma-international.org/ecma-262/7.0/index.html#prod-EqualityExpression" target="_blank" rel="external">ECMA-262 7th Edition</a></p>
-
+<h3 id="2-再来看GetValue-："><a href="#2-再来看GetValue-：" class="headerlink" title="2.再来看GetValue()："></a><strong>2.再来看<code>GetValue()</code></strong>：</h3><p><img src="/img/1476320118348.png" alt="Alt text"><br><code>GetValue</code> 会获取一个子表达式的值（消除掉左值引用），在表达式 <code>[] == ![]</code> 中，<code>[]</code> 的结果就是一个空数组的引用。<br>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/11/04/查阅官方文档的正确姿势/#more">more >></a>
+        </p>
       
     </div>
     <div class="article-info article-info-index">
@@ -241,50 +223,16 @@
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>如果原先有npm工具的话，安装yarn很简单，只需要一行命令即可</p>
 <pre><code class="bash">npm install -g yarn
 </code></pre>
-<p>什么，你说你没有npm？那你怎么会找到这篇yarn的文章…<br>真的没有的话请看这里<a href="https://yarnpkg.com/en/docs/install" target="_blank" rel="external">各平台下yarn工具安装方式</a></p>
+<p>什么，你说你没有npm？那你怎么会找到这篇yarn的文章…<br>真的没有的话请看这里<a href="https://yarnpkg.com/en/docs/install">各平台下yarn工具安装方式</a></p>
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>安装yarn之后默认的包安装源和原来npm安装源是一样的，可用查看命令</p>
 <pre><code class="bash">yarn config get registry
 </code></pre>
 <p>若想提高yarn安装的速度，可将包安装源修改为taobao的安装源，执行以下命令即可</p>
 <pre><code class="bash">yarn config set registry &#39;https://registry.npm.taobao.org&#39;
 </code></pre>
-<h4 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h4><p>初始化某个项目</p>
-<pre><code class="bash">npm install
-yarn install
-</code></pre>
-<p>默认的安装依赖操作</p>
-<pre><code class="bash">npm install/link
-yarn install/link
-</code></pre>
-<p>安装某个依赖，并且默认保存到package</p>
-<pre><code class="bash">npm install xxx --save
-yarn add xxx
-</code></pre>
-<p>移除某个依赖项目</p>
-<pre><code class="bash">npm uninstall xxx --save
-yarn remove xxx
-</code></pre>
-<p>安装某个开发时依赖项目</p>
-<pre><code class="bash">npm install --save-dev xxx
-yarn add xxx --dev
-</code></pre>
-<p>更新某个依赖项目</p>
-<pre><code class="bash">npm update --save xxx
-yarn upgrade xxx
-</code></pre>
-<p>安装某个全局依赖项目</p>
-<pre><code class="bash">npm install -g xxx
-yarn global add xxx
-</code></pre>
-<p>发布/登录/登出，一系列NPM Registry操作</p>
-<pre><code class="bash">npm publish/login/logout
-yarn publish/login/logout
-</code></pre>
-<p>运行某个命令</p>
-<pre><code class="bash">npm run/test
-yarn run/test
-</code></pre>
-
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/10/18/Yarn：一个新JavaScript包管理器/#more">more >></a>
+        </p>
       
     </div>
     <div class="article-info article-info-index">
@@ -350,118 +298,10 @@ yarn run/test
 <li>利于代码复用，我们可能在同一个项目中多处用到同一个类型的模块，而我们需要做的仅仅只是将这个组件放入它应该在的位置，借助MVVM框架的各种渲染控制，各个模块随意组合，随心所欲。</li>
 <li>替换或者增减相应的模块非常方便。在实际开发过程中，增减功能或者模块十分频繁，在这类情况下，我们只需要改变对应的组件即可。</li>
 </ol>
-<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><p>本文仅描述采用单文件组件构建项目的思路，<code>webpack</code>和<code>Vue.js</code>等相关基础知识请查阅官方文档。</p>
-<h3 id="组件分析"><a href="#组件分析" class="headerlink" title="组件分析"></a>组件分析</h3><p>在使用一种基于组件开发的模式时，最为重要的一件事就是组件分解了。先来看一个页面：<br><img src="/img/1477318648669.png" alt="Alt text"></p>
-<p>图中页面大致可分解为：</p>
-<ul>
-<li>主体，带头部导航，左右滑动切换栏目</li>
-<li>每个栏目为单独一个模块。</li>
-<li>在一个栏目内，最上面有一个轮播图组件，下面为列表页。</li>
-<li>但是列表页是有两种不同的类型，因此我们将其分为两个组件。</li>
-</ul>
-<p>所以完成整体架构所需模块如下：</p>
-<pre><code class="bash">components
-├──comunity.vue    //主模块
-├──hot.vue         //热门模块
-├──banner.vue      //轮播
-├──block.vue       //列表中的大图展示
-├──list.vue        //正常的list项
-</code></pre>
-<h3 id="主模块"><a href="#主模块" class="headerlink" title="主模块"></a>主模块</h3><p>首先针对主模块，部分代码如下：</p>
-<pre><code class="html">---
-comunity.vue
----
-&lt;template&gt;
-    &lt;nav class=&quot;nav&quot;&gt;
-        &lt;ul id=&quot;swiper-nav&quot;&gt;
-            &lt;template v-for=&quot;nav in navList&quot;&gt;
-              &lt;li  v-on:click=&quot;switchSwiper($index)&quot;  v-bind:class=&quot;curIndex == $index ? &#39;active&#39;: &#39;&#39;&quot;&gt;
-                  &lt;span&gt;{{nav}}&lt;/span&gt;
-              &lt;/li&gt;
-            &lt;/template&gt;
-        &lt;/ul&gt;
-    &lt;/nav&gt;
-    &lt;section&gt;
-        &lt;div class=&quot;swiper-container&quot; id=&quot;index-swiper&quot;&gt;
-            &lt;div class=&quot;swiper-wrapper&quot;&gt;
-                &lt;div class=&quot;swiper-slide&quot;&gt;
-                    &lt;section id=&quot;index-scroll&quot;&gt;
-                        &lt;Hot&gt;&lt;/Hot&gt;
-                    &lt;/section&gt;
-                &lt;/div&gt;
-                &lt;div class=&quot;swiper-slide&quot;&gt;second slider&lt;/div&gt;
-                &lt;div class=&quot;swiper-slide&quot;&gt;third slider&lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/section&gt;
-&lt;/template&gt;
-&lt;script&gt;
-    var mySwiper=null;
-    import Hot from &#39;./hot.vue&#39;;
-    module.exports = ({
-        data: function() {
-            return {
-                curIndex: 0,
-                navList: [&#39;热门&#39;, &#39;搭配师&#39;, &#39;穿衣茶话会&#39;, &#39;潮流穿搭志&#39;]
-            }
-        },
-        ready: function() {
-            var that = this;
-            mySwiper = new Swiper(&quot;#index-swiper&quot;, {
-                onSlideChangeStart: function() {
-                    that.curIndex = mySwiper.activeIndex;
-                }
-            });
-        },
-        components: {
-            Hot
-        },
-        methods: {
-            switchSwiper(index) {
-                this.curIndex = index;
-                mySwiper.slideTo(index);
-            }
-        }
-    })
-&lt;/script&gt;
-&lt;style lang=&quot;scss&quot;&gt;
-&lt;/style&gt;
-</code></pre>
-<p>我们在其中加入了我们的第一个栏目，热门：</p>
-<ol>
-<li>首先，在<code>script</code>部分把模块引入：<pre><code class="javascript">import Hot from &#39;./hot.vue&#39;;
-</code></pre>
-</li>
-<li>设置页面内需要的组件：<pre><code class="javascript">components: {
- Hot
-},
-</code></pre>
-</li>
-<li>将该模块加入模板文件合适的位置：<pre><code class="html">&lt;section id=&quot;index-scroll&quot;&gt;
- &lt;Hot&gt;&lt;/Hot&gt;
-&lt;/section&gt;
-</code></pre>
-</li>
-</ol>
-<h3 id="栏目模块"><a href="#栏目模块" class="headerlink" title="栏目模块"></a>栏目模块</h3><p>在引入了<code>hot.vue</code>模块之后，我们来设计和编写具体内容。<br>根据组件分解，在该页面有三个模块：轮播、大图列表项和小图列表项。我们将三个模块分别为命名为<code>swiper</code>，<code>block</code>，<code>list</code>。<br>因为大图列表和小图列表是混杂在一起排列的，顺序不定，所以在我们需要后台返回的数据中，包含对于列表项类型的参数。<br>假设后台返回的数据中对于类型的描述为<code>{...,type:&quot;block&quot;}</code>或<code>{...,type:&quot;list&quot;}</code>。<br>此时，根据返回数据<code>lists</code>我们可以通过<code>v-if</code>来控制此处需要选择的类型。</p>
-<pre><code class="html">&lt;template v-for=&quot;content in lists&quot;&gt;
-    &lt;block v-if=&quot;content.type==&#39;block&#39;&quot;&gt;&lt;/block&gt;
-    &lt;list v-if=&quot;content.type==&#39;list&#39;&quot;&gt;&lt;/list&gt;
-&lt;/template&gt;
-</code></pre>
-<p>因此模板可以写成：</p>
-<pre><code class="html">&lt;template&gt;
-    &lt;swiper&gt;&lt;/swiper&gt;
-    &lt;template v-for=&quot;content in lists&quot;&gt;
-        &lt;block v-if=&quot;content.type==&#39;block&#39;&quot;&gt;&lt;/block&gt;
-        &lt;list v-if=&quot;content.type==&#39;list&#39;&quot;&gt;&lt;/list&gt;
-    &lt;/template&gt;
-&lt;/template&gt;
-</code></pre>
-<p>同样地，我们任然需要导入组件和设置页面包含组件，设置与上一步类似。</p>
-<h3 id="具体内容模块"><a href="#具体内容模块" class="headerlink" title="具体内容模块"></a>具体内容模块</h3><p>经过上述步骤，我们现在需要编写最内层的三个模块，相信大家可以很轻松完成。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在完成了上述工作之后，当项目内的其他页面需要用到相同模块时，我们可以直接重用相关组件。在需求变动时，也可以很轻松的替换对应组件，大大的提高了开发效率。</p>
-
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><p>本文仅描述采用单文件组件构建项目的思路，<code>webpack</code>和<code>Vue.js</code>等相关基础知识请查阅官方文档。<br>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2015/12/29/Vue单文件组件实践/#more">more >></a>
+        </p>
       
     </div>
     <div class="article-info article-info-index">
@@ -492,9 +332,138 @@ comunity.vue
 
 
   
+    <article id="post-TCP协议族" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/04/TCP协议族/">HTTP、TCP/IP、UDP、Socket区别与联系</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="TCP-IP协议族"><a href="#TCP-IP协议族" class="headerlink" title="TCP/IP协议族"></a>TCP/IP协议族</h4><p>TCP/IP是个协议族，可分为四个层次：应用层、传输层、网络层和数据链路层。</p>
+<ol>
+<li>在应用层有FTP、<strong>HTTP</strong>、TELNET、SMTP、DNS等协议。</li>
+<li>在传输层中有TCP协议与UDP协议。</li>
+<li>在网络层有IP协议、ICMP协议、ARP协议、RARP协议和BOOTP协议。</li>
+<li>链路层用来处理连接网络的硬件部分。</li>
+</ol>
+<h4 id="TCP与UDP"><a href="#TCP与UDP" class="headerlink" title="TCP与UDP"></a>TCP与UDP</h4><p>UDP 是User Datagram Protocol的简称， 中文名是用户数据报协议，提供面向事务的简单不可靠信息传送服务。它是面向非连接的协议，不与对方建立连接，而是直接就把数据包发送过去。UDP协议的优点是比较简单，容易实现，但是缺点是可靠性较差，一旦数据包发出，无法知道对方是否收到。 UDP适用于一次只传送少量数据、对可靠性要求不高的应用环境。<br>为了解决这个问题，提高网络可靠性，TCP(Transmission Control Protocol)协议就诞生了，在正式收发数据前，必须和对方建立可靠的连接。一个TCP连接必须要经过三次“对话”才能建立起来。</p>
+<h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>HTTP协议即超文本传送协议(Hypertext Transfer Protocol )，完成从客户端到服务器端等一系列运作流程。HTTP协议是建立在TCP协议之上的一种应用。<br>HTTP 是基于 TCP/IP 协议的应用层协议。它不涉及数据包（packet）传输，主要规定了客户端和服务器之间的通信格式，默认使用80端口。</p>
+<h4 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h4><p>应用层通过传输层进行数据通信时，TCP会遇到同时为多个应用程序进程提供并发服务的问题。多个TCP连接或多个应用程序进程可能需要通过同一个 TCP协议端口传输数据。为了区别不同的应用程序进程和连接，许多计算机操作系统为应用程序与TCP／IP协议交互提供了套接字(Socket)接口。应用层可以和传输层通过Socket接口，区分来自不同应用程序进程或网络连接的通信，实现数据传输的并发服务。<br>Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一组接口。在设计模式中，Socket其实就是一个门面模式，它把复杂的TCP/IP协议族隐藏在Socket接口后面，对用户来说，一组简单的接口就是全部，让Socket去组织数据，以符合指定的协议。</p>
+<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>当用户输入了一个网址之后，DNS将网址解析为IP地址，HTTP协议生成针对目标Web服务器的HTTP请求报文。TCP为了方便通信，将HTTP请求按序号分为多个报文段，并将每个报文可靠的传给对方。然后根据IP协议搜索对方的地址，一边中转一边传送。在另一端，根据TCP协议将到达报文段重组，合并为完整的报文，最后根据HTTP协议解析报文，web服务器进行对请求内容的处理。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/04/TCP协议族/" class="archive-article-date">
+  	<time datetime="2014-11-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-04</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-一句话描述HTTPS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/02/一句话描述HTTPS/">一句话描述HTTPS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <strong>HTTP+加密+认证+完整性保护=HTTPS</strong>。</p>
+<h4 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h4><p>通常， HTTP协议承载于TCP协议之上，HTTPS则在HTTP和TCP之间添加一个安全协议层SSL(Secure Socket Layer)、TSL(Transport Layer Security)。当使用SSL时，则变成先和SSL通信，再由SSL和TCP通信。<br>SSL使用两把密钥进行加密。公开密钥随意发布。发送密文的一方使用对方公开的密钥进行加密处理，对方收到被加密的信息后，再使用自己的私有密钥进行解密。利用这种方式，不需要发送用来解密的私有密钥，也不必担心密钥被攻击者窃听而盗走。<br>公开密钥加密处理起来比共享密钥加密更为复杂，因此若在通信时使用公开密钥加密的方式，效率就很低。<br><strong>HTTPS采用混合加密</strong>。在交换密钥环节使用公开密钥加密方式，之后建立的通信交换报文阶段则使用共享密钥加密方式。</p>
+<h4 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h4><p>使用公开密钥存在一个问题：无法证明公开密钥本身就是货真价实的公开密钥。</p>
+<ul>
+<li>为了解决此问题，可以使用由数字证书机构CA和其相关机构颁发的公开密钥证书。</li>
+<li>在申请到数字证书之后，服务器在收到通过HTTPS的访问请求时，会将这份由认证机构颁发的公钥证书发送给客户端。</li>
+<li>接到证书的客户端可以使用数字证书认证机构的公开密钥，对那张证书上的数字签名进行验证，一旦验证通过，客户端便可明确两件事：一，认证服务器的公开密钥是真实有效的数字证书认证机构。二，服务器公开密钥是值得信赖的。</li>
+<li>为了保认证机构的公开密钥安全转交给客户端，多数浏览器选择在内部植入常用认证机关的公开密钥，问题得以解决。</li>
+</ul>
+<h4 id="完整性保护"><a href="#完整性保护" class="headerlink" title="完整性保护"></a>完整性保护</h4><p>HTTPS的通信步骤较HTTP复杂很多，在完整性保护方面，应用层发送数据时会附加MAC(Message Authentication Code)的报文摘要。MAC能够查知报文是否遭到篡改，从而保护报文的完整性。</p>
+<div style="height:100px"></div>
+
+
+
+
+
+
+
+
+<p>参考：<br>《图解HTTP》</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/02/一句话描述HTTPS/" class="archive-article-date">
+  	<time datetime="2014-11-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 

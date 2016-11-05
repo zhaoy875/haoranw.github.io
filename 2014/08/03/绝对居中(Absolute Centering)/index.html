@@ -21,7 +21,7 @@ If ‘margin-top’, or’margin-bottom’ are ‘auto’, their used value is 0
 
 可以理解为在普通内容流（normal content flow）中，mar">
 <meta property="og:image" content="/img/ac.png">
-<meta property="og:updated_time" content="2016-10-21T11:22:49.000Z">
+<meta property="og:updated_time" content="2016-11-05T07:09:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="绝对居中(Absolute Centering)">
 <meta name="twitter:description" content="我们经常使margin:0 auto来实现水平居中，很多人在刚接触前端时都会有这样的疑问，为什么margin：auto 0不能实现垂直居中？我们来看W3C对margin的部分描述：
@@ -189,8 +189,7 @@ If ‘margin-top’, or’margin-bottom’ are ‘auto’, their used value is 0
 <h4 id="绝对居中的实现原理："><a href="#绝对居中的实现原理：" class="headerlink" title="绝对居中的实现原理："></a>绝对居中的实现原理：</h4><p><strong>“其实在接触到一样新方法时，知道其中的实现原理远比知道如何用重要的多。”</strong></p>
 <p style="text-align:right">——沃兹基硕德 </p>
 
-<p>绝对居中（<em>Absolute Centering</em>）的工作机理可以总结如下：</p>
-<p>1.<code>position: absolute;</code>打破了通常的文档流。文档流内剩余的部分在渲染时，会当做这个块元素不在这。<br>2.将块元素设置为<code>top: 0; left: 0; bottom: 0; right: 0;</code>会让浏览器给这个块元素一个新的边界框。此时这个块元素会填满它相关的父元素的的可用空间（body或者设置了<code>position:relative</code>的父元素）。</p>
+<p>绝对居中（<em>Absolute Centering</em>）的工作机理可以总结如下：<br><a id="more"></a><br>1.<code>position: absolute;</code>打破了通常的文档流。文档流内剩余的部分在渲染时，会当做这个块元素不在这。<br>2.将块元素设置为<code>top: 0; left: 0; bottom: 0; right: 0;</code>会让浏览器给这个块元素一个新的边界框。此时这个块元素会填满它相关的父元素的的可用空间（body或者设置了<code>position:relative</code>的父元素）。</p>
 <p>3.赋予这个块元素一个宽度或高度，防止了这个块元素占据所有的可用空间，并且强制浏览器在新的边界框的基础上计算<code>margin:auto</code>。</p>
 <p>4.因为这个块元素已经绝对定位了，因而脱离了正常的流，浏览器给予<code>margin-top</code>和<code>margin-bottom</code>一个相等的值使得这个元素在之前设置好的边界中居中。</p>
 <p>同样我们可以来看一句W3C的官方描述：</p>

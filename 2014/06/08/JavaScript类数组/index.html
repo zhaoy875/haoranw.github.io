@@ -18,7 +18,7 @@
 判定类数组《JavaScript权威指南》上给出了代码用来判断一个对象是否属于“类数组”。代码如下：
 // Determine if o is an array-like object.
 // Strings and functions">
-<meta property="og:updated_time" content="2016-10-31T14:14:04.000Z">
+<meta property="og:updated_time" content="2016-11-05T07:08:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript类数组">
 <meta name="twitter:description" content="JavaScript中常见的类数组有arguments,NodeList和HTMLCollection等。那它们有什么共性呢？如何判定一个对象是否属于类数组呢？
@@ -186,7 +186,8 @@ function isArrayLike(o) {
 }
 </code></pre>
 <p>其实这种判断方式属于一种鸭式辨型（duck typing）：如果它走起来像鸭子，叫起来也像鸭子的话，那它就是鸭子。所以对于类数组，只要满足下面这个条件我们即认为其为类数组：<br><strong> 具有<code>length</code>属性，且<code>length</code>值为大于等于0的整数。</strong></p>
-<h4 id="类数组表现"><a href="#类数组表现" class="headerlink" title="类数组表现"></a>类数组表现</h4><p>既然是“类数组”，那么肯定与数组有所区别，它并不能直接使用数组方法。但我们可以通过一些方法，来像使用数组那样使用类数组。</p>
+<h4 id="类数组表现"><a href="#类数组表现" class="headerlink" title="类数组表现"></a>类数组表现</h4><a id="more"></a>
+<p>既然是“类数组”，那么肯定与数组有所区别，它并不能直接使用数组方法。但我们可以通过一些方法，来像使用数组那样使用类数组。</p>
 <pre><code class="javascript">var a = {&#39;0&#39;:&#39;a&#39;, &#39;1&#39;:&#39;b&#39;, &#39;2&#39;:&#39;c&#39;, length:3};      // An array-like object
 Array.prototype.join.call(a, &#39;+&#39;);                 // =&gt; &#39;a+b+c&#39;
 Array.prototype.slice.call(a, 0);                   // =&gt; [&#39;a&#39;,&#39;b&#39;,&#39;c&#39;]: true array copy

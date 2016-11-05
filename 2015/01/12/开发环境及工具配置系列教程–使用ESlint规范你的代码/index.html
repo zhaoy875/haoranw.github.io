@@ -6,19 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>开发环境及工具配置系列教程--使用ESlint规范你的代码 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="开发环境及工具配置系列教程–使用ESlint规范你的代码为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的javascript代码达到国际化的水准。
-安装ESLint：（教程内容在OS X下测试通过并编写，其它系统仅供参考）安装前请确">
+  <meta name="description" content="为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的JavaScript代码达到国际化的水准。
+安装ESLint：（教程内容在OS X下测试通过并编写，其它系统仅供参考）安装前请确保已安装node。
+依次在命令行内执行：
+1.npm i">
 <meta property="og:type" content="article">
 <meta property="og:title" content="开发环境及工具配置系列教程--使用ESlint规范你的代码">
 <meta property="og:url" content="/2015/01/12/开发环境及工具配置系列教程–使用ESlint规范你的代码/index.html">
 <meta property="og:site_name" content="ransama's Blog">
-<meta property="og:description" content="开发环境及工具配置系列教程–使用ESlint规范你的代码为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的javascript代码达到国际化的水准。
-安装ESLint：（教程内容在OS X下测试通过并编写，其它系统仅供参考）安装前请确">
-<meta property="og:updated_time" content="2016-11-05T08:35:55.000Z">
+<meta property="og:description" content="为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的JavaScript代码达到国际化的水准。
+安装ESLint：（教程内容在OS X下测试通过并编写，其它系统仅供参考）安装前请确保已安装node。
+依次在命令行内执行：
+1.npm i">
+<meta property="og:updated_time" content="2016-11-05T09:24:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="开发环境及工具配置系列教程--使用ESlint规范你的代码">
-<meta name="twitter:description" content="开发环境及工具配置系列教程–使用ESlint规范你的代码为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的javascript代码达到国际化的水准。
-安装ESLint：（教程内容在OS X下测试通过并编写，其它系统仅供参考）安装前请确">
+<meta name="twitter:description" content="为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的JavaScript代码达到国际化的水准。
+安装ESLint：（教程内容在OS X下测试通过并编写，其它系统仅供参考）安装前请确保已安装node。
+依次在命令行内执行：
+1.npm i">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -160,17 +166,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="开发环境及工具配置系列教程–使用ESlint规范你的代码"><a href="#开发环境及工具配置系列教程–使用ESlint规范你的代码" class="headerlink" title="开发环境及工具配置系列教程–使用ESlint规范你的代码"></a>开发环境及工具配置系列教程–使用ESlint规范你的代码</h3><p>为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的javascript代码达到国际化的水准。</p>
+        <p>为了规范代码，提高代码质量，我们可以使用ESLint。ESlint与JSlint类似是一个Javascript静态检查工具，由红宝书《JavaScript高级程序设计》的作者提供，它可以帮你养成良好的编程习惯，使你的JavaScript代码达到国际化的水准。</p>
 <h4 id="安装ESLint："><a href="#安装ESLint：" class="headerlink" title="安装ESLint："></a>安装ESLint：</h4><p>（教程内容在OS X下测试通过并编写，其它系统仅供参考）<br>安装前请确保已安装node。</p>
 <p>依次在命令行内执行：</p>
 <p>1.<code>npm install eslint -g</code><br>这里的-g选项代表全局。如果你没有设置这个-g选项的话，它会在你当前文件夹下安装ESLint可执行文件。在其他文件夹下面就不能使用了。</p>
 <p>2.<code>eslint</code><br>如果安装成功，输入这条命令会弹出一系列提示信息。如果提示命令不存在，则没有安装成功，重新进行上一步操作。</p>
 <p>官方的教程里面，下一步应该是<code>eslint --init</code>。它相当于一个初始化配置的过程，会问你几个问题，根据个人习惯来生成一个初步规则，在你当前文件夹下生成.eslintrc文件，并且如果你使用包的话，还会要求必须要有package.json文件。其实并没有必要执行这繁琐的一步，所以我们直接跳过。</p>
-<p>3.<code>npm install eslint-config-airbnb -g</code><br>在Eslint默认推荐的三个规则是：Google标准、Airbnb标准和Standard标准。目前来看，公认的最好的标准是Airbnb标准，它对于ES6要求最严格，比如禁止使用var定义变量，必须使用let或者const等等。所以我们选择安装airbnb标准，依旧全局安装。</p>
-<p>4.<code>npm install eslint-plugin-jsx-a11y -g</code><br>a11y是accessibility（无障碍环境）的缩写，从第一个字母a到最后一个字母y，中间一共是11个字母，所以就叫a11y了，类似于i18n表示internationalization（国际化）一样。JSX主要是React会用到，虽然我们的项目里可能并不会用React，但是这个Airbnb标准必须要用到它，所以必须安装。</p>
+<p>3.<code>npm install eslint-config-airbnb -g</code><br>在Eslint默认推荐的三个规则是：Google标准、Airbnb标准和Standard标准。目前来看，公认的最好的标准是Airbnb标准，它对于ES6要求最严格，比如禁止使用var定义变量，必须使用let或者const等等。所以我们选择安装airbnb标准，依旧全局安装。<br><a id="more"></a><br>4.<code>npm install eslint-plugin-jsx-a11y -g</code><br>a11y是accessibility（无障碍环境）的缩写，从第一个字母a到最后一个字母y，中间一共是11个字母，所以就叫a11y了，类似于i18n表示internationalization（国际化）一样。JSX主要是React会用到，虽然我们的项目里可能并不会用React，但是这个Airbnb标准必须要用到它，所以必须安装。</p>
 <p>5.<code>npm install eslint-plugin-import -g</code><br>Airbnb标准必需。</p>
 <p>最后，编写我们自己的全局.eslintrc.json文件：<br>全局的.eslintrc.json文件则放在当前用户的根目录下，类Unix系统的当前用户目录是~，而Windows系统的话则是类似于C:\Windows\Users\Username这样的地方。<br>MacOS可以在命令行输入<code>touch .eslintrc.json</code>来创建词文件。<br>把以下代码放入.eslintrc.json，就做好了ESLint初步配置。</p>
-<pre><code class="bash">{
+<pre><code class="JavaScript">{
     &quot;extends&quot;: &quot;airbnb&quot;,
     &quot;installedESLint&quot;: true,
     &quot;plugins&quot;: [
@@ -190,21 +195,23 @@
 <p>其中，<code>env</code>下面主要是为了定义一系列全局变量，否在会报错。比如如果没有添加<code>browser</code>，甚至代码中的<code>alert</code>和<code>window</code>都会提示变量未定义错误信息。<code>rules</code>下面是为了防止缩进不符合2个字符而报错，个人习惯使用4个字符的缩进。</p>
 <h3 id="使用ESLint："><a href="#使用ESLint：" class="headerlink" title="使用ESLint："></a>使用ESLint：</h3><p>最后我们可以使用ESlint来进行检测了；</p>
 <p>1.通过命令行<br>比如我们要检测1.js这个文件，在该文件所属目录下打开命令行，输入</p>
-<pre><code>eslint 1.js
-</code></pre><p>紧接着我们会得到检测完成的反馈信息。</p>
+<pre><code class="bash">eslint 1.js
+</code></pre>
+<p>紧接着我们会得到检测完成的反馈信息。</p>
 <p>2.使用IDE<br>以webstorm为例在配置好ESlint之后，ws会自动找到ESlint的路径，所以我们只需要在设置中打开ESlint就可以了。<br>依次找到Preference—&gt;Language &amp; Frameworks —&gt; JavaScript —&gt; Code Quality Tools —&gt; Eslint;<br>点击Enable即可。在这个设置项内ws也提供了修改规则的方式，当然也可以自己修改rules下面的内容来修改规则，具体有哪些规则及使用场景请参考<a href="http://eslint.org/" target="_blank" rel="external">ESlint官网</a></p>
 <p>3.在webpack中使用<br>首先我们需要一个对应的loader：</p>
 <pre><code class="bash">npm install --save-dev eslint-loader
 </code></pre>
 <p>之后在配置文件中加入：</p>
-<pre><code>preLoaders: [
+<pre><code class="JavaScript">preLoaders: [
     {
         test: /\.js$/,
         loader: &quot;eslint-loader&quot;,
         exclude: /node_modules/
     }
 ],
-</code></pre><p>希望每个人都能写出规范高质量的JavaScript代码。</p>
+</code></pre>
+<p>希望每个人都能写出规范高质量的JavaScript代码。</p>
 
       
     </div>

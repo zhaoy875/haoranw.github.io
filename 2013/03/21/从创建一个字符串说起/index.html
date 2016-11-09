@@ -4,41 +4,39 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>查阅官方文档的正确姿势 | ransama&#39;s Blog</title>
+  <title>从创建一个字符串说起 | ransama&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img{    width:50%;}在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：
+  <meta name="description" content="首先我们可能都知道创建一个字符串通常有三种写法：
+var str1=&amp;quot;wanghaoran&amp;quot;;
+var str2=String(&amp;quot;wanghaoran&amp;quot;);
+var str3=new String(&amp;quot;wanghaoran&amp;quot;);
 
-在JavaScript中[] == ![]的结果是什么？
-
-1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。在ECMAScript官方规范对于== 流程的定义是：
-即首先对于左右两端的">
+我们对每一个str执行typeof，可以得到如下结果：
+typeof str1;
+// &amp;#39;string">
 <meta property="og:type" content="article">
-<meta property="og:title" content="查阅官方文档的正确姿势">
-<meta property="og:url" content="/2016/11/04/查阅官方文档的正确姿势/index.html">
+<meta property="og:title" content="从创建一个字符串说起">
+<meta property="og:url" content="/2013/03/21/从创建一个字符串说起/index.html">
 <meta property="og:site_name" content="ransama's Blog">
-<meta property="og:description" content="img{    width:50%;}在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：
+<meta property="og:description" content="首先我们可能都知道创建一个字符串通常有三种写法：
+var str1=&amp;quot;wanghaoran&amp;quot;;
+var str2=String(&amp;quot;wanghaoran&amp;quot;);
+var str3=new String(&amp;quot;wanghaoran&amp;quot;);
 
-在JavaScript中[] == ![]的结果是什么？
-
-1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。在ECMAScript官方规范对于== 流程的定义是：
-即首先对于左右两端的">
-<meta property="og:image" content="/img/1476281473133.png">
-<meta property="og:image" content="/img/1476320118348.png">
-<meta property="og:image" content="/img/1476281822952.png">
-<meta property="og:image" content="/img/1476282017547.png">
-<meta property="og:image" content="/img/1476280994942.png">
-<meta property="og:image" content="/img/1476321059947.png">
-<meta property="og:image" content="/img/1476321489571.png">
-<meta property="og:updated_time" content="2016-11-09T02:50:43.000Z">
+我们对每一个str执行typeof，可以得到如下结果：
+typeof str1;
+// &amp;#39;string">
+<meta property="og:updated_time" content="2016-11-09T02:49:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="查阅官方文档的正确姿势">
-<meta name="twitter:description" content="img{    width:50%;}在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：
+<meta name="twitter:title" content="从创建一个字符串说起">
+<meta name="twitter:description" content="首先我们可能都知道创建一个字符串通常有三种写法：
+var str1=&amp;quot;wanghaoran&amp;quot;;
+var str2=String(&amp;quot;wanghaoran&amp;quot;);
+var str3=new String(&amp;quot;wanghaoran&amp;quot;);
 
-在JavaScript中[] == ![]的结果是什么？
-
-1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。在ECMAScript官方规范对于== 流程的定义是：
-即首先对于左右两端的">
-<meta name="twitter:image" content="/img/1476281473133.png">
+我们对每一个str执行typeof，可以得到如下结果：
+typeof str1;
+// &amp;#39;string">
   
     <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
   
@@ -162,7 +160,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-查阅官方文档的正确姿势" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-从创建一个字符串说起" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -172,7 +170,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      查阅官方文档的正确姿势
+      从创建一个字符串说起
     </h1>
   
 
@@ -180,45 +178,58 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><style><br>img{<br>    width:50%;<br>}<br></style><br>在之前的博文中可能谈到过这个问题：参照官方文档才是解决问题的根本依据。<br>以一个经典的问题为例，展示一下大致流程。（当然在平时的工作中，很多步骤是可以省略的）：</p>
+        <p>首先我们可能都知道创建一个字符串通常有三种写法：</p>
+<pre><code class="javascript">var str1=&quot;wanghaoran&quot;;
+var str2=String(&quot;wanghaoran&quot;);
+var str3=new String(&quot;wanghaoran&quot;);
+</code></pre>
+<p>我们对每一个str执行<code>typeof</code>，可以得到如下结果：</p>
+<pre><code class="javascript">typeof str1;
+// &#39;string&#39;
+typeof str2;
+// &#39;string&#39;
+typeof str3;
+// &#39;object&#39;
+</code></pre>
+<p>前两种方法创建的字符串都属于Primitive String ，即原始数据类型中的原始类型字符串，返回的自然是<code>string</code>。</p>
+<p>而第三种方法使用了构造函数创建了一个String Object，所以它的类型是对象，即<code>Object</code></p>
+<p>那么问题来了，为什么一个原始类型的字符串能够调用各种字符串方法或者查看属性呢？这不是对象能做的事吗？<br><a id="more"></a><br>要了解这个问题的答案就要从源头着手。首先根据ES发布的规范：</p>
+<p>JS在运行到形如<code>PrimitiveType.method</code>即处理某个基本类型的某方法时，会调用<code>CheckObjectCoercible(baseValue)</code>方法，在此方法中会进行<code>ToObject</code>运算。</p>
+<p>针对<code>String</code>类型的<code>ToObject</code>运算的描述如下：</p>
 <blockquote>
-<p>在JavaScript中<code>[] == ![]</code>的结果是什么？</p>
+<p>Create a new String object whose [[PrimitiveValue]] internal property is set to the value of the argument.</p>
 </blockquote>
-<h3 id="1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。"><a href="#1-要回答这道题，首先应该是明确js中-运算符计算的流程和规则。" class="headerlink" title="1.要回答这道题，首先应该是明确js中==运算符计算的流程和规则。"></a>1.要回答这道题，首先应该是明确js中<code>==</code>运算符计算的流程和规则。</h3><p>在<a href="http://www.ecma-international.org/ecma-262/7.0/index.html#prod-EqualityExpression" target="_blank" rel="external">ECMAScript官方规范</a>对于<code>==</code> 流程的定义是：</p>
-<p><img src="/img/1476281473133.png" alt="Alt text"><br>即首先对于左右两端的值进行<code>GetValue()</code>操作。</p>
-<h3 id="2-再来看GetValue-："><a href="#2-再来看GetValue-：" class="headerlink" title="2.再来看GetValue()："></a><strong>2.再来看<code>GetValue()</code></strong>：</h3><p><img src="/img/1476320118348.png" alt="Alt text"><br><code>GetValue</code> 会获取一个子表达式的值（消除掉左值引用），在表达式 <code>[] == ![]</code> 中，<code>[]</code> 的结果就是一个空数组的引用。<br><a id="more"></a></p>
-<h3 id="3-按照如下规则："><a href="#3-按照如下规则：" class="headerlink" title="3. ![] 按照如下规则："></a><strong>3. <code>![]</code> 按照如下规则</strong>：</h3><p><img src="/img/1476281822952.png" alt="Alt text"><br>执行<code>ToBoolean([])</code>操作。</p>
-<h3 id="4-ToBoolean-根据规则："><a href="#4-ToBoolean-根据规则：" class="headerlink" title="4.ToBoolean([])根据规则："></a><strong>4.<code>ToBoolean([])</code>根据规则</strong>：</h3><p><img src="/img/1476282017547.png" alt="Alt text"><br>返回<code>true</code>；既满足 “If oldValue is true,return false” 。<br>所以<code>![]</code>返回<code>false</code>，比较变成<code>[]==false</code>。<br>现在到了<strong>12.11.3</strong>的第5步。</p>
-<h3 id="5-来看Abstract-Equality-Comparison的规则："><a href="#5-来看Abstract-Equality-Comparison的规则：" class="headerlink" title="5.来看Abstract Equality Comparison的规则："></a><strong>5.来看<code>Abstract Equality Comparison</code>的规则</strong>：</h3><p><img src="/img/1476280994942.png" alt="Alt text"><br>在这段算法里，匹配条件 7，调用<code>ToNumber(false)</code>进行比较。</p>
-<h3 id="6-那么根据ToNumber-的规则："><a href="#6-那么根据ToNumber-的规则：" class="headerlink" title="6.那么根据ToNumber()的规则："></a><strong>6.那么根据<code>ToNumber()</code>的规则</strong>：</h3><p><img src="/img/1476321059947.png" alt="Alt text"><br>所以<code>ToNumber(false)</code> 返回0，于是比较变为<code>[] == 0</code>。<br>在此处因为 <code>[]</code> 是对象，根据7.2.13的规则9，比较<code>ToPrimitive([])==0</code>。</p>
-<h3 id="7-ToPrimitive-object-规则如下："><a href="#7-ToPrimitive-object-规则如下：" class="headerlink" title="7.ToPrimitive (object)规则如下："></a><strong>7.<code>ToPrimitive (object)</code>规则如下</strong>：</h3><p><img src="/img/1476321489571.png" alt="Alt text"></p>
-<p>在这一步中<code>hint</code>为<code>number</code>，所以对应的操作顺序为<code>valueOf,toString</code>直至返回基本数据类型为止。<br>依次执行<code>[].valueOf()</code>，<code>[].toString()</code>。返回空字符串。</p>
-<p>所以在<strong>7.1.3</strong>中我们继续执行<code>Argumengt Type</code>为<code>Object</code>的第二步<code>ToNumber(&#39;&#39;)</code>，返回0；</p>
-<p><code>0 == 0</code><strong>所以结果为 true</strong>。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在解决这个问题的过程中，我们明确了ECMAScript中的对于以下规则的定义：</p>
-<ol>
-<li><code>==</code>；</li>
-<li><code>Abstract Equality Comparison</code></li>
-<li><code>GetValue()</code></li>
-<li><code>ToBoolean()</code></li>
-<li><code>ToNumber()</code></li>
-<li><code>ToPrimitive()</code></li>
-<li><code>valueOf,toString</code></li>
-</ol>
-<p>有理有据，令人信服。</p>
-<p><div style="margin-top:100px;"></div><br>参考：<br><a href="http://www.ecma-international.org/ecma-262/7.0/index.html#prod-EqualityExpression" target="_blank" rel="external">ECMA-262 7th Edition</a></p>
+<p>过程中创建了一个对象，并且将这个字符串的内容复制给这个对象。</p>
+<p>但是这个包装对象是临时的，在操作完成时就会释放，下次再重新访问时会重新建立。所以虽然我们可以像对象那样，在原始数据类型的值上调用各种内置的对象方法，但是对原始类型的数值进行自定义方法或者属性时，并不能得到保存。</p>
+<pre><code class="javascript">var person=&quot;wanghaoran&quot;;
+person.sex=&quot;male&quot;;
+person.callName=function(){
+    alert(this);
+}
+console.log(person.sex);//undefined
+person.callName();//报错...is Not a function
+</code></pre>
+<p>当然以下方法是没有问题的：</p>
+<pre><code class="javascript">var person=new String(&quot;wanghaoran&quot;);
+person.sex=&quot;male&quot;;
+person.callName=function(){
+    alert(this);
+}
+console.log(person.sex);//male
+person.callName();//弹出wanghaoran
+</code></pre>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/04/查阅官方文档的正确姿势/" class="archive-article-date">
-  	<time datetime="2016-11-04T13:48:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-04</time>
+      <a href="/2013/03/21/从创建一个字符串说起/" class="archive-article-date">
+  	<time datetime="2013-03-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-21</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文档/">文档</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
 	</div>
 
       
@@ -231,11 +242,15 @@
   
 <nav id="article-nav">
   
-  
-    <a href="/2016/10/18/Yarn：一个新JavaScript包管理器/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Yarn：一个新的JavaScript包管理器</div>
-      <i class="icon-circle-right"></i>
+    <a href="/2013/04/11/关于String的一些细节/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          关于String的一些细节
+        
+      </div>
     </a>
+  
   
 </nav>
 
@@ -267,7 +282,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="查阅官方文档的正确姿势" data-title="查阅官方文档的正确姿势" data-url="/2016/11/04/查阅官方文档的正确姿势/"></div>
+	<div class="ds-thread" data-thread-key="从创建一个字符串说起" data-title="从创建一个字符串说起" data-url="/2013/03/21/从创建一个字符串说起/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

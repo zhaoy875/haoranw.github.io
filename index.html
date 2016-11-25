@@ -332,6 +332,67 @@
 
 
   
+    <article id="post-router的基本原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/21/router的基本原理/">ui.router路由实现原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前端构建SPA必不可少应该就是Router了，不同的MV*对路由的实现各有不同，对于angular这种大而全的框架，它自然也有内置的路由模块ngRoute。</p>
+<p>不过，ngRoute功能有限，甚至不能实现路由嵌套。<br>相比较而言ui-router可以很好的完成一个页面可以嵌套多个视图、多个视图去控制某一个视图的工作。</p>
+<h4 id="router的基本原理"><a href="#router的基本原理" class="headerlink" title="router的基本原理"></a>router的基本原理</h4><p>我们应该都知道在访问锚点的时候，页面并不会进行刷新，比如在下面的结构中：</p>
+<pre><code class="html">&lt;a href=&quot;#view&quot;&gt;go&lt;/a&gt;
+&lt;pre id=&quot;view&quot;&gt;
+</code></pre>
+<p>点击了a标签之后，会找对对应锚点的位置，并且在地址栏中的地址后加上了<code>#view</code>。</p>
+<p>所以可以通过对<code>#</code>之后部分的解析来获取数据，以此来实现页面不刷新而重新渲染部分内容的效果。</p>
+<p>那么如何获取<code>#view</code>呢？</p>
+<p>以 <code>https://www.abc.com:8080/test/index.html?id=10#name</code>为例，我们通过控制台打印出<code>window.location</code>，可以得出其地址结构分为：<br>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2015/08/21/router的基本原理/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/08/21/router的基本原理/" class="archive-article-date">
+  	<time datetime="2015-08-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJS/">AngularJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MV/">MV*</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-开发环境及工具配置系列教程–使用ESlint规范你的代码" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -379,66 +440,6 @@
 	<a class="article-category-link" href="/categories/开发环境及工具配置/">开发环境及工具配置</a>
 	</div>
 
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-TCP协议族" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/04/TCP协议族/">HTTP、TCP/IP、UDP、Socket区别与联系</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="TCP-IP协议族"><a href="#TCP-IP协议族" class="headerlink" title="TCP/IP协议族"></a>TCP/IP协议族</h4><p>TCP/IP是个协议族，可分为四个层次：应用层、传输层、网络层和数据链路层。</p>
-<ol>
-<li>在应用层有FTP、<strong>HTTP</strong>、TELNET、SMTP、DNS等协议。</li>
-<li>在传输层中有TCP协议与UDP协议。</li>
-<li>在网络层有IP协议、ICMP协议、ARP协议、RARP协议和BOOTP协议。</li>
-<li>链路层用来处理连接网络的硬件部分。</li>
-</ol>
-<h4 id="TCP与UDP"><a href="#TCP与UDP" class="headerlink" title="TCP与UDP"></a>TCP与UDP</h4><p>UDP 是User Datagram Protocol的简称， 中文名是用户数据报协议，提供面向事务的简单不可靠信息传送服务。它是面向非连接的协议，不与对方建立连接，而是直接就把数据包发送过去。UDP协议的优点是比较简单，容易实现，但是缺点是可靠性较差，一旦数据包发出，无法知道对方是否收到。 UDP适用于一次只传送少量数据、对可靠性要求不高的应用环境。<br>为了解决这个问题，提高网络可靠性，TCP(Transmission Control Protocol)协议就诞生了，在正式收发数据前，必须和对方建立可靠的连接。一个TCP连接必须要经过三次“对话”才能建立起来。</p>
-<h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>HTTP协议即超文本传送协议(Hypertext Transfer Protocol )，完成从客户端到服务器端等一系列运作流程。HTTP协议是建立在TCP协议之上的一种应用。<br>HTTP 是基于 TCP/IP 协议的应用层协议。它不涉及数据包（packet）传输，主要规定了客户端和服务器之间的通信格式，默认使用80端口。</p>
-<h4 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h4><p>应用层通过传输层进行数据通信时，TCP会遇到同时为多个应用程序进程提供并发服务的问题。多个TCP连接或多个应用程序进程可能需要通过同一个 TCP协议端口传输数据。为了区别不同的应用程序进程和连接，许多计算机操作系统为应用程序与TCP／IP协议交互提供了套接字(Socket)接口。应用层可以和传输层通过Socket接口，区分来自不同应用程序进程或网络连接的通信，实现数据传输的并发服务。<br>Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一组接口。在设计模式中，Socket其实就是一个门面模式，它把复杂的TCP/IP协议族隐藏在Socket接口后面，对用户来说，一组简单的接口就是全部，让Socket去组织数据，以符合指定的协议。</p>
-<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>当用户输入了一个网址之后，DNS将网址解析为IP地址，HTTP协议生成针对目标Web服务器的HTTP请求报文。TCP为了方便通信，将HTTP请求按序号分为多个报文段，并将每个报文可靠的传给对方。然后根据IP协议搜索对方的地址，一边中转一边传送。在另一端，根据TCP协议将到达报文段重组，合并为完整的报文，最后根据HTTP协议解析报文，web服务器进行对请求内容的处理。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/11/04/TCP协议族/" class="archive-article-date">
-  	<time datetime="2014-11-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
-	</div>
-
-      
 
       <div class="clearfix"></div>
     </div>
@@ -520,7 +521,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/ESLint/" style="font-size: 10px;">ESLint</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 10px;">MV*</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
+    				<a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/ESLint/" style="font-size: 10px;">ESLint</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 13.33px;">MV*</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a>
     			</div>
     	</section>
     

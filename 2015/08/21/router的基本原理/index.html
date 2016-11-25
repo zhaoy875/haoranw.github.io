@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>ui.router路由实现原理 | ransama&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前端构建SPA必不可少应该就是Router了，不同的MV*对路由的实现各有不同，对于angular这种大而全的框架，它自然也有内置的路由模块ngRoute。
+不过，ngRoute功能有限，甚至不能实现路由嵌套。相比较而言ui-router可以很好的完成一个页面可以嵌套多个视图、多个视图去控制某一个视图的工作。
+router的基本原理我们应该都知道在访问锚点的时候，页面并不会进行刷新，比如在下面的结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ui.router路由实现原理">
+<meta property="og:url" content="/2015/08/21/router的基本原理/index.html">
+<meta property="og:site_name" content="ransama's Blog">
+<meta property="og:description" content="前端构建SPA必不可少应该就是Router了，不同的MV*对路由的实现各有不同，对于angular这种大而全的框架，它自然也有内置的路由模块ngRoute。
+不过，ngRoute功能有限，甚至不能实现路由嵌套。相比较而言ui-router可以很好的完成一个页面可以嵌套多个视图、多个视图去控制某一个视图的工作。
+router的基本原理我们应该都知道在访问锚点的时候，页面并不会进行刷新，比如在下面的结">
+<meta property="og:updated_time" content="2016-11-25T18:17:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ui.router路由实现原理">
+<meta name="twitter:description" content="前端构建SPA必不可少应该就是Router了，不同的MV*对路由的实现各有不同，对于angular这种大而全的框架，它自然也有内置的路由模块ngRoute。
+不过，ngRoute功能有限，甚至不能实现路由嵌套。相比较而言ui-router可以很好的完成一个页面可以嵌套多个视图、多个视图去控制某一个视图的工作。
+router的基本原理我们应该都知道在访问锚点的时候，页面并不会进行刷新，比如在下面的结">
+  
+    <link rel="alternative" href="/atom.xml" title="ransama&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.png">
+  
+  <script src="/style.js"></script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/guko.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">我善养吾浩然之气丶</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端技术分享&amp;&amp;生活随笔。</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/前端">前端文章</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="weibo" target="_blank" href="http://weibo.com/ransamaa" title="weibo">weibo</a>
+		        
+					<a class="github" target="_blank" href="https://github.com/haoranw" title="github">github</a>
+		        
+					<a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=yqOnoquluKuk5L2rpK2KrKWyp6ujpuSppac" title="mail">mail</a>
+		        
+					<a class="twitter" target="_blank" href="https://twitter.com/imhaoran" title="twitter">twitter</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">我善养吾浩然之气丶</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/guko.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">我善养吾浩然之气丶</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端技术分享&amp;&amp;生活随笔。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/前端">前端文章</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="weibo" target="_blank" href="http://weibo.com/ransamaa" title="weibo">weibo</a>
+			        
+						<a class="github" target="_blank" href="https://github.com/haoranw" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=yqOnoquluKuk5L2rpK2KrKWyp6ujpuSppac" title="mail">mail</a>
+			        
+						<a class="twitter" target="_blank" href="https://twitter.com/imhaoran" title="twitter">twitter</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-router的基本原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ui.router路由实现原理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前端构建SPA必不可少应该就是Router了，不同的MV*对路由的实现各有不同，对于angular这种大而全的框架，它自然也有内置的路由模块ngRoute。</p>
+<p>不过，ngRoute功能有限，甚至不能实现路由嵌套。<br>相比较而言ui-router可以很好的完成一个页面可以嵌套多个视图、多个视图去控制某一个视图的工作。</p>
+<h4 id="router的基本原理"><a href="#router的基本原理" class="headerlink" title="router的基本原理"></a>router的基本原理</h4><p>我们应该都知道在访问锚点的时候，页面并不会进行刷新，比如在下面的结构中：</p>
+<pre><code class="html">&lt;a href=&quot;#view&quot;&gt;go&lt;/a&gt;
+&lt;pre id=&quot;view&quot;&gt;
+</code></pre>
+<p>点击了a标签之后，会找对对应锚点的位置，并且在地址栏中的地址后加上了<code>#view</code>。</p>
+<p>所以可以通过对<code>#</code>之后部分的解析来获取数据，以此来实现页面不刷新而重新渲染部分内容的效果。</p>
+<p>那么如何获取<code>#view</code>呢？</p>
+<p>以 <code>https://www.abc.com:8080/test/index.html?id=10#name</code>为例，我们通过控制台打印出<code>window.location</code>，可以得出其地址结构分为：<br><a id="more"></a></p>
+<pre><code>protocol: https
+host: www.baidu.com:8080
+hostname: www.baidu.com
+port: 8080
+pathname: /aaa/1.html
+search: ?id=10
+hash: #name
+</code></pre><p>接下来可以通过<code>window.location.hash</code>来拿到对应的hash。hash的值改变会触发<code>hashchange</code>事件，所以我们可以有如下实现：</p>
+<pre><code class="javascript">window.addEventListener(&#39;hashchange&#39;, function(e) {
+        var hash = window.location.hash;
+        switch (hash) {
+          case &#39;#/index/&#39;:
+            console.log(&#39;index&#39;);
+            break;
+          case &#39;#/a/&#39;:
+            console.log(&#39;a&#39;);
+            break;
+          case &#39;#/b/&#39;:
+            console.log(&#39;b&#39;);
+            break;
+        }
+</code></pre>
+<h4 id="ui-router实现原理"><a href="#ui-router实现原理" class="headerlink" title="ui-router实现原理"></a>ui-router实现原理</h4><p>首先，看一个简单的例子：</p>
+<pre><code class="javascript">$stateProvider
+    .state(&#39;home&#39;, {
+        url: &#39;/abc&#39;,
+        template: &#39;hello world&#39;
+    });
+</code></pre>
+<p>上面，我们通过调用<code>$stateProvider.state()</code>方法，创建了一个简单路由规则，通过参数，可以容易理解到：</p>
+<p>规则名：’home’<br>匹配的url：’/abc’<br>对应的模板：’hello world’<br>意思就是说：当我们访问<a href="http://xxxx#/abc的时候，这个路由规则被匹配到，对应的模板会被填到某个div[ui-view]中。" target="_blank" rel="external">http://xxxx#/abc的时候，这个路由规则被匹配到，对应的模板会被填到某个div[ui-view]中。</a></p>
+<p>那么<code>$stateProvider.state()</code>方法，它做了些什么工作？</p>
+<p>首先，创建并存储一个state对象，里面包含着该路由规则的所有配置信息。<br>然后，调用<code>$urlRouterProvider.when()</code>方法，进行路由的注册(之前是路由的创建)，源码里面是这样写的：</p>
+<pre><code class="javascript">$urlRouterProvider.when(state.url, [&#39;$match&#39;, &#39;$stateParams&#39;, function ($match, $stateParams) {
+  // 判断是否是同一个state || 当前匹配参数是否相同
+  if ($state.$current.navigable != state || !equalForKeys($match, $stateParams)) {
+    $state.transitionTo(state, $match, { inherit: true, location: false });
+  }
+}]);
+</code></pre>
+<p>上述代码的意思是：当hash值与state.url相匹配时，就执行后面那段回调，回调函数里面进行了两个条件判断之后，决定是否需要跳转到该state.</p>
+<p>这里就插入了一个话题：为什么说 “跳转到该state，而不是该url”？</p>
+<p>其实这个问题跟大家一直说的：“ui.router是基于state(状态)的，而不是url”是同一个问题。</p>
+<p>我的理解是这样的：之前就说过，路由存在着明确的父子关系，每一个路由可以理解为一个state，</p>
+<p>当程序匹配到某一个子路由时，我们就认为这个子路由state被激活，同时，它对应的父路由state也将被激活。<br>我们还可以手动的激活某一个state，就像上面写的那样，<code>$state.transitionTo(state, ...);</code>，这样的话，它的父state会被激活（如果还没有激活的话），它的子state会被销毁（如果已经激活的话）。<br>ok，回到之前的路由注册，调用了<code>$urlRouterProvider.when()</code>方法，它做了什么呢？</p>
+<p>它创建了一个rule，并存储在rules集合里面，之后的，每次hash值变化，路由重新查找匹配都是通过遍历这个rules集合进行的。</p>
+<h4 id="ui-router查找匹配"><a href="#ui-router查找匹配" class="headerlink" title="ui-router查找匹配"></a>ui-router查找匹配</h4><p>angular 在刚开始的<code>$digest</code>时，<code>$rootScope</code>会触发<code>$locationChangeSuccess</code>事件（angular在每次浏览器hashchange的时候也会触发<code>$locationChangeSuccess</code>事件）；<br>ui.router 监听了<code>$locationChangeSuccess</code>事件，于是开始通过遍历一系列rules，进行路由查找匹配。<br>当匹配到路由后，就通过<code>$state.transitionTo(state,...)</code>，跳转激活对应的state。<br>最后，完成数据请求和模板的渲染。<br>可以从下面这段源代码看到，看到查找匹配的起始和过程：</p>
+<pre><code class="javascript">function update(evt) {
+  // ...省略
+  function check(rule) {
+    var handled = rule($injector, $location);
+    // handled可以是返回：
+    // 1. 新的的url，用于重定向
+    // 2. false，不匹配
+    // 3. true，匹配
+    if (!handled) return false;
+
+    if (isString(handled)) $location.replace().url(handled);
+    return true;
+  }
+
+  var n = rules.length, i;
+
+  // 渲染遍历rules，匹配到路由，就停止循环
+  for (i = 0; i &lt; n; i++) {
+    if (check(rules[i])) return;
+  }
+  // 如果都匹配不到路由，使用otherwise路由(如果设置了的话)
+  if (otherwise) check(otherwise);
+}
+
+function listen() {
+  // 监听$locationChangeSuccess，开始路由的查找匹配
+  listener = listener || $rootScope.$on(&#39;$locationChangeSuccess&#39;, update);
+  return listener;
+}
+
+if (!interceptDeferred) listen();
+</code></pre>
+<p>每次路由变化(hash变化)，由于监听了<code>$locationChangeSuccess</code>事件，都要进行rules的遍历来查找匹配路由，然后跳转到对应的state。</p>
+<p>我们之所以要循环遍历rules，是因为要查找匹配到对应的路由(state)，然后跳转过去。但是如果不循环，也能直接找到对应的state，如何实现呢？</p>
+<p>在用ui.router在创建路由时，会实例化一个对应的state对象，并存储起来(states集合里面)<br>每一个state对象都有一个state.name进行唯一标识(如：’home’)<br>根据以上两点，于是ui.router提供了另一个指令叫做：ui-sref指令，来解决这个问题，比如这样：</p>
+<pre><code class="html">&lt;a ui-sref=&quot;home&quot;&gt;通过ui-sref跳转到home state&lt;/a&gt;
+</code></pre>
+<p>当点击这个a标签时，会直接跳转到home state，而并不需要循环遍历rules，ui.router是这样做到的(这里简单说一下)：</p>
+<p>首先，<code>ui-sref=&quot;home&quot;</code>指令会给对应的dom添加click事件，然后根据state.name，直接跳转到对应的state，代码像这样：</p>
+<pre><code class="javascript">element.bind(&quot;click&quot;, function(e) {
+    // ..省略若干代码
+    var transition = $timeout(function() {
+      // 手动跳转到指定的state
+      $state.go(ref.state, params, options);
+    });
+});
+</code></pre>
+<p>跳转到对应的state之后，ui.router会做一个善后处理，就是改变hash，所以理所当然，会触发<code>$locationChangeSuccess</code>事件，然后执行回调，但是在回调中可以通过一个判断代码规避循环rules，像这样：</p>
+<pre><code class="javascript">function update(evt) {
+  var ignoreUpdate = lastPushedUrl &amp;&amp; $location.url() === lastPushedUrl;
+
+  // 手动调用$state.go(...)时，直接return避免下面的循环
+  if (ignoreUpdate) return true;
+
+  // 省略下面的循环ruls代码
+}
+</code></pre>
+<p>说了那么多，其实就是想说，我们不建议直接使用href=”#/xxx”来改变hash，然后跳转到对应state(虽然也是可以的)，因为这样做会多了一步rules循环遍历，浪费性能，就像下面这样：</p>
+<pre><code class="html">&lt;a href=&quot;#/abc&quot;&gt;通过href跳转到home state&lt;/a&gt;
+</code></pre>
+<p><div style="height:100px"></div><br>参考：<br><a href="http://sentsin.com/web/1136.html" target="_blank" rel="external">ui.router源码解析</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/08/21/router的基本原理/" class="archive-article-date">
+  	<time datetime="2015-08-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJS/">AngularJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MV/">MV*</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2015/12/29/Vue单文件组件实践/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Vue单文件组件实践
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/01/12/开发环境及工具配置系列教程–使用ESlint规范你的代码/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用ESLint规范你的代码(开发环境及工具配置系列教程)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="router的基本原理" data-title="ui.router路由实现原理" data-url="/2015/08/21/router的基本原理/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"haoranw"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 我善养吾浩然之气丶
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/haoranw/haoranw.github.io" target="_blank">ransama</a> by haoranw
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+<script src="/highlight.pack.js"></script>
+<script src="/./main.js"></script>
+
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/ESLint/" style="font-size: 10px;">ESLint</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MV/" style="font-size: 13.33px;">MV*</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/yarn/" style="font-size: 10px;">yarn</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程化/" style="font-size: 10px;">前端工程化</a> <a href="/tags/前端框架/" style="font-size: 10px;">前端框架</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/教程/" style="font-size: 10px;">教程</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是王浩然，乐于分享，喜欢折腾。&lt;/br&gt;2014年接触前端，从此找到了自己感兴趣的道路。</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
